@@ -458,7 +458,7 @@ table_3.2 = data |>
 table_3 = tbl_stack(list(table_3.1, table_3.2), group_header = c("Clinical symtoms", "Vital signs"))
 ```
 
-## Table 4. Laboratory findings 
+## Table 4. Laboratory findings
 
 ```{r}
 table_4 <- data |> 
@@ -490,7 +490,7 @@ table_5 <- data |>
 
 ## Table 6. Unadjusted and adjusted models
 
-The following variables were removed because they had `NA's` higher than the threshold: Urea (34), pronation (26), ICU admission (24). 
+The following variables were removed because they had `NA's` higher than the threshold: Urea (34), pronation (26), ICU admission (24).
 
 ```{r}
 data$a_f.num = as.numeric(data$a_f)
@@ -573,7 +573,6 @@ table_6.2 <-
   bold_p(t = 0.05) |>
   add_vif()
 ```
-
 
 ```{r}
 table_6 <-
