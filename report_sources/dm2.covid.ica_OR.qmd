@@ -6,8 +6,13 @@ format:
   html:
     toc: true
     toc-depth: 4
-theme:
-  dark: darkly
+    code-overflow: wrap
+    code-fold: true
+    code-tools: true
+    theme: 
+     light: flatly
+     dark: darkly
+    highlight-style: github
     
 editor: visual
 editor_options: 
