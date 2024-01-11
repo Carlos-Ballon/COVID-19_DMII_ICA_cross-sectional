@@ -645,7 +645,7 @@ two_groups_plots(surv_hemo_numerical, non_hemo_numerical, a_hemo_numerical)
 
 ### Correlation matrix (multicollinearity)
 
-We explore the correlation between independent variables to identify multicollinearity. These variables by their nature are different except for white-cells and PaO2:Fio2 ratio. In the case of using white-cells and neutrophils or lymphocytes, it's possible that the information provided by white-cells may be redundant and generate biased estimates. The same applies to PaO2:Fio2 ratio and FiO2.  Considering the clinical relevance of PaO2:Fio2 ratio, it's better to work with the latter.
+We explore the correlation between independent variables to identify multicollinearity. These variables by their nature are different except for white-cells and PaO2:Fio2 ratio. In the case of using white-cells and neutrophils or lymphocytes, it's possible that the information provided by white-cells may be redundant and generate biased estimates. The same applies to PaO2:Fio2 ratio and FiO2. Considering the clinical relevance of PaO2:Fio2 ratio, it's better to work with the latter.
 
 ```{r fig.height=12, fig.width=12, fig.align='center'}
 # Selection of numerical variables
@@ -1124,7 +1124,6 @@ numerical = rename(numerical, "Age" = edad,
                    "HCO3" = hco3_ingreso,
                    "Duration of disease" = t_de_enfermedad)
 ```
-
 
 ```{r fig.height=10, fig.width=10, fig.align='center', include=FALSE}
 # Scaled (standardization)
