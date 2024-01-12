@@ -13,7 +13,6 @@ format:
      light: flatly
      dark: darkly
     highlight-style: github
-    
 editor: visual
 editor_options: 
   chunk_output_type: inline
