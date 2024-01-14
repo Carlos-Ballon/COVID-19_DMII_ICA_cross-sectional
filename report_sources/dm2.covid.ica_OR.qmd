@@ -16,6 +16,8 @@ format:
 editor: visual
 editor_options: 
   chunk_output_type: inline
+bibliography: grateful-refs.bib
+csl: vancouver.csl
 ---
 
 # Set global knitr options
@@ -48,10 +50,15 @@ pacman::p_load(rio,
                Rtsne,
                FactoMineR, 
                factoextra,
-               corrplot)
+               corrplot,
+               grateful)
 
 # My function scripts
 rfextras::load_scripts()
+```
+
+```{r}
+grateful::cite_packages(out.dir = ".", citation.style = "vancouver")
 ```
 
 # Import data
@@ -298,7 +305,7 @@ data <- clean_data |>
         p_a_sistolica_ingreso.c = case_when(p_a_sistolica_ingreso < 140 ~ "< 140",
                                             TRUE ~ ">= 140") |> 
           fct_relevel("< 140",">= 140") |> 
-          ff_label("Systolic blood pressure (mmHg)"),
+          ff_label("SBP (mmHg)"),
         
         p_a_diastolica_ingreso = ff_label(p_a_diastolica_ingreso, 
                                           "DBP (mmHg)"), ###
@@ -306,7 +313,7 @@ data <- clean_data |>
         p_a_diastolica_ingreso.c = case_when(p_a_diastolica_ingreso < 90 ~ "< 90",
                                              TRUE ~ ">= 90") |> 
           fct_relevel("< 90", ">= 90") |> 
-          ff_label("Diastolic blood pressure (mmHg)"),
+          ff_label("DBP (mmHg)"),
         
         hemoglobina_ingreso = ff_label(hemoglobina_ingreso, "Hemoglobin (g/dL)"), ###
       
@@ -1325,7 +1332,7 @@ b <- fviz_pca_biplot(pca_data,
                      # Top 10 contributing variables
                      geom.var = "text", select.var = list(contrib = 10),
                      # Theme
-                     palette = "igv", 
+                     palette = "Set1", 
                      addEllipses = TRUE, mean.point = FALSE, repel = TRUE,
                      ggtheme = theme_pubr())
 
