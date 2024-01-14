@@ -57,7 +57,7 @@ pacman::p_load(rio,
 rfextras::load_scripts()
 ```
 
-```{r}
+```{r include=FALSE}
 grateful::cite_packages(out.dir = ".", citation.style = "vancouver")
 ```
 
