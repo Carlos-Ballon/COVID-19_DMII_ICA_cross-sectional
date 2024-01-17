@@ -1,6 +1,6 @@
 ---
-title: "COVID-19 & DMII - ICA (Odds ratio)"
-author: "Kevin J. Paez & Carlos Ballon-Salcedo"
+title: "Type 2 Diabetes and COVID-19 in ICA - Cross-Sectional"
+author: "Carlos Ballon-Salcedo & Kevin J. Paez"
 date: "`r Sys.Date()`"
 format: 
   html:
@@ -23,7 +23,7 @@ csl: vancouver.csl
 # Set global knitr options
 
 ```{r}
-knitr::opts_chunk$set(message = FALSE, warning= FALSE)
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 ```
 
 # Load packages
@@ -668,8 +668,8 @@ data_num = data |>
 cor_data = rename(data_num, "Age" = edad,
              "Respiratory rate" = frecuencia_respiratoria_ingreso, 
              "Heart rate" = frecuencia_cardiaca_ingreso,
-             "Systolic blood pressure" = p_a_sistolica_ingreso,
-             "Diastolic blood pressure" = p_a_diastolica_ingreso,
+             "SBP" = p_a_sistolica_ingreso,
+             "DBP" = p_a_diastolica_ingreso,
              "White-cells" = leucocitos_ingreso,
              "Neutrophils" = neutrofilos_ingreso,
              "Lymphocytes" = linfocitos_ingreso,
@@ -1136,7 +1136,7 @@ numerical = rename(numerical, "Age" = edad,
                    "Duration of disease" = t_de_enfermedad)
 ```
 
-```{r fig.height=10, fig.width=10, fig.align='center', include=FALSE}
+```{r fig.height=10, fig.width=10, fig.align='center'}
 # Scaled (standardization)
 pca_data <- stats::prcomp(numerical[1:29], scale. = TRUE, center = TRUE)
 
@@ -1209,7 +1209,7 @@ ggpubr::ggarrange(a, d, b, e, c, f, ncol = 2, nrow = 3,
 
 #### Individuals
 
-```{r fig.height=10, fig.width=10, fig.align='center', include=FALSE}
+```{r fig.height=10, fig.width=10, fig.align='center'}
 # Extract results for individuals
 ind <- get_pca_ind(pca_data)
 
@@ -1253,7 +1253,7 @@ ggpubr::ggarrange(a, d, b, e, c, f, ncol = 2, nrow = 3,
                   legend = "right")
 ```
 
-```{r fig.height=6, fig.width=14, fig.align='center', include=FALSE}
+```{r fig.height=6, fig.width=14, fig.align='center'}
 # Graph of individuals and color by group for PC1 and PC2
 ind.graph <- fviz_pca_ind(pca_data,
                       axes = 1:2,
