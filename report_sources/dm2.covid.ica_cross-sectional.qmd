@@ -691,7 +691,7 @@ cor_data = rename(data_num, "Age" = edad,
              "FiO2" = fio2_aga_ingreso,
              "PaO2:Fio2 ratio" = pafi_ingreso,
              "PaO2" = po2_ingreso, 
-             "PCO" = pco2_ingreso,
+             "PCO2" = pco2_ingreso,
              "HCO3" = hco3_ingreso,
              "Duration of disease" = t_de_enfermedad)
 
@@ -894,7 +894,7 @@ table_3.1 <- data_uv |>
                                 fio2_aga_ingreso ~ "FiO2 (%)",
                                 pafi_ingreso.c ~ "PaO2:Fio2 ratio",
                                 po2_ingreso.c ~ "PaO2 (mmHg)",
-                                pco2_ingreso ~ "PCO (mmHg)",
+                                pco2_ingreso ~ "PCO2 (mmHg)",
                                 hco3_ingreso.c ~ "HCO3 (mmol/L)",
                                 corticoides ~ "Corticosteroids",
                                 anticoagulantes ~ "Anticoagulants",
@@ -1131,7 +1131,7 @@ numerical = rename(numerical, "Age" = edad,
                    "FiO2" = fio2_aga_ingreso,
                    "PaO2:Fio2 ratio" = pafi_ingreso,
                    "PaO2" = po2_ingreso, 
-                   "PCO" = pco2_ingreso,
+                   "PCO2" = pco2_ingreso,
                    "HCO3" = hco3_ingreso,
                    "Duration of disease" = t_de_enfermedad)
 ```
