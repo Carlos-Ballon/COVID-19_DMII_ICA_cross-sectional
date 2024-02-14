@@ -1,6 +1,5 @@
-*.Rmd
+.Rmd/report_sources
 .Rhistory
 .RData
 .Ruserdata
-*.Rproj
 .Rproj.user
