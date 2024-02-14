@@ -1,4 +1,4 @@
-.Rmd
+*.Rmd
 .Rhistory
 .RData
 .Ruserdata
