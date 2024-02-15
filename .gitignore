@@ -1,4 +1,5 @@
-outputs/
+*~
+outputs
 .Rhistory
 .RData
 .Ruserdata
