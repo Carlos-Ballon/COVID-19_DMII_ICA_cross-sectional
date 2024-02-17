@@ -1408,11 +1408,19 @@ save_as_docx(table_2_p, path = "Table_2.docx", align = "center")
 
 save_as_docx(table_3_p, path = "Table_3.docx", align = "center")
 
-# Export supplementary figure 1
+# Save supplementary figure 1 (EPS)
 ggsave(plot = FS1, filename = "FIG_S1.eps", width = 12, height = 12,
+       units = "in")
+
+# Save figure 1 (EPS)
+ggsave(plot = F1, filename = "FIG2.eps", width = 14, height = 6,
+       units = "in")
+
+# Save supplementary figure 1 (PNG)
+ggsave(plot = FS1, filename = "FIG_S1.png", width = 12, height = 12,
        dpi = 300, units = "in")
 
-# Export figure 1
-ggsave(plot = F1, filename = "FIG2.eps", width = 14, height = 6,
+# Save figure 1 (PNG)
+ggsave(plot = F1, filename = "FIG2.png", width = 14, height = 6,
        dpi = 300, units = "in")
 ```

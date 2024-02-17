@@ -1,5 +1,19 @@
-/outputs
+# History files
 .Rhistory
+.Rapp.history
+
+# Session Data files
 .RData
+.RDataTmp
+
+# User-specific files
 .Ruserdata
+
+# RStudio files
 .Rproj.user
+
+# RStudio proyect
+*.Rproj
+
+# ignore code.Rmd file in report_sources/ directory
+report_sources/code.Rmd
