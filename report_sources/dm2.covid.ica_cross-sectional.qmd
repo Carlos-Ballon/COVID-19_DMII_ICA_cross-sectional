@@ -128,7 +128,7 @@ my_flextable_theme <- function(x, bold_header = FALSE) {
 This subsection converts categorical variables into factors and recode/clean values using a data dictionary. The categorical variables will be saved as factor vectors, while some continuous/numeric variables will be categorized and converted into factors. Then, recode and change the factor levels using the `forcats` package. Also, the `finalfit` package will be utilized to label variables, while the `ftExtra` package will detect special characters and format the character columns as markdown text to be added to the flextable object. An alternate option is to utilize the `matchmaker` package for dictionary-based cleanup. The disadvantage of categorizing continuous variables is that information is discarded. To address this, repeat the analysis on continuous variables to ensure there are no differences in the conclusion (sensitivity analysis).
 :::
 
-> 📝***NOTE:*** The markdown texts is by format a plain text
+> 📝***NOTE:*** The markdown texts is by design a plain text
 
 ### Exposures
 
