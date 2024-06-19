@@ -1256,12 +1256,16 @@ flex_table_3 <- table_3 |>
 flex_table_3
 ```
 
+::: {style="text-align: justify"}
+PCA is an excellent technique for reducing data complexity before applying other analytical methods, such as linear regression, k-means clustering, and random forest classification. Integrating PCA with other methods enhances data analysis, model building, and interpretation, resulting in more accurate and efficient results. The choice between PCA and factor analysis depends on the objectives of the analysis.
+:::
+
 ## Dimensional reduction
 
 ### Principal Component Analysis (PCA)
 
 ::: {style="text-align: justify"}
-PCA is a statistical technique that reduces the dimensionality of a dataset. This process transforms high-dimensional (complex or large) data sets into simpler (smaller) data sets while preserving important information. It helps to remove noise and redundancy from the data set, making the true patterns more pronounced and easier to analyze. With fewer dimensions, it's possible to visually explore and understand complex data sets, focusing on the most relevant features. By identifying the principal components, it's possible to focus on the most influential variables or individuals driving the trends and patterns in the data. This significantly reduces the complexity of interpreting data and makes it easier to explore and visualize. The output of PCA includes the variance explained by each principal component, which helps to understand the importance of each component in the analysis. This is crucial for making informed decisions based on the data. Furthermore, this process is crucial for more effectively analyzing data. The application of PCA can facilitate the acceleration of learning algorithms employed in data analysis, thereby enabling a more efficient and faster process. A reduction in data volume will result in a decrease in the storage and computational resources required. PCA is not merely a mathematical technique; it's a strategic approach to dealing with data in the most efficient way possible.
+The PCA is a statistical technique that reduces the dimensionality of a dataset. This process transforms high-dimensional (complex or large) data sets into simpler (smaller) data sets while preserving important information. It helps to remove noise and redundancy from the data set, making the true patterns more pronounced and easier to analyze. With fewer dimensions, it's possible to visually explore and understand complex data sets, focusing on the most relevant features. By identifying the principal components, it's possible to focus on the most influential variables or individuals driving the trends and patterns in the data. This significantly reduces the complexity of interpreting data and makes it easier to explore and visualize. The output of PCA includes the variance explained by each principal component, which helps to understand the importance of each component in the analysis. This is crucial for making informed decisions based on the data. Furthermore, this process is crucial for more effectively analyzing data. The application of PCA can facilitate the acceleration of learning algorithms employed in data analysis, thereby enabling a more efficient and faster process. A reduction in data volume will result in a decrease in the storage and computational resources required. PCA is not merely a mathematical technique; it's a strategic approach to dealing with data in the most efficient way possible.
 :::
 
 > 📝***NOTE:*** PCA only works with numerical values.
@@ -1308,10 +1312,14 @@ numerical = rename(
 ```
 
 ::: {style="text-align: justify"}
-The first step is to utilize the `prcomp()` function from the `stats` package to perform PCA, with the parameters centered and scaled. This function is robust and offers a standardized method for carrying out PCA with ease, providing the user with the principal components, variance captured, and more. The next step is to examine the summary with the `summary()` or `get_eigenvalue()` functions. This will allow you to understand the proportion of variance represented in each principal component and determine which variables contribute the most to them. This information allows us to evaluate the importance and contribution of each principal component.
+The first step is to utilize the `prcomp()` function from the `stats` package to perform PCA, with the parameters **centered** and **scaled**. This function is robust and offers a standardized method to perform PCA with ease, providing the user with the principal components, variance captured, and more. The next step is to examine the summary with the `summary()` or `get_eigenvalue()` functions. This will allow you to understand the proportion of variance represented in each principal component and determine which variables contribute the most to them. This information allows us to evaluate the importance and contribution of each principal component.
 ::: 
 
 > 📝***NOTE:*** The eigenvalues represent the variance explained by each principal component.
+
+::: {style="text-align: justify"}
+Explore the mathematical concepts of eigenvalues and eigenvectors. Eigenvalues measure the variance captured by each principal component. A higher eigenvalue indicates that the component accounts for a greater proportion of the variance in the data set. This allows for the determination of which principal components are worth keeping for analysis. Eigenvectors, on the other hand, define the direction of the principal components, which are formed by the combination of the original variables. In addition, eigenvectors are perpendicular (orthogonal) to each other, representing a new axis in data space that is aligned with the maximum variance. This orthogonal property ensures that the principal components are independent of each other. The eigenvalues and eigenvectors operate in tandem within PCA to transform and simplify the data set. By identifying new axes (eigenvectors) that maximize variance (eigenvalues), PCA allows the data to be viewed from a different perspective, focusing on the most informative aspects.
+:::
 
 ```{r}
 # Scaled (standardization)
@@ -1620,7 +1628,7 @@ F1_grey
 ```
 
 ::: {style="text-align: justify"}
-It's recommended to perform PCA before K-means clustering because speeds up the clustering process and conserve computational resources, especially on large datasets. PCA optimizes clustering by reducing noise and redundant information, which helps K-means clustering focus on relevant features, leading to more accurate cluster assignments. Dimension reduction captures important information into few dimensions, this reduces the number of features and preserves most of the variation, making subsequent clustering more efficient and improves interpretation.
+The PCA has limitations, including **sensitivity to the scale of variables**. It's essential to standardize variables to have *unit variance* before conducting PCA to mitigate this issue. PCA also assumes **linearity**; if variables do not exhibit linear relationships, alternative dimensionality reduction methods like t-SNE or UMAP may be more suitable for non-linear data structures. The principal components (new dimensions) created by PCA are linear combinations of the original variables (original dimensions) and may lack direct interpretability, necessitating careful evaluation. Dimension reduction through PCA inevitably leads to some information loss. While the discarded components are less significant, they may still hold valuable insights. Recognizing these limitations is crucial as it does not lessen PCA's value but rather enhances its usefulness in guiding its application.
 :::
 
 ### t-Distributed Stochastic Neighbor Embedding (t-SNE)
@@ -1659,6 +1667,10 @@ tSNE_df |>
   theme(legend.position = "right",
         axis.line = element_line(color = "black"))
 ```
+
+::: {style="text-align: justify"}
+It's recommended to perform PCA before K-means clustering because speeds up the clustering process and optimizes computational resources, especially on large datasets. The PCA optimizes clustering by reducing noise and redundant information, which helps K-means clustering focus on relevant features, leading to more accurate cluster assignments. Dimension reduction captures important information into few dimensions, this reduces the number of features and preserves most of the variation, making subsequent clustering more efficient and improves interpretation.
+:::
 
 # Save outputs
 
