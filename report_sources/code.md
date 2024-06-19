@@ -11,12 +11,6 @@ inferential statistics and data visualization.
 
 </div>
 
-# Set global knitr options
-
-``` r
-knitr::opts_chunk$set(message = FALSE, warning = FALSE)
-```
-
 # Load packages
 
 ``` r
@@ -734,8 +728,6 @@ gas_numerical <- numerical |>
 total_plots(hemo_numerical)
 ```
 
-<img src="code_files/figure-gfm/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
-
 ### Numerical variables in survivors and non-survivor
 
 <div style="text-align: justify">
@@ -785,8 +777,6 @@ p4 <- group_stat_table_plot(data, "linfocitos", "a_f")
 
 p1 + p2 + p3 + p4 + plot_annotation(tag_levels = 'A')
 ```
-
-<img src="code_files/figure-gfm/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
 ### Correlation matrix (multicollinearity)
 
@@ -854,11 +844,7 @@ FS1 <- my_ggcorrplor(corr)
 
 # View
 FS1
-```
 
-<img src="code_files/figure-gfm/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
-
-``` r
 # Visualization
 FS1_grey <- my_ggcorrplor_grey(corr)
 ```
@@ -928,728 +914,6 @@ flex_table_1 <- table_1 |>
 table_1
 ```
 
-<div id="wcnzuleaid" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wcnzuleaid table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-&#10;#wcnzuleaid thead, #wcnzuleaid tbody, #wcnzuleaid tfoot, #wcnzuleaid tr, #wcnzuleaid td, #wcnzuleaid th {
-  border-style: none;
-}
-&#10;#wcnzuleaid p {
-  margin: 0;
-  padding: 0;
-}
-&#10;#wcnzuleaid .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-&#10;#wcnzuleaid .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-&#10;#wcnzuleaid .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-&#10;#wcnzuleaid .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-&#10;#wcnzuleaid .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#wcnzuleaid .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#wcnzuleaid .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#wcnzuleaid .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-&#10;#wcnzuleaid .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-&#10;#wcnzuleaid .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-&#10;#wcnzuleaid .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-&#10;#wcnzuleaid .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-&#10;#wcnzuleaid .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-&#10;#wcnzuleaid .gt_group_heading {
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-&#10;#wcnzuleaid .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-&#10;#wcnzuleaid .gt_from_md > :first-child {
-  margin-top: 0;
-}
-&#10;#wcnzuleaid .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-&#10;#wcnzuleaid .gt_row {
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-&#10;#wcnzuleaid .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#wcnzuleaid .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-&#10;#wcnzuleaid .gt_row_group_first td {
-  border-top-width: 2px;
-}
-&#10;#wcnzuleaid .gt_row_group_first th {
-  border-top-width: 2px;
-}
-&#10;#wcnzuleaid .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#wcnzuleaid .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-&#10;#wcnzuleaid .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-&#10;#wcnzuleaid .gt_last_summary_row {
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#wcnzuleaid .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#wcnzuleaid .gt_first_grand_summary_row {
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-&#10;#wcnzuleaid .gt_last_grand_summary_row_top {
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#wcnzuleaid .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-&#10;#wcnzuleaid .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#wcnzuleaid .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#wcnzuleaid .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#wcnzuleaid .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#wcnzuleaid .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#wcnzuleaid .gt_left {
-  text-align: left;
-}
-&#10;#wcnzuleaid .gt_center {
-  text-align: center;
-}
-&#10;#wcnzuleaid .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-&#10;#wcnzuleaid .gt_font_normal {
-  font-weight: normal;
-}
-&#10;#wcnzuleaid .gt_font_bold {
-  font-weight: bold;
-}
-&#10;#wcnzuleaid .gt_font_italic {
-  font-style: italic;
-}
-&#10;#wcnzuleaid .gt_super {
-  font-size: 65%;
-}
-&#10;#wcnzuleaid .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-&#10;#wcnzuleaid .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-&#10;#wcnzuleaid .gt_indent_1 {
-  text-indent: 5px;
-}
-&#10;#wcnzuleaid .gt_indent_2 {
-  text-indent: 10px;
-}
-&#10;#wcnzuleaid .gt_indent_3 {
-  text-indent: 15px;
-}
-&#10;#wcnzuleaid .gt_indent_4 {
-  text-indent: 20px;
-}
-&#10;#wcnzuleaid .gt_indent_5 {
-  text-indent: 25px;
-}
-</style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <caption><strong>Table 1</strong>. Demographics and clinical characteristics of patients on admission</caption>
-  <thead>
-    &#10;    <tr class="gt_col_headings gt_spanner_row">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;All patients&lt;/strong&gt; (n = 287)&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>All patients</strong> (n = 287)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;Mortality&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>Mortality</strong></span>
-      </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;p value&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/span&gt;"><strong>p value</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span></th>
-    </tr>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Survivor&lt;/strong&gt; (n = 155)&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Survivor</strong> (n = 155)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Non-survivor&lt;/strong&gt; (n = 132)&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;"><strong>Non-survivor</strong> (n = 132)<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr class="gt_group_heading_row">
-      <th colspan="5" class="gt_group_heading" scope="colgroup" id="Demographics characteristics and history">Demographics characteristics and history</th>
-    </tr>
-    <tr class="gt_row_group_first"><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Age (years)</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">60.0 (51.0, 68.0)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">56.0 (47.0, 64.5)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">64.5 (57.8, 73.0)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Age (years)</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center"><br /></td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center"><br /></td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center"><br /></td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">    &lt; 61</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">149 (51.9%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">102 (65.8%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">47 (35.6%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">    &gt;= 61</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">138 (48.1%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">53 (34.2%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">85 (64.4%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Sex</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center"><br /></td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center"><br /></td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center"><br /></td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center">0.46</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">    Female</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">98 (34.1%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">50 (32.3%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">48 (36.4%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">    Male</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">189 (65.9%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">105 (67.7%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">84 (63.6%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Smoking</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">2 (0.7%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">1 (0.6%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">1 (0.8%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center">>0.99</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Alcoholism</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">2 (0.7%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">1 (0.6%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">1 (0.8%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center">>0.99</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Dyslipidemia</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">4 (1.4%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">3 (1.9%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">1 (0.8%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center">0.63</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Obesity</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">44 (15.3%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">29 (18.7%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">15 (11.4%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center">0.085</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Hypertension</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">102 (35.5%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">43 (27.7%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">59 (44.7%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center" style="font-weight: bold;">0.003</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Cerebrovascular disease</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">4 (1.4%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">0 (0.0%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">4 (3.0%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center" style="font-weight: bold;">0.044</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Cancer</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">1 (0.3%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">0 (0.0%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">1 (0.8%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center">0.46</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">HIV</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">1 (0.3%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">0 (0.0%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">1 (0.8%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center">0.46</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Immunesupressive disease</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">3 (1.0%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">1 (0.6%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">2 (1.5%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center">0.60</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Chronic renal disease</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">10 (3.5%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">5 (3.2%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">5 (3.8%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center">>0.99</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Hemodialysis</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">5 (1.9%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">1 (0.8%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">4 (3.0%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center">0.37</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Asthma</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">6 (2.1%)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">4 (2.6%)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">2 (1.5%)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center">0.69</td></tr>
-    <tr><td headers="Demographics characteristics and history  label" class="gt_row gt_left">Duration of disease (days)</td>
-<td headers="Demographics characteristics and history  stat_0" class="gt_row gt_center">7.0 (5.0, 10.0)</td>
-<td headers="Demographics characteristics and history  stat_1" class="gt_row gt_center">7.0 (5.0, 10.0)</td>
-<td headers="Demographics characteristics and history  stat_2" class="gt_row gt_center">7.0 (5.0, 10.0)</td>
-<td headers="Demographics characteristics and history  p.value" class="gt_row gt_center">0.23</td></tr>
-    <tr class="gt_group_heading_row">
-      <th colspan="5" class="gt_group_heading" scope="colgroup" id="Signs and symtoms">Signs and symtoms</th>
-    </tr>
-    <tr class="gt_row_group_first"><td headers="Signs and symtoms  label" class="gt_row gt_left">Fever</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">170 (59.2%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">82 (52.9%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">88 (66.7%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center" style="font-weight: bold;">0.018</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Dry cought</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">218 (76.0%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">113 (72.9%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">105 (79.5%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center">0.19</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Sore throat</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">92 (32.1%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">59 (38.1%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">33 (25.0%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center" style="font-weight: bold;">0.018</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">General malaise</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">206 (71.8%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">115 (74.2%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">91 (68.9%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center">0.32</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Headache</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">62 (21.6%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">49 (31.6%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">13 (9.8%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Tachypnea</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">99 (34.5%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">65 (41.9%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">34 (25.8%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center" style="font-weight: bold;">0.004</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Dyspnea</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">242 (84.3%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">120 (77.4%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">122 (92.4%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Anosmia</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">16 (5.6%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">11 (7.1%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">5 (3.8%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center">0.22</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Dysgeusia</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">13 (4.5%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">8 (5.2%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">5 (3.8%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center">0.58</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Lung crackles</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">141 (49.1%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">91 (58.7%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">50 (37.9%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Diarrhea</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">18 (6.3%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">8 (5.2%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">10 (7.6%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center">0.40</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Vomiting</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">17 (5.9%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">6 (3.9%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">11 (8.3%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center">0.11</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Asthenia</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">48 (16.7%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">34 (21.9%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">14 (10.6%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center" style="font-weight: bold;">0.010</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Abdominal pain</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">12 (4.2%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">8 (5.2%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">4 (3.0%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center">0.37</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Weight loss</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">3 (1.0%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">3 (1.9%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">0 (0.0%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center">0.25</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Polyuria</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">12 (4.2%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">9 (5.8%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">3 (2.3%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center">0.14</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Polidipsia</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">10 (3.5%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">8 (5.2%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">2 (1.5%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center">0.11</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Poliphagia</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">5 (1.7%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">4 (2.6%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">1 (0.8%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center">0.38</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">Sensory</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center"><br /></td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center"><br /></td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center"><br /></td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">    Awake</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">250 (91.2%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">151 (97.4%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">99 (83.2%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">    Sleepy</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">17 (6.2%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">3 (1.9%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">14 (11.8%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Signs and symtoms  label" class="gt_row gt_left">    Drowsy</td>
-<td headers="Signs and symtoms  stat_0" class="gt_row gt_center">7 (2.6%)</td>
-<td headers="Signs and symtoms  stat_1" class="gt_row gt_center">1 (0.6%)</td>
-<td headers="Signs and symtoms  stat_2" class="gt_row gt_center">6 (5.0%)</td>
-<td headers="Signs and symtoms  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr class="gt_group_heading_row">
-      <th colspan="5" class="gt_group_heading" scope="colgroup" id="Vital signs">Vital signs</th>
-    </tr>
-    <tr class="gt_row_group_first"><td headers="Vital signs  label" class="gt_row gt_left">Respiratory rate (BPM)</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">26.0 (23.0, 30.0)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">26.0 (22.3, 28.0)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">28.0 (24.0, 32.0)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">Respiratory rate (BPM)</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center"><br /></td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center"><br /></td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center"><br /></td>
-<td headers="Vital signs  p.value" class="gt_row gt_center" style="font-weight: bold;">0.006</td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">    24 - 30</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">138 (51.7%)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">76 (52.1%)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">62 (51.2%)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">    &lt; 24</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">70 (26.2%)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">47 (32.2%)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">23 (19.0%)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">    &gt; 30</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">59 (22.1%)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">23 (15.8%)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">36 (29.8%)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">Heart rate (BPM)</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">100.0 (85.8, 113.0)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">98.0 (82.3, 107.8)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">105.5 (92.0, 115.8)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">Heart rate (BPM)</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center"><br /></td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center"><br /></td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center"><br /></td>
-<td headers="Vital signs  p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">    &lt; 100</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">133 (46.3%)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">86 (55.5%)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">47 (35.6%)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">    &gt;= 100</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">154 (53.7%)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">69 (44.5%)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">85 (64.4%)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">SBP (mmHg)</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">115.0 (100.0, 130.0)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">110.0 (100.0, 120.0)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">120.0 (100.0, 130.0)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center">0.25</td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">SBP (mmHg)</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center"><br /></td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center"><br /></td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center"><br /></td>
-<td headers="Vital signs  p.value" class="gt_row gt_center" style="font-weight: bold;">0.002</td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">    &lt; 140</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">246 (85.7%)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">142 (91.6%)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">104 (78.8%)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">    &gt;= 140</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">41 (14.3%)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">13 (8.4%)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">28 (21.2%)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">DBP (mmHg)</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">70.0 (60.0, 80.0)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">70.0 (60.0, 80.0)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">70.0 (60.0, 80.0)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center">0.13</td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">DBP (mmHg)</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center"><br /></td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center"><br /></td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center"><br /></td>
-<td headers="Vital signs  p.value" class="gt_row gt_center" style="font-weight: bold;">0.009</td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">    &lt; 90</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">258 (89.9%)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">146 (94.2%)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">112 (84.8%)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="Vital signs  label" class="gt_row gt_left">    &gt;= 90</td>
-<td headers="Vital signs  stat_0" class="gt_row gt_center">29 (10.1%)</td>
-<td headers="Vital signs  stat_1" class="gt_row gt_center">9 (5.8%)</td>
-<td headers="Vital signs  stat_2" class="gt_row gt_center">20 (15.2%)</td>
-<td headers="Vital signs  p.value" class="gt_row gt_center"><br /></td></tr>
-  </tbody>
-  &#10;  <tfoot class="gt_footnotes">
-    <tr>
-      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> Median (IQR); n (%)</td>
-    </tr>
-    <tr>
-      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> Wilcoxon rank sum test; Pearson’s Chi-squared test; Fisher’s exact test</td>
-    </tr>
-  </tfoot>
-</table>
-</div>
-
 ## Table 2. Laboratory findings and treatment of patients
 
 ``` r
@@ -1710,8 +974,6 @@ flex_table_2 <- table_2 |>
 # View
 flex_table_2
 ```
-
-<img src="code_files/figure-gfm/unnamed-chunk-18-1.png" width="1950" />
 
 ## Table 3. Unadjusted and adjusted models
 
@@ -1890,103 +1152,13 @@ m1 = glm(
 
 # Visual check of model assumptions
 performance::check_model(m1)
-```
 
-<img src="code_files/figure-gfm/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
-
-``` r
 # Indices of model performance
 performance::model_performance(m1)
-```
 
-    ## # Indices of model performance
-    ## 
-    ## AIC     |    AICc |     BIC | Tjur's R2 |  RMSE | Sigma | Log_loss | Score_log | Score_spherical |   PCP
-    ## --------------------------------------------------------------------------------------------------------
-    ## 238.569 | 255.220 | 367.005 |     0.517 | 0.347 | 1.000 |    0.375 |  -123.763 |           0.020 | 0.759
-
-``` r
 # Check for Multicollinearity
 performance::check_collinearity(m1)
 ```
-
-    ## # Check for Multicollinearity
-    ## 
-    ## Low Correlation
-    ## 
-    ##                       Term  VIF   VIF 95% CI Increased SE Tolerance
-    ##                     edad.c 1.55 [1.36, 1.83]         1.24      0.65
-    ##                       sexo 1.43 [1.27, 1.69]         1.20      0.70
-    ##                   obesidad 1.44 [1.28, 1.71]         1.20      0.69
-    ##                        hta 1.56 [1.38, 1.85]         1.25      0.64
-    ##                     fiebre 1.48 [1.31, 1.75]         1.22      0.68
-    ##                        tos 2.13 [1.82, 2.54]         1.46      0.47
-    ##                  taquipnea 1.78 [1.54, 2.11]         1.33      0.56
-    ##                     disnea 1.87 [1.62, 2.22]         1.37      0.54
-    ##      estertores_pulmonares 2.38 [2.03, 2.86]         1.54      0.42
-    ##  frecuencia_respiratoria.c 2.76 [2.34, 3.33]         1.66      0.36
-    ##      frecuencia_cardiaca.c 1.55 [1.36, 1.83]         1.24      0.65
-    ##            p_a_sistolica.c 1.57 [1.38, 1.85]         1.25      0.64
-    ##           p_a_diastolica.c 1.93 [1.67, 2.30]         1.39      0.52
-    ##               leucocitos.c 3.43 [2.87, 4.16]         1.85      0.29
-    ##              neutrofilos.c 2.40 [2.04, 2.88]         1.55      0.42
-    ##               linfocitos.c 1.60 [1.40, 1.89]         1.26      0.63
-    ##                plaquetas.c 1.37 [1.22, 1.62]         1.17      0.73
-    ##                        mcv 3.28 [2.75, 3.98]         1.81      0.30
-    ##                        mch 3.19 [2.68, 3.86]         1.79      0.31
-    ##              hemoglobina.c 4.97 [4.11, 6.07]         2.23      0.20
-    ##               creatinina.c 1.65 [1.45, 1.96]         1.29      0.60
-    ##                     urea.c 1.32 [1.19, 1.56]         1.15      0.76
-    ##    saturacion_de_oxigeno.c 2.20 [1.88, 2.63]         1.48      0.45
-    ##                   fio2_aga 2.95 [2.48, 3.56]         1.72      0.34
-    ##                     pafi.c 3.16 [2.66, 3.82]         1.78      0.32
-    ##                      po2.c 1.53 [1.35, 1.81]         1.24      0.65
-    ##                       pco2 2.05 [1.76, 2.45]         1.43      0.49
-    ##                     hco3.c 3.31 [2.77, 4.00]         1.82      0.30
-    ##                corticoides 1.60 [1.40, 1.89]         1.26      0.63
-    ##            anticoagulantes 1.53 [1.35, 1.81]         1.24      0.65
-    ##           antiparasitarios 1.56 [1.37, 1.84]         1.25      0.64
-    ##              antipaludicos 1.69 [1.47, 2.00]         1.30      0.59
-    ##                  pronacion 1.41 [1.26, 1.67]         1.19      0.71
-    ##  Tolerance 95% CI
-    ##      [0.55, 0.73]
-    ##      [0.59, 0.79]
-    ##      [0.59, 0.78]
-    ##      [0.54, 0.73]
-    ##      [0.57, 0.76]
-    ##      [0.39, 0.55]
-    ##      [0.47, 0.65]
-    ##      [0.45, 0.62]
-    ##      [0.35, 0.49]
-    ##      [0.30, 0.43]
-    ##      [0.55, 0.73]
-    ##      [0.54, 0.73]
-    ##      [0.43, 0.60]
-    ##      [0.24, 0.35]
-    ##      [0.35, 0.49]
-    ##      [0.53, 0.71]
-    ##      [0.62, 0.82]
-    ##      [0.25, 0.36]
-    ##      [0.26, 0.37]
-    ##      [0.16, 0.24]
-    ##      [0.51, 0.69]
-    ##      [0.64, 0.84]
-    ##      [0.38, 0.53]
-    ##      [0.28, 0.40]
-    ##      [0.26, 0.38]
-    ##      [0.55, 0.74]
-    ##      [0.41, 0.57]
-    ##      [0.25, 0.36]
-    ##      [0.53, 0.71]
-    ##      [0.55, 0.74]
-    ##      [0.54, 0.73]
-    ##      [0.50, 0.68]
-    ##      [0.60, 0.80]
-    ## 
-    ## Moderate Correlation
-    ## 
-    ##           Term  VIF   VIF 95% CI Increased SE Tolerance Tolerance 95% CI
-    ##  hematocrito.c 5.37 [4.43, 6.56]         2.32      0.19     [0.15, 0.23]
 
 #### Reduced multivariable: step-by-step forward
 
@@ -2014,103 +1186,13 @@ m2 <- glm(
 
 # Visual check of model assumptions
 performance::check_model(m2)
-```
 
-<img src="code_files/figure-gfm/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
-
-``` r
 # Indices of model performance
 performance::model_performance(m2)
-```
 
-    ## # Indices of model performance
-    ## 
-    ## AIC     |    AICc |     BIC | Tjur's R2 |  RMSE | Sigma | Log_loss | Score_log | Score_spherical |   PCP
-    ## --------------------------------------------------------------------------------------------------------
-    ## 238.569 | 255.220 | 367.005 |     0.517 | 0.347 | 1.000 |    0.375 |  -123.763 |           0.020 | 0.759
-
-``` r
 # Check for Multicollinearity
 performance::check_collinearity(m2)
 ```
-
-    ## # Check for Multicollinearity
-    ## 
-    ## Low Correlation
-    ## 
-    ##                       Term  VIF   VIF 95% CI Increased SE Tolerance
-    ##                     edad.c 1.55 [1.36, 1.83]         1.24      0.65
-    ##                       sexo 1.43 [1.27, 1.69]         1.20      0.70
-    ##                   obesidad 1.44 [1.28, 1.71]         1.20      0.69
-    ##                        hta 1.56 [1.38, 1.85]         1.25      0.64
-    ##                     fiebre 1.48 [1.31, 1.75]         1.22      0.68
-    ##                        tos 2.13 [1.82, 2.54]         1.46      0.47
-    ##                  taquipnea 1.78 [1.54, 2.11]         1.33      0.56
-    ##                     disnea 1.87 [1.62, 2.22]         1.37      0.54
-    ##      estertores_pulmonares 2.38 [2.03, 2.86]         1.54      0.42
-    ##  frecuencia_respiratoria.c 2.76 [2.34, 3.33]         1.66      0.36
-    ##      frecuencia_cardiaca.c 1.55 [1.36, 1.83]         1.24      0.65
-    ##            p_a_sistolica.c 1.57 [1.38, 1.85]         1.25      0.64
-    ##           p_a_diastolica.c 1.93 [1.67, 2.30]         1.39      0.52
-    ##               leucocitos.c 3.43 [2.87, 4.16]         1.85      0.29
-    ##              neutrofilos.c 2.40 [2.04, 2.88]         1.55      0.42
-    ##               linfocitos.c 1.60 [1.40, 1.89]         1.26      0.63
-    ##                plaquetas.c 1.37 [1.22, 1.62]         1.17      0.73
-    ##                        mcv 3.28 [2.75, 3.98]         1.81      0.30
-    ##                        mch 3.19 [2.68, 3.86]         1.79      0.31
-    ##              hemoglobina.c 4.97 [4.11, 6.07]         2.23      0.20
-    ##               creatinina.c 1.65 [1.45, 1.96]         1.29      0.60
-    ##                     urea.c 1.32 [1.19, 1.56]         1.15      0.76
-    ##    saturacion_de_oxigeno.c 2.20 [1.88, 2.63]         1.48      0.45
-    ##                   fio2_aga 2.95 [2.48, 3.56]         1.72      0.34
-    ##                     pafi.c 3.16 [2.66, 3.82]         1.78      0.32
-    ##                      po2.c 1.53 [1.35, 1.81]         1.24      0.65
-    ##                       pco2 2.05 [1.76, 2.45]         1.43      0.49
-    ##                     hco3.c 3.31 [2.77, 4.00]         1.82      0.30
-    ##                corticoides 1.60 [1.40, 1.89]         1.26      0.63
-    ##            anticoagulantes 1.53 [1.35, 1.81]         1.24      0.65
-    ##           antiparasitarios 1.56 [1.37, 1.84]         1.25      0.64
-    ##              antipaludicos 1.69 [1.47, 2.00]         1.30      0.59
-    ##                  pronacion 1.41 [1.26, 1.67]         1.19      0.71
-    ##  Tolerance 95% CI
-    ##      [0.55, 0.73]
-    ##      [0.59, 0.79]
-    ##      [0.59, 0.78]
-    ##      [0.54, 0.73]
-    ##      [0.57, 0.76]
-    ##      [0.39, 0.55]
-    ##      [0.47, 0.65]
-    ##      [0.45, 0.62]
-    ##      [0.35, 0.49]
-    ##      [0.30, 0.43]
-    ##      [0.55, 0.73]
-    ##      [0.54, 0.73]
-    ##      [0.43, 0.60]
-    ##      [0.24, 0.35]
-    ##      [0.35, 0.49]
-    ##      [0.53, 0.71]
-    ##      [0.62, 0.82]
-    ##      [0.25, 0.36]
-    ##      [0.26, 0.37]
-    ##      [0.16, 0.24]
-    ##      [0.51, 0.69]
-    ##      [0.64, 0.84]
-    ##      [0.38, 0.53]
-    ##      [0.28, 0.40]
-    ##      [0.26, 0.38]
-    ##      [0.55, 0.74]
-    ##      [0.41, 0.57]
-    ##      [0.25, 0.36]
-    ##      [0.53, 0.71]
-    ##      [0.55, 0.74]
-    ##      [0.54, 0.73]
-    ##      [0.50, 0.68]
-    ##      [0.60, 0.80]
-    ## 
-    ## Moderate Correlation
-    ## 
-    ##           Term  VIF   VIF 95% CI Increased SE Tolerance Tolerance 95% CI
-    ##  hematocrito.c 5.37 [4.43, 6.56]         2.32      0.19     [0.15, 0.23]
 
 #### Reduced multivariable: step-by-step backward
 
@@ -2130,60 +1212,13 @@ m3 <-
 
 # Visual check of model assumptions
 performance::check_model(m3)
-```
 
-<img src="code_files/figure-gfm/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
-
-``` r
 # Indices of model performance
 performance::model_performance(m3)
-```
 
-    ## # Indices of model performance
-    ## 
-    ## AIC     |    AICc |     BIC | Tjur's R2 |  RMSE | Sigma | Log_loss | Score_log | Score_spherical |   PCP
-    ## --------------------------------------------------------------------------------------------------------
-    ## 205.935 | 208.655 | 260.013 |     0.489 | 0.354 | 1.000 |    0.401 |  -114.684 |           0.017 | 0.745
-
-``` r
 # Check for Multicollinearity
 performance::check_collinearity(m3)
 ```
-
-    ## # Check for Multicollinearity
-    ## 
-    ## Low Correlation
-    ## 
-    ##                       Term  VIF   VIF 95% CI Increased SE Tolerance
-    ##                     disnea 1.39 [1.22, 1.67]         1.18      0.72
-    ##      estertores_pulmonares 1.46 [1.28, 1.76]         1.21      0.69
-    ##  frecuencia_respiratoria.c 1.65 [1.42, 2.00]         1.28      0.61
-    ##      frecuencia_cardiaca.c 1.24 [1.11, 1.51]         1.11      0.81
-    ##            p_a_sistolica.c 1.08 [1.01, 1.47]         1.04      0.93
-    ##              neutrofilos.c 1.24 [1.11, 1.51]         1.11      0.81
-    ##               linfocitos.c 1.27 [1.13, 1.54]         1.12      0.79
-    ##                        mcv 2.49 [2.07, 3.06]         1.58      0.40
-    ##                        mch 2.44 [2.03, 3.00]         1.56      0.41
-    ##              hematocrito.c 1.28 [1.14, 1.55]         1.13      0.78
-    ##                   fio2_aga 1.33 [1.18, 1.60]         1.15      0.75
-    ##                      po2.c 1.08 [1.01, 1.46]         1.04      0.92
-    ##                corticoides 1.28 [1.14, 1.55]         1.13      0.78
-    ##                  pronacion 1.16 [1.06, 1.43]         1.08      0.86
-    ##  Tolerance 95% CI
-    ##      [0.60, 0.82]
-    ##      [0.57, 0.78]
-    ##      [0.50, 0.70]
-    ##      [0.66, 0.90]
-    ##      [0.68, 0.99]
-    ##      [0.66, 0.90]
-    ##      [0.65, 0.88]
-    ##      [0.33, 0.48]
-    ##      [0.33, 0.49]
-    ##      [0.64, 0.87]
-    ##      [0.62, 0.85]
-    ##      [0.68, 0.99]
-    ##      [0.65, 0.88]
-    ##      [0.70, 0.95]
 
 #### Parsimonious model
 
@@ -2200,109 +1235,26 @@ m4 <-
 
 # Visual check of model assumptions
 check_model(m4)
-```
 
-<img src="code_files/figure-gfm/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
-
-``` r
 # Indices of model performance
 model_performance(m4)
-```
 
-    ## # Indices of model performance
-    ## 
-    ## AIC     |    AICc |     BIC | Tjur's R2 |  RMSE | Sigma | Log_loss | Score_log | Score_spherical |   PCP
-    ## --------------------------------------------------------------------------------------------------------
-    ## 221.403 | 225.688 | 289.001 |     0.464 | 0.364 | 1.000 |    0.418 |  -108.461 |           0.017 | 0.733
-
-``` r
 # Check for Multicollinearity
 check_collinearity(m4)
 ```
-
-    ## # Check for Multicollinearity
-    ## 
-    ## Low Correlation
-    ## 
-    ##                     Term  VIF   VIF 95% CI Increased SE Tolerance
-    ##                   edad.c 1.21 [1.09, 1.47]         1.10      0.83
-    ##                 obesidad 1.20 [1.09, 1.46]         1.10      0.83
-    ##                      hta 1.26 [1.13, 1.53]         1.12      0.79
-    ##                taquipnea 1.46 [1.28, 1.76]         1.21      0.69
-    ##                   disnea 1.40 [1.23, 1.68]         1.18      0.71
-    ##    estertores_pulmonares 1.75 [1.50, 2.12]         1.32      0.57
-    ##    frecuencia_cardiaca.c 1.22 [1.10, 1.49]         1.11      0.82
-    ##          p_a_sistolica.c 1.07 [1.01, 1.47]         1.04      0.93
-    ##            neutrofilos.c 1.20 [1.08, 1.46]         1.09      0.84
-    ##             linfocitos.c 1.28 [1.15, 1.55]         1.13      0.78
-    ##                      mch 1.26 [1.13, 1.52]         1.12      0.79
-    ##            hemoglobina.c 1.31 [1.17, 1.58]         1.14      0.76
-    ##                   urea.c 1.13 [1.04, 1.41]         1.06      0.89
-    ##  saturacion_de_oxigeno.c 1.41 [1.24, 1.70]         1.19      0.71
-    ##                   pafi.c 1.24 [1.12, 1.51]         1.12      0.80
-    ##                    po2.c 1.19 [1.08, 1.46]         1.09      0.84
-    ##                   hco3.c 1.35 [1.20, 1.63]         1.16      0.74
-    ##              corticoides 1.23 [1.11, 1.49]         1.11      0.81
-    ##  Tolerance 95% CI
-    ##      [0.68, 0.92]
-    ##      [0.68, 0.92]
-    ##      [0.66, 0.88]
-    ##      [0.57, 0.78]
-    ##      [0.59, 0.81]
-    ##      [0.47, 0.67]
-    ##      [0.67, 0.91]
-    ##      [0.68, 0.99]
-    ##      [0.69, 0.92]
-    ##      [0.65, 0.87]
-    ##      [0.66, 0.89]
-    ##      [0.63, 0.86]
-    ##      [0.71, 0.96]
-    ##      [0.59, 0.80]
-    ##      [0.66, 0.89]
-    ##      [0.69, 0.92]
-    ##      [0.61, 0.84]
-    ##      [0.67, 0.90]
 
 ### Model comparison
 
 ``` r
 # Compare performance of different models
 compare_performance(m2, m3, m4, verbose = FALSE)
-```
 
-    ## # Comparison of Model Performance Indices
-    ## 
-    ## Name | Model | AIC (weights) | AICc (weights) | BIC (weights) | Tjur's R2 |  RMSE | Sigma | Log_loss | Score_log | Score_spherical |   PCP
-    ## ------------------------------------------------------------------------------------------------------------------------------------------
-    ## m2   |   glm | 238.6 (<.001) |  255.2 (<.001) | 367.0 (<.001) |     0.517 | 0.347 | 1.000 |    0.375 |  -123.763 |           0.020 | 0.759
-    ## m3   |   glm | 205.9 (>.999) |  208.7 (>.999) | 260.0 (>.999) |     0.489 | 0.354 | 1.000 |    0.401 |  -114.684 |           0.017 | 0.745
-    ## m4   |   glm | 221.4 (<.001) |  225.7 (<.001) | 289.0 (<.001) |     0.464 | 0.364 | 1.000 |    0.418 |  -108.461 |           0.017 | 0.733
-
-``` r
 # Radar plot
 plot(compare_performance(m2, m3, m4, rank = TRUE, verbose = FALSE))
-```
 
-<img src="code_files/figure-gfm/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
-
-``` r
 # Likelihood Ratio Test
 lmtest::lrtest(m3, m4)
 ```
-
-    ## Likelihood ratio test
-    ## 
-    ## Model 1: a_f ~ disnea + estertores_pulmonares + frecuencia_respiratoria.c + 
-    ##     frecuencia_cardiaca.c + p_a_sistolica.c + neutrofilos.c + 
-    ##     linfocitos.c + mcv + mch + hematocrito.c + fio2_aga + po2.c + 
-    ##     corticoides + pronacion
-    ## Model 2: a_f ~ edad.c + obesidad + hta + taquipnea + disnea + estertores_pulmonares + 
-    ##     frecuencia_cardiaca.c + p_a_sistolica.c + neutrofilos.c + 
-    ##     linfocitos.c + mch + hemoglobina.c + urea.c + saturacion_de_oxigeno.c + 
-    ##     pafi.c + po2.c + hco3.c + corticoides
-    ##   #Df  LogLik Df  Chisq Pr(>Chisq)
-    ## 1  16 -86.968                     
-    ## 2  20 -90.701  4 7.4676     0.1131
 
 > Likelihood Ratio Test (0.1131): There is insufficient evidence to
 > conclude that the backward model is significantly better than the
@@ -2362,8 +1314,6 @@ flex_table_3 <- table_3 |>
 # View
 flex_table_3
 ```
-
-<img src="code_files/figure-gfm/unnamed-chunk-28-1.png" width="2387" />
 
 <div style="text-align: justify">
 
@@ -2496,37 +1446,6 @@ get_eigenvalue(pca_data) |>
   mutate(across(where(is.numeric), round, 2))
 ```
 
-    ##        eigenvalue variance.percent cumulative.variance.percent
-    ## Dim.1        3.67            12.66                       12.66
-    ## Dim.2        3.08            10.63                       23.30
-    ## Dim.3        2.68             9.23                       32.53
-    ## Dim.4        2.50             8.64                       41.16
-    ## Dim.5        2.15             7.41                       48.57
-    ## Dim.6        1.69             5.83                       54.41
-    ## Dim.7        1.40             4.84                       59.25
-    ## Dim.8        1.29             4.46                       63.71
-    ## Dim.9        1.22             4.20                       67.91
-    ## Dim.10       0.97             3.36                       71.26
-    ## Dim.11       0.95             3.29                       74.55
-    ## Dim.12       0.94             3.23                       77.78
-    ## Dim.13       0.86             2.97                       80.76
-    ## Dim.14       0.80             2.76                       83.52
-    ## Dim.15       0.69             2.38                       85.90
-    ## Dim.16       0.62             2.14                       88.04
-    ## Dim.17       0.57             1.96                       90.00
-    ## Dim.18       0.51             1.76                       91.76
-    ## Dim.19       0.48             1.65                       93.42
-    ## Dim.20       0.44             1.50                       94.92
-    ## Dim.21       0.38             1.31                       96.23
-    ## Dim.22       0.30             1.03                       97.25
-    ## Dim.23       0.25             0.86                       98.12
-    ## Dim.24       0.23             0.79                       98.90
-    ## Dim.25       0.20             0.69                       99.59
-    ## Dim.26       0.09             0.32                       99.91
-    ## Dim.27       0.02             0.05                       99.97
-    ## Dim.28       0.01             0.03                      100.00
-    ## Dim.29       0.00             0.00                      100.00
-
 <div style="text-align: justify">
 
 To visualize the PCA, the `ggplot2` and `factoextra` packages can be
@@ -2546,163 +1465,25 @@ by focusing on the most important components.
 fviz_eig(pca_data, addlabels = TRUE)
 ```
 
-<img src="code_files/figure-gfm/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
-
 ``` r
 # Extract results for the variables
 var <- get_pca_var(pca_data)
 
 # Coordinates for the variables
 head(var$coord, 5)
-```
 
-    ##                          Dim.1       Dim.2       Dim.3       Dim.4        Dim.5
-    ## Age                 0.13793571 -0.29298932  0.31889191 -0.48021918  0.001231555
-    ## Duration of disease 0.07705455  0.30797270 -0.15562940 -0.13340462 -0.135760747
-    ## Respiratory rate    0.42512727  0.12444667  0.25178565 -0.05537507  0.019660484
-    ## Heart rate          0.40076375  0.03431569  0.12107888  0.33155639  0.163523246
-    ## SBP                 0.23732980  0.03691180 -0.04096375 -0.15242668 -0.416958818
-    ##                           Dim.6       Dim.7      Dim.8       Dim.9     Dim.10
-    ## Age                 -0.05282346  0.21944874 -0.1156983 -0.14677331  0.1882642
-    ## Duration of disease  0.14792756  0.55430839  0.1765128 -0.09413535 -0.3653366
-    ## Respiratory rate     0.07161578 -0.02520474  0.1438517  0.52755436  0.0631021
-    ## Heart rate           0.05850435 -0.25222452  0.1090153  0.14715792 -0.4459125
-    ## SBP                 -0.66204816  0.09083433  0.1486886  0.05632047 -0.1161401
-    ##                          Dim.11      Dim.12      Dim.13      Dim.14
-    ## Age                  0.27889860 -0.24829218 -0.06595216 -0.04988704
-    ## Duration of disease -0.14516515  0.24862086 -0.25083105 -0.08527321
-    ## Respiratory rate     0.24171277  0.02463346  0.16137403  0.10877074
-    ## Heart rate           0.05802321  0.05921626 -0.14949305  0.33637594
-    ## SBP                  0.19254530 -0.12613019  0.19090981  0.03570950
-    ##                           Dim.15      Dim.16      Dim.17       Dim.18
-    ## Age                 -0.119479119  0.42512052  0.05106745  0.115250568
-    ## Duration of disease  0.203754350  0.04275563 -0.10717998 -0.163915084
-    ## Respiratory rate     0.486994311 -0.01681545  0.06157847 -0.030150754
-    ## Heart rate           0.005816853  0.39914149  0.01242834  0.068698949
-    ## SBP                  0.008357435  0.06879743 -0.06579069 -0.008816533
-    ##                         Dim.19      Dim.20       Dim.21      Dim.22      Dim.23
-    ## Age                 -0.1731596 -0.14233007 -0.008418955  0.14183943  0.05088390
-    ## Duration of disease -0.1463257 -0.27763880  0.002075131  0.02058998  0.03408471
-    ## Respiratory rate    -0.2315247  0.14036737  0.084054547  0.07826499 -0.01541691
-    ## Heart rate           0.2778201 -0.01906413 -0.017924601  0.04247773 -0.01880004
-    ## SBP                 -0.0541121 -0.03606199 -0.288783372 -0.23937490 -0.07695439
-    ##                          Dim.24      Dim.25       Dim.26       Dim.27
-    ## Age                  0.09572682 -0.04561185 -0.008467372  0.002313491
-    ## Duration of disease -0.00622437  0.02771622  0.021714755 -0.001443580
-    ## Respiratory rate     0.03547441  0.03349921 -0.002895447  0.000393253
-    ## Heart rate          -0.02031345  0.01621989 -0.012935127  0.001264951
-    ## SBP                 -0.07482442  0.04203647 -0.009528711 -0.001076432
-    ##                            Dim.28       Dim.29
-    ## Age                  0.0004240986 0.000000e+00
-    ## Duration of disease -0.0002880918 1.321631e-32
-    ## Respiratory rate     0.0014673717 1.684505e-32
-    ## Heart rate           0.0005845629 7.909549e-33
-    ## SBP                  0.0005173954 1.076707e-32
-
-``` r
 # Correlations between variables and dimensions
 head(var$cor, 4)
-```
 
-    ##                          Dim.1       Dim.2      Dim.3       Dim.4        Dim.5
-    ## Age                 0.13793571 -0.29298932  0.3188919 -0.48021918  0.001231555
-    ## Duration of disease 0.07705455  0.30797270 -0.1556294 -0.13340462 -0.135760747
-    ## Respiratory rate    0.42512727  0.12444667  0.2517857 -0.05537507  0.019660484
-    ## Heart rate          0.40076375  0.03431569  0.1210789  0.33155639  0.163523246
-    ##                           Dim.6       Dim.7      Dim.8       Dim.9     Dim.10
-    ## Age                 -0.05282346  0.21944874 -0.1156983 -0.14677331  0.1882642
-    ## Duration of disease  0.14792756  0.55430839  0.1765128 -0.09413535 -0.3653366
-    ## Respiratory rate     0.07161578 -0.02520474  0.1438517  0.52755436  0.0631021
-    ## Heart rate           0.05850435 -0.25222452  0.1090153  0.14715792 -0.4459125
-    ##                          Dim.11      Dim.12      Dim.13      Dim.14
-    ## Age                  0.27889860 -0.24829218 -0.06595216 -0.04988704
-    ## Duration of disease -0.14516515  0.24862086 -0.25083105 -0.08527321
-    ## Respiratory rate     0.24171277  0.02463346  0.16137403  0.10877074
-    ## Heart rate           0.05802321  0.05921626 -0.14949305  0.33637594
-    ##                           Dim.15      Dim.16      Dim.17      Dim.18     Dim.19
-    ## Age                 -0.119479119  0.42512052  0.05106745  0.11525057 -0.1731596
-    ## Duration of disease  0.203754350  0.04275563 -0.10717998 -0.16391508 -0.1463257
-    ## Respiratory rate     0.486994311 -0.01681545  0.06157847 -0.03015075 -0.2315247
-    ## Heart rate           0.005816853  0.39914149  0.01242834  0.06869895  0.2778201
-    ##                          Dim.20       Dim.21     Dim.22      Dim.23      Dim.24
-    ## Age                 -0.14233007 -0.008418955 0.14183943  0.05088390  0.09572682
-    ## Duration of disease -0.27763880  0.002075131 0.02058998  0.03408471 -0.00622437
-    ## Respiratory rate     0.14036737  0.084054547 0.07826499 -0.01541691  0.03547441
-    ## Heart rate          -0.01906413 -0.017924601 0.04247773 -0.01880004 -0.02031345
-    ##                          Dim.25       Dim.26       Dim.27        Dim.28
-    ## Age                 -0.04561185 -0.008467372  0.002313491  0.0004240986
-    ## Duration of disease  0.02771622  0.021714755 -0.001443580 -0.0002880918
-    ## Respiratory rate     0.03349921 -0.002895447  0.000393253  0.0014673717
-    ## Heart rate           0.01621989 -0.012935127  0.001264951  0.0005845629
-    ##                           Dim.29
-    ## Age                 0.000000e+00
-    ## Duration of disease 1.321631e-32
-    ## Respiratory rate    1.684505e-32
-    ## Heart rate          7.909549e-33
-
-``` r
 # Quality of representation (Cos2) for the  variables on the dimensions
 head(var$cos2, 5)
-```
 
-    ##                           Dim.1       Dim.2       Dim.3       Dim.4
-    ## Age                 0.019026260 0.085842740 0.101692050 0.230610466
-    ## Duration of disease 0.005937403 0.094847181 0.024220509 0.017796794
-    ## Respiratory rate    0.180733200 0.015486973 0.063396014 0.003066399
-    ## Heart rate          0.160611586 0.001177567 0.014660096 0.109929642
-    ## SBP                 0.056325434 0.001362481 0.001678029 0.023233893
-    ##                            Dim.5       Dim.6       Dim.7      Dim.8       Dim.9
-    ## Age                 1.516727e-06 0.002790318 0.048157752 0.01338611 0.021542404
-    ## Duration of disease 1.843098e-02 0.021882563 0.307257794 0.03115677 0.008861465
-    ## Respiratory rate    3.865346e-04 0.005128820 0.000635279 0.02069332 0.278313600
-    ## Heart rate          2.673985e-02 0.003422759 0.063617206 0.01188433 0.021655452
-    ## SBP                 1.738547e-01 0.438307764 0.008250875 0.02210830 0.003171995
-    ##                          Dim.10      Dim.11       Dim.12      Dim.13
-    ## Age                 0.035443399 0.077784428 0.0616490056 0.004349688
-    ## Duration of disease 0.133470810 0.021072921 0.0618123315 0.062916218
-    ## Respiratory rate    0.003981875 0.058425065 0.0006068073 0.026041578
-    ## Heart rate          0.198837988 0.003366693 0.0035065649 0.022348172
-    ## SBP                 0.013488533 0.037073693 0.0159088239 0.036446557
-    ##                          Dim.14       Dim.15       Dim.16       Dim.17
-    ## Age                 0.002488716 1.427526e-02 0.1807274582 0.0026078844
-    ## Duration of disease 0.007271521 4.151584e-02 0.0018280441 0.0114875477
-    ## Respiratory rate    0.011831073 2.371635e-01 0.0002827595 0.0037919082
-    ## Heart rate          0.113148776 3.383578e-05 0.1593139309 0.0001544637
-    ## SBP                 0.001275168 6.984672e-05 0.0047330871 0.0043284145
-    ##                           Dim.18      Dim.19      Dim.20       Dim.21
-    ## Age                 1.328269e-02 0.029984239 0.020257849 7.087881e-05
-    ## Duration of disease 2.686815e-02 0.021411208 0.077083303 4.306169e-06
-    ## Respiratory rate    9.090679e-04 0.053603694 0.019703000 7.065167e-03
-    ## Heart rate          4.719546e-03 0.077184027 0.000363441 3.212913e-04
-    ## SBP                 7.773125e-05 0.002928119 0.001300467 8.339584e-02
-    ##                           Dim.22       Dim.23       Dim.24       Dim.25
-    ## Age                 0.0201184235 0.0025891712 9.163625e-03 0.0020804408
-    ## Duration of disease 0.0004239473 0.0011617675 3.874278e-05 0.0007681886
-    ## Respiratory rate    0.0061254091 0.0002376810 1.258434e-03 0.0011221971
-    ## Heart rate          0.0018043571 0.0003534417 4.126364e-04 0.0002630848
-    ## SBP                 0.0573003410 0.0059219778 5.598694e-03 0.0017670650
-    ##                           Dim.26       Dim.27       Dim.28       Dim.29
-    ## Age                 7.169640e-05 5.352242e-06 1.798597e-07 0.000000e+00
-    ## Duration of disease 4.715306e-04 2.083924e-06 8.299686e-08 1.746709e-64
-    ## Respiratory rate    8.383612e-06 1.546479e-07 2.153180e-06 2.837558e-64
-    ## Heart rate          1.673175e-04 1.600102e-06 3.417138e-07 6.256096e-65
-    ## SBP                 9.079633e-05 1.158706e-06 2.676980e-07 1.159299e-64
-
-``` r
 # Correlation matrix - Cos2 for the variables
 my_ggcorrplor(var$cos2)
-```
 
-<img src="code_files/figure-gfm/unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
-
-``` r
 # Cos2 plot for the variables on dimensions 1 and 2
 fviz_cos2(pca_data, choice = "var", axes = 1:2)
-```
 
-<img src="code_files/figure-gfm/unnamed-chunk-32-2.png" style="display: block; margin: auto;" />
-
-``` r
 # Plot of 10 variables with highest cos2 on PC1 and PC2
 a <- fviz_cos2(pca_data, choice = "var", axes = 1:2, top = 10)
 
@@ -2718,67 +1499,16 @@ c <- fviz_pca_var(
 
 # Contributions of the variables on the dimensions
 head(var$contrib, 5)
-```
 
-    ##                         Dim.1      Dim.2      Dim.3     Dim.4        Dim.5
-    ## Age                 0.5181309 2.78360214 3.79936060 9.2086043 7.058888e-05
-    ## Duration of disease 0.1616898 3.07558701 0.90491292 0.7106513 8.577827e-01
-    ## Respiratory rate    4.9218010 0.50219238 2.36856589 0.1224457 1.798942e-02
-    ## Heart rate          4.3738409 0.03818468 0.54772216 4.3896471 1.244480e+00
-    ## SBP                 1.5338774 0.04418084 0.06269356 0.9277624 8.091241e+00
-    ##                          Dim.6       Dim.7     Dim.8      Dim.9     Dim.10
-    ## Age                  0.1649038  3.42862484 1.0353084  1.7688313  3.6426396
-    ## Duration of disease  1.2932283 21.87543369 2.4097273  0.7276085 13.7172526
-    ## Respiratory rate     0.3031059  0.04522913 1.6004629 22.8521289  0.4092309
-    ## Heart rate           0.2022802  4.52927154 0.9191582  1.7781135 20.4352615
-    ## SBP                 25.9033638  0.58742684 1.7099003  0.2604503  1.3862628
-    ##                        Dim.11     Dim.12    Dim.13     Dim.14      Dim.15
-    ## Age                 8.1601804 6.57220525 0.5044469  0.3104996  2.07145763
-    ## Duration of disease 2.2107104 6.58961690 7.2965904  0.9072165  6.02428919
-    ## Respiratory rate    6.1292354 0.06468981 3.0201231  1.4760797 34.41436886
-    ## Heart rate          0.3531918 0.37382378 2.5917874 14.1167760  0.00490985
-    ## SBP                 3.8893134 1.69598933 4.2268211  0.1590938  0.01013533
-    ##                          Dim.16     Dim.17     Dim.18     Dim.19     Dim.20
-    ## Age                 29.07863997 0.45888079 2.59892072  6.2533740  4.6449735
-    ## Duration of disease  0.29412817 2.02133766 5.25708164  4.4654223 17.6746253
-    ## Respiratory rate     0.04549536 0.66722047 0.17787021 11.1793380  4.5177506
-    ## Heart rate          25.63325177 0.02717927 0.92343656 16.0971429  0.0833343
-    ## SBP                  0.76154302 0.76162359 0.01520907  0.6106749  0.2981875
-    ##                           Dim.21     Dim.22     Dim.23     Dim.24    Dim.25
-    ## Age                  0.018683576  6.7632954 1.03496718 4.02343740 1.0433952
-    ## Duration of disease  0.001135102  0.1425201 0.46439233 0.01701065 0.3852666
-    ## Respiratory rate     1.862370277  2.0592046 0.09500803 0.55253558 0.5628110
-    ## Heart rate           0.084692040  0.6065784 0.14128093 0.18117465 0.1319439
-    ## SBP                 21.983051277 19.2628975 2.36718714 2.45819694 0.8862291
-    ##                          Dim.26       Dim.27       Dim.28       Dim.29
-    ## Age                 0.076092691 0.0345646035 0.0019087414 0.000000e+00
-    ## Duration of disease 0.500444000 0.0134579160 0.0008807954 3.595821e-31
-    ## Respiratory rate    0.008897681 0.0009987114 0.0228503906 5.841473e-31
-    ## Heart rate          0.177577129 0.0103334038 0.0036264018 1.287897e-31
-    ## SBP                 0.096363803 0.0074828891 0.0028409166 2.386563e-31
-
-``` r
 # Correlation matrix - contributions of the variables
 corrplot(var$contrib, is.corr=FALSE)
-```
 
-<img src="code_files/figure-gfm/unnamed-chunk-32-3.png" style="display: block; margin: auto;" />
-
-``` r
 # Contribution plot of the top 10 variables on PC1
 fviz_contrib(pca_data, choice = "var", axes = 1, top = 10)
-```
 
-<img src="code_files/figure-gfm/unnamed-chunk-32-4.png" style="display: block; margin: auto;" />
-
-``` r
 # Contribution plot of the top 10 variables on PC2
 fviz_contrib(pca_data, choice = "var", axes = 2, top = 10)
-```
 
-<img src="code_files/figure-gfm/unnamed-chunk-32-5.png" style="display: block; margin: auto;" />
-
-``` r
 # Plot of 10 variables with the highest contribution on PC1 and PC2
 d <- fviz_contrib(pca_data, choice = "var", axes = 1:2, top = 10)
 
@@ -2799,8 +1529,6 @@ ggpubr::ggarrange(a, d, b, e, c, f, ncol = 2, nrow = 3,
                   labels = c("A)", "B)", "C)", "D)", "E)", "F)"), 
                   legend = "right")
 ```
-
-<img src="code_files/figure-gfm/unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
 
 #### Individuals
 
@@ -2850,8 +1578,6 @@ ggpubr::ggarrange(a, d, b, e, c, f, ncol = 2, nrow = 3,
                   legend = "right")
 ```
 
-<img src="code_files/figure-gfm/unnamed-chunk-35-1.png" style="display: block; margin: auto;" />
-
 ``` r
 # Plot of individuals and color by outcome on PC1 and PC2
 ind.graph <- fviz_pca_ind(
@@ -2899,8 +1625,6 @@ b <- ggpubr::ggpar(
 ggpubr::ggarrange(a, b, ncol = 2, nrow = 1, labels = c("A)", "B)"), 
                   legend = "bottom", common.legend = TRUE)
 ```
-
-<img src="code_files/figure-gfm/unnamed-chunk-37-1.png" style="display: block; margin: auto;" />
 
 #### Biplot of individuals and variables
 
@@ -2969,10 +1693,6 @@ F1 <- ggpubr::ggarrange(a1, b1, ncol = 2, nrow = 1, labels = c("A)", "B)"),
 F1
 ```
 
-<img src="code_files/figure-gfm/unnamed-chunk-38-1.png" style="display: block; margin: auto;" />
-
-<img src="code_files/figure-gfm/unnamed-chunk-39-1.png" style="display: block; margin: auto;" />
-
 <div style="text-align: justify">
 
 The PCA has limitations, including **sensitivity to the scale of
@@ -3027,8 +1747,6 @@ tSNE_df |>
   theme(legend.position = "right",
         axis.line = element_line(color = "black"))
 ```
-
-<img src="code_files/figure-gfm/unnamed-chunk-40-1.png" style="display: block; margin: auto;" />
 
 <div style="text-align: justify">
 
