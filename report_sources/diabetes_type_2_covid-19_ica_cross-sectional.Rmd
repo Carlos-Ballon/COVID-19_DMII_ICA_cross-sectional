@@ -67,7 +67,11 @@ rfextras::load_scripts()
 ```
 
 ```{r include=FALSE}
-grateful::cite_packages(out.dir = ".", citation.style = "vancouver")
+grateful::cite_packages(
+  output = "paragraph",
+  out.format = "docx",
+  out.dir = ".",
+  citation.style = "vancouver")
 ```
 
 # Import data
@@ -1779,3 +1783,4 @@ ggsave(
   dpi = 500,
   units = "in")
 ```
+
