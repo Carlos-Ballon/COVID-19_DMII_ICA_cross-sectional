@@ -1,0 +1,1781 @@
+---
+title: "Type 2 Diabetes and COVID-19 in ICA - Cross-Sectional"
+author: "Carlos Ballon-Salcedo & Kevin J. Paez"
+date: "`r Sys.Date()`"
+format: 
+  html:
+    toc: true
+    toc-depth: 4
+    code-overflow: wrap
+    code-fold: true
+    code-tools: true
+    theme: 
+     light: flatly
+     dark: darkly
+    highlight-style: github
+editor: visual
+editor_options: 
+  chunk_output_type: inline
+bibliography: grateful-refs.bib
+csl: vancouver.csl
+---
+
+::: {style="text-align: justify"}
+A clear plan for a data analysis and visualization project must optimize resource allocation. The typical steps to carry out these projects in R are as follows: data import, data manipulation, descriptive statistics, inferential statistics and data visualization.
+:::
+
+# Set global knitr options
+
+```{r setup}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+# Load packages
+
+```{r}
+# Packages
+pacman::p_load(
+  rio,
+  here,
+  reportfactory,
+  rfextras,
+  tidyverse,
+  ggcorrplot,
+  ggsci,
+  ggpubr,
+  ggbiplot,
+  finalfit,
+  gtsummary,
+  flextable,
+  ftExtra,
+  broom,
+  performance,
+  lmtest,
+  stats,
+  moments,
+  nortest,
+  car,
+  Rtsne,
+  factoextra,
+  corrplot,
+  grateful,
+  patchwork,
+  officer
+)
+# My function scripts
+rfextras::load_scripts()
+```
+
+```{r include=FALSE}
+grateful::cite_packages(out.dir = ".", citation.style = "vancouver")
+```
+
+# Import data
+
+```{r}
+clean_data <- import(here("data", "clean_data.tsv"))
+```
+
+# Set themes
+
+## Define `gtsummary` theme
+
+```{r}
+my_gtsummary_theme <-
+  list(
+    "pkgwide-fn:pvalue_fun" = function(x) style_pvalue(x, digits = 2),
+    "pkgwide-fn:prependpvalue_fun" = function(x) style_pvalue(x, digits = 2, 
+                                                              prepend_p = TRUE),
+
+    "tbl_summary-str:continuous_stat" = "{median} ({p25}, {p75})",
+    "tbl_summary-str:categorical_stat" = "{n} ({p}%)",
+    
+    "tbl_summary-fn:percent_fun" = function(x) style_number(x, digits = 1, scale = 100),
+    
+    "tbl_summary-arg:missing" = "no"
+    )
+
+# Set a gtsummary theme
+set_gtsummary_theme(my_gtsummary_theme, theme_gtsummary_compact())
+
+# Set a gtsummary language
+theme_gtsummary_language(language = "en")
+```
+
+## Define `flextable` theme
+
+```{r}
+my_flextable_theme <- function(x, bold_header = FALSE) {
+  std_border <- fp_border(width = 1, color = "grey14")
+  
+  x <- border_remove(x)
+  x <- hline_top(x, border = std_border, part = "header")
+  x <- hline_bottom(x, border = std_border, part = "header")
+  x <- bold(x, bold = bold_header, part = "header")
+  x <- hline_bottom(x, border = std_border, part = "body")
+  x <- align_text_col(x, align = "left", header = TRUE)
+  x <- font(x, part = "all", fontname = "Segoe UI")
+  fix_border_issues(x, part = "all")
+  autofit(x)
+}
+```
+
+# Process data
+
+## Recode and relevel (dictionary)
+
+::: {style="text-align: justify"}
+This subsection converts categorical variables into factors and recode/clean values using a data dictionary. The categorical variables will be saved as factor vectors, while some continuous/numeric variables will be categorized and converted into factors. Then, recode and change the factor levels using the `forcats` package. Also, the `finalfit` package will be utilized to label variables, while the `ftExtra` package will detect special characters and format the character columns as markdown text to be added to the flextable object. An alternate option is to utilize the `matchmaker` package for dictionary-based cleanup. The disadvantage of categorizing continuous variables is that information is discarded. To address this, repeat the analysis on continuous variables to ensure there are no differences in the conclusion (sensitivity analysis).
+:::
+
+> 📝***NOTE:*** The markdown texts is by design a plain text
+
+### Exposures
+
+::: {style="text-align: justify"}
+Possible risk factors associated with mortality from COVID-19 in patients with type II diabetes mellitus (T2DM), each factor is labeled with a legend that indicates its clinical importance, accuracy, and number of events.
+:::
+
+-   Clinically important with enough evidence but with small number of events, shown as `\####`
+-   Clinically important with enough evidence and enough number of events, shown as `\###`
+-   Clinically important with limited evidence, shown as `\##`
+-   Inconsistent or contradictory evidence and unconfirmed accuracy (self-reported) `\#`
+
+```{r}
+data <- clean_data |>
+  mutate(
+    edad = ff_label(edad, "Age (years)"), ###
+    
+    edad.c = case_when(edad <= 60 ~ "< 61",
+                       edad > 60 ~ ">= 61") |>
+      fct_relevel("< 61", ">= 61") |>
+      ff_label("Age (years)"),
+    
+    sexo = factor(sexo) |> ###
+      fct_relevel("Female", "Male") |>
+      ff_label("Sex"),
+    
+    t_de_enfermedad = ff_label(t_de_enfermedad, "Duration of disease (days)"), ##
+    
+    tabaquismo = factor(tabaquismo) |> ####
+      fct_relevel("No", "Yes") |>
+      ff_label("Smoking"),
+    
+    alcoholismo = factor(alcoholismo) |> ####
+      fct_relevel("No", "Yes") |>
+      ff_label("Alcoholism"),
+    
+    obesidad = factor(obesidad) |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Obesity"),
+    
+    asma_bronquial = factor(asma_bronquial) |> ####
+      fct_relevel("No", "Yes") |>
+      ff_label("Asthma"),
+    
+    hta = factor(hta) |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Hypertension"),
+    
+    dislipidemia = factor(dislipidemia) |> ##
+      fct_relevel("No", "Yes") |>
+      ff_label("Dyslipidemia"),
+    
+    ecv = factor(ecv) |> ####
+      fct_relevel("No", "Yes") |>
+      ff_label("Cerebrovascular disease"),
+    
+    neoplasia = factor(neoplasia) |> ####
+      fct_relevel("No", "Yes") |>
+      ff_label("Cancer"),
+    
+    vih = factor(vih) |> ####
+      fct_relevel("No", "Yes") |>
+      ff_label("HIV"),
+    
+    e_inmunosupresora =
+      case_when(
+        neoplasia == "Yes" |  vih == "Yes" | e_inmunosupresora == "Yes" ~ "Yes",
+        TRUE ~ "No" ) |> ####
+      fct_relevel("No", "Yes") |>
+      ff_label("Immunesupressive disease"),
+    
+    erc = factor(erc) |> ####
+      fct_recode("No" = "ON",) |>
+      fct_relevel("No", "Yes") |>
+      ff_label("Chronic renal disease"),
+    
+    f_renal_aguda = factor(f_renal_aguda) |> #
+      fct_relevel("No", "Yes") |>
+      ff_label("Acute kidney injury"),
+    
+    fiebre = factor(fiebre) |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Fever"),
+    
+    tos = factor(tos) |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Dry cought"),
+    
+    dolor_de_garganta = factor(dolor_de_garganta) |> #
+      fct_relevel("No", "Yes") |>
+      ff_label("Sore throat"),
+    
+    malestar_general = factor(malestar_general) |> #
+      fct_relevel("No", "Yes") |>
+      ff_label("General malaise"),
+    
+    cefalea = factor(cefalea) |> #
+      fct_relevel("No", "Yes") |>
+      ff_label("Headache"),
+    
+    astenia = factor(astenia) |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Asthenia"),
+    
+    anosmia = factor(anosmia) |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Anosmia"),
+    
+    disgeusia = factor(disgeusia) |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Dysgeusia"),
+    
+    disnea = factor(disnea) |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Dyspnea"),
+    
+    perdida_de_peso = factor(perdida_de_peso) |> ####
+      fct_relevel("No", "Yes") |>
+      ff_label("Weight loss"),
+    
+    estertores_pulmonares = factor(estertores_pulmonares) |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Lung crackles"),
+    
+    diarrrea = factor(diarrrea) |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Diarrhea"),
+    
+    emesis = factor(emesis) |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Vomiting"),
+    
+    dolor_abdominal = factor(dolor_abdominal) |> ####
+      fct_relevel("No", "Yes") |>
+      ff_label("Abdominal pain"),
+    
+    poliuria = factor(poliuria) |> ####
+      fct_relevel("Yes", "No") |>
+      ff_label("Polyuria"),
+    
+    polidipsia = factor(polidipsia) |> ####
+      fct_relevel("Yes", "No") |>
+      ff_label("Polidipsia"),
+    
+    polifagia = factor(polifagia) |> ####
+      fct_relevel("Yes", "No") |>
+      ff_label("Poliphagia"),
+    
+    disgeusia = factor(disgeusia) |> ####
+      fct_relevel("Yes", "No") |>
+      ff_label("Dysgeusia"),
+    
+    taquipnea = factor(taquipnea) |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Tachypnea"),
+    
+    sensorio = factor(sensorio) |> #
+      fct_recode(
+        "Awake" = "DESPIERTO",
+        "Sleepy" = "SOMNOLIENTO",
+        "Drowsy" = "SOPOROSO") |>
+      fct_relevel("Awake",
+                  "Sleepy",
+                  "Drowsy") |>
+      ff_label("Sensory"),
+    
+    ingreso_a_uci = factor(ingreso_a_uci) |> ####
+      fct_relevel("No", "Yes") |>
+      ff_label("ICU admission"),
+    
+    corticoides = case_when(corticoides == "No" ~ "No",
+                            TRUE ~ "Yes") |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Corticosteroids"),
+    
+    anticoagulantes = factor(anticoagulantes) |> ###
+      fct_recode("Enoxaparin" = "ENOXAPARINA") |>
+      fct_relevel("No", "Enoxaparin") |>
+      ff_label("Anticoagulants"),
+    
+    antiparasitarios = factor(antiparasitarios) |> ###
+      fct_recode("Ivermectin" = "IVERMECTINA") |>
+      fct_relevel("No", "Ivermectin") |>
+      ff_label("Antiparasitics"),
+    
+    antipaludicos = factor(antipaludicos) |> ###
+      fct_recode("Hydroxychloroquine" = "HIDROXICLOROQUINA") |>
+      fct_relevel("No", "Hydroxychloroquine") |>
+      ff_label("Antimalarials"),
+    
+    antibioticos = case_when(antibioticos == "No" ~ "No",
+                             TRUE ~ "Yes") |> ###
+      fct_relevel("No", "Yes") |>
+      ff_label("Antibiotics"),
+    
+    pronacion = factor(pronacion) |> ###
+      fct_relevel("Yes", "No") |>
+      ff_label("Pronation"),
+    
+    hemodialisis = factor(hemodialisis) |> #
+      fct_relevel("No", "Yes") |>
+      ff_label("Hemodialysis"),
+    
+    sepsis = factor(sepsis) |> #
+      fct_relevel("No", "Yes") |>
+      ff_label("Sepsis"),
+    
+    shock_septico = factor(shock_septico) |> #
+      fct_relevel("No", "Yes") |>
+      ff_label("Septic shock"),
+    
+    p_a_sistolica = ff_label(p_a_sistolica, "SBP (mmHg)"), ###
+    
+    p_a_sistolica.c = case_when(p_a_sistolica < 140 ~ "< 140",
+                                TRUE ~ ">= 140") |>
+      fct_relevel("< 140", ">= 140") |>
+      ff_label("SBP (mmHg)"),
+    
+    p_a_diastolica = ff_label(p_a_diastolica, "DBP (mmHg)"), ###
+    
+    p_a_diastolica.c = case_when(p_a_diastolica < 90 ~ "< 90",
+                                 TRUE ~ ">= 90") |>
+      fct_relevel("< 90", ">= 90") |>
+      ff_label("DBP (mmHg)"),
+    
+    hemoglobina = ff_label(hemoglobina, "Hemoglobin (g/dL)"), ###
+    
+    hemoglobina.c = case_when(hemoglobina <= 12 ~ "<= 12",
+                              TRUE ~ "> 12") |>
+      fct_relevel("> 12", "<= 12") |>
+      ff_label("Hemoglobin (g/dL)"),
+    
+    hematocrito = ff_label(hematocrito, "Hematocrit (%)"), ##
+    
+    hematocrito.c = case_when(hematocrito < 36 ~ "< 36",
+                              TRUE ~ ">= 36") |>
+      fct_relevel(">= 36", "< 36") |>
+      ff_label("Hematocrit (%)"),
+    
+    mcv = ff_label(mcv, "MCV (mm^3^)"), ##
+    
+    mch = ff_label(mch, "MCH (pg)"), ##
+    
+    leucocitos = leucocitos / 1000,
+    leucocitos = ff_label(leucocitos, "White-cells (×10^−9^/L)"), ###
+    
+    leucocitos.c = case_when(
+      leucocitos < 4 ~ "< 4",
+      leucocitos >= 4 & leucocitos <= 10 ~ "4-10",
+      leucocitos > 10 ~ "> 10") |>
+      fct_relevel("4-10", "< 4", "> 10") |>
+      ff_label("White-cells (×10^−9^/L)"),
+    
+    linfocitos = linfocitos / 1000,
+    linfocitos = ff_label(linfocitos, "Lymphocytes (×10^−9^/L)"), ###
+    
+    linfocitos.c = case_when(linfocitos < 1 ~ "< 1",
+                             TRUE ~ ">= 1") |>
+      fct_relevel(">= 1", "< 1") |>
+      ff_label("Lymphocytes (×10^−9^/L)"),
+    
+    neutrofilos = neutrofilos / 1000,
+    neutrofilos = ff_label(neutrofilos, "Neutrophils (×10^−9^/L)"), ###
+    
+    neutrofilos.c = case_when(neutrofilos > 6.3 ~ "> 6.3",
+                              TRUE ~ "<= 6.3") |>
+      fct_relevel("<= 6.3", "> 6.3") |>
+      ff_label("Neutrophils (×10^−9^/L)"),
+    
+    plaquetas = plaquetas / 1000,
+    plaquetas = ff_label(plaquetas, "Platelets (×10^−9^/L)"), ###
+    
+    plaquetas.c = case_when(plaquetas < 125 ~ "< 125",
+                            TRUE ~ ">= 125") |>
+      fct_relevel(">= 125", "< 125") |>
+      ff_label("Platelets (×10^−9^/L)"),
+    
+    glucosa = ff_label(glucosa, "Glucose (mg/dL)"), ###
+    
+    urea = ff_label(urea, "BUN (mg/dL)"), ###
+    
+    urea.c = case_when(urea < 20 ~ "< 20",
+                       TRUE ~ ">= 20") |>
+      fct_relevel("< 20", ">= 20") |>
+      ff_label("BUN (mg/dL)"),
+    
+    creatinina = ff_label(creatinina, "Serum creatinine (mg/dL)"), ###
+    
+    creatinina.c = case_when(creatinina < 1.3 ~ "< 1.3",
+                             TRUE ~ ">= 1.3") |>
+      fct_relevel("< 1.3", ">= 1.3") |>
+      ff_label("Serum creatinine (mg/dL)"),
+    
+    ph = ff_label(ph, "pH"), ##
+    
+    ph.c = case_when(
+      ph < 7.35 ~ "< 7.35",
+      ph >= 7.35 &
+        ph <= 7.45 ~ "7.35 - 7.45",
+      ph > 7.45 ~ "> 7.45") |>
+      fct_relevel("7.35 - 7.45", "< 7.35", "> 7.45") |>
+      ff_label("pH"),
+    
+    frecuencia_cardiaca = ff_label(frecuencia_cardiaca, "Heart rate (BPM)"), ##
+    
+    frecuencia_cardiaca.c = case_when(frecuencia_cardiaca < 100 ~ "< 100",
+                                      TRUE ~ ">= 100") |>
+      fct_relevel("< 100", ">= 100") |>
+      ff_label("Heart rate (BPM)"),
+    
+    frecuencia_respiratoria = ff_label(frecuencia_respiratoria, 
+                                       "Respiratory rate (BPM)"), ##
+    
+    frecuencia_respiratoria.c =
+      case_when(
+        frecuencia_respiratoria < 24 ~ "< 24",
+        frecuencia_respiratoria >= 24 &
+          frecuencia_respiratoria <= 30 ~ "24 - 30",
+        frecuencia_respiratoria > 30 ~ "> 30") |> ##
+      fct_relevel("24 - 30", "< 24", "> 30") |>
+      ff_label("Respiratory rate (BPM)"),
+    
+    saturacion_de_oxigeno = ff_label(saturacion_de_oxigeno, "SaO~2~ (%)"), ###
+    
+    saturacion_de_oxigeno.c = case_when(saturacion_de_oxigeno < 94 ~ "< 94",
+                                        TRUE ~ ">= 94") |>
+      fct_relevel(">= 94", "< 94") |>
+      ff_label("SaO~2~"),
+    
+    fio2_aga = ff_label(fio2_aga, "FiO~2~ (%)"), ###
+    
+    fio2_aga.c = case_when(fio2_aga > 21 ~ "> 21 (O~2~ therapy)",
+                           TRUE ~ "21") |>
+      fct_relevel("> 21 (O~2~ therapy)", "21") |>
+      ff_label("FiO~2~ (%)"),
+    
+    po2 = ff_label(po2, "PaO~2~ (mmHg)"), ##
+    
+    po2.c = case_when(po2 < 60 ~ "< 60",
+                      TRUE ~ ">= 60") |>
+      fct_relevel(">= 60", "< 60") |>
+      ff_label("PaO~2~"),
+    
+    pco2 = ff_label(pco2, "PCO~2~ (mmHg)"), ##
+    
+    pco2.c = case_when(pco2 < 36 ~ "< 36",
+                       TRUE ~ ">= 36") |>
+      fct_relevel("< 36", ">= 36") |>
+      ff_label("PCO~2~ (mmHg)"),
+    
+    pafi = ff_label(pafi, "PaO~2~:FiO~2~ ratio"),  ###
+    
+    pafi.c = case_when(pafi <= 200 ~ "<= 200",
+                       TRUE ~ "> 200") |>
+      fct_relevel("> 200", "<= 200") |>
+      ff_label("PaO~2~:FiO~2~ ratio"),
+    
+    hco3 = ff_label(hco3, "HCO~3~ (mmol/L)"), ##
+    
+    hco3.c = case_when(hco3 < 21 ~ "< 21",
+                       hco3 >= 21 & hco3 <= 28 ~ "21 - 28",
+                       hco3 > 28 ~ "> 28") |>
+      fct_relevel("21 - 28", "< 21", "> 28") |>
+      ff_label("HCO~3~ (mEq/L)"),
+    
+    anion_gap = ff_label(anion_gap, "Anion Gap (mEq/L)"), ##
+    
+    anion_gap.c = case_when(
+      anion_gap < 7 ~ "< 7",
+      anion_gap >= 7 & anion_gap <= 13 ~ "7 - 13",
+      anion_gap > 13 ~ "> 13") |>
+      fct_relevel("7 - 13", "< 7", "> 13") |>
+      ff_label("Anion Gap (mEq/L)"),
+    
+    sodio = ff_label(sodio, "Sodium (mmol/L)"), ##
+    
+    potasio = ff_label(potasio, "Potasium (mEq/L)"), ##
+    
+    calcio = ff_label(calcio, "Calcium (mmol/L)"), ##
+    
+    cloro = ff_label(calcio, "Chlorine (mmol/L)") ##
+  )
+```
+
+### Outcomes
+
+```{r}
+data <- data |>
+  mutate(
+    a_f = factor(a_f) |>
+      fct_recode("Non-survivor" = "FALLECIDO",
+                 "Survivor" = "ALTA") |>
+      fct_relevel("Survivor", "Non-survivor")
+  )
+```
+
+## Variable selection
+
+```{r}
+data <- data |>
+  select(
+    # Demographics characteristics and history
+    edad,
+    edad.c,
+    sexo,
+    tabaquismo,
+    alcoholismo,
+    dislipidemia,
+    obesidad,
+    hta,
+    ecv,
+    neoplasia,
+    vih,
+    e_inmunosupresora,
+    erc,
+    hemodialisis,
+    asma_bronquial,
+    t_de_enfermedad,
+    
+    # Signs and symptoms
+    fiebre,
+    tos,
+    dolor_de_garganta,
+    malestar_general,
+    cefalea,
+    taquipnea,
+    disnea,
+    anosmia,
+    disgeusia,
+    estertores_pulmonares,
+    diarrrea,
+    emesis,
+    astenia,
+    dolor_abdominal,
+    perdida_de_peso,
+    poliuria,
+    polidipsia,
+    polifagia,
+    sensorio,
+    
+    # Vital signs
+    frecuencia_respiratoria,
+    frecuencia_respiratoria.c,
+    frecuencia_cardiaca,
+    frecuencia_cardiaca.c,
+    p_a_sistolica,
+    p_a_sistolica.c,
+    p_a_diastolica,
+    p_a_diastolica.c,
+    
+    # Laboratory findings
+    leucocitos,
+    leucocitos.c,
+    neutrofilos,
+    neutrofilos.c,
+    linfocitos,
+    linfocitos.c,
+    plaquetas,
+    plaquetas.c,
+    mcv,
+    mch,
+    hemoglobina,
+    hemoglobina.c,
+    hematocrito,
+    hematocrito.c,
+    creatinina,
+    creatinina.c,
+    urea,
+    urea.c,
+    glucosa,
+    ph,
+    ph.c,
+    anion_gap,
+    anion_gap.c,
+    sodio,
+    potasio,
+    cloro,
+    calcio,
+    
+    # Blood gas findings
+    saturacion_de_oxigeno,
+    saturacion_de_oxigeno.c,
+    fio2_aga,
+    fio2_aga.c,
+    pafi,
+    pafi.c,
+    po2,
+    po2.c,
+    pco2,
+    pco2.c,
+    hco3,
+    hco3.c,
+    
+    # Treatment
+    antibioticos,
+    corticoides,
+    anticoagulantes,
+    antiparasitarios,
+    antipaludicos,
+    pronacion,
+    
+    # outcomes
+    a_f
+  )
+```
+
+## Exploratory Data Analysis (EDA)
+
+::: {style="text-align: justify"}
+In this subsection we will see a preview of the descriptive statistics, some summary measures from our sample. How you visualize the distribution of a variable will depend on whether the variable is categorical or continuous. The continuous data can be measured and categorical/discrete data can be counted. To examine the distribution of a continuous variable, use a histogram. To examine the distribution of a categorical variable, use a bar chart
+
+Descriptive statistics help you describe your current data, while inferential statistics allow you to make predictions and informed decisions based on your data.
+:::
+
+### Categorical variables
+
+::: {style="text-align: justify"}
+A categorical variable is a variable that can take on one of a small set of values. These values can be character, logical, or factor values. According to the object classes, character class objects are the most flexible, while logic class objects are the most restrictive. Many categorical variables lack an intrinsic order, and thus, it is necessary to reorder them to create a more informative display.
+:::
+
+```{r results='hide'}
+# Selection of factors
+categorical <- data |>
+  dplyr::select(where(is.factor))
+
+# Multiple tables
+lapply(categorical, function(x)
+  table(x, categorical$a_f))
+```
+
+### Numerical variables
+
+::: {style="text-align: justify"}
+The distribution of continuous/numeric variables can be visualized using histograms, frequency polygons, Q-Q plots, box plots, violin plots, jitter plots, and Sina plots. A variable is considered continuous if it can assume any value from an infinite set of ordered values within an interval. A histogram shows the distribution of a continuous variable and differs from a bar chart by grouping data into continuous intervals. It also examines the distribution of a continuous variable broken down by a categorical variable (categorical outcome). A density plot displays the density instead of the count, which is the standardized count so that the area under each frequency polygon is 1 or 100%. In addition to the histogram and the frequency polygon, the probability distribution of a continuous variable can be obtained from the **density function**. This function is defined in terms of probability and would construct a frequency polygon if we had an infinite set of data, resulting in a continuous curve.
+:::
+
+```{r results='hide'}
+# Selection of numerical variables
+numerical <- data |>
+  dplyr::select(where(is.numeric))
+
+# Summary statistics
+lapply(numerical, function(x)
+  summary(x))
+```
+
+```{r fig.height=10, fig.width=10, fig.align='center'}
+# Variable groups
+dem_numerical <- numerical |>
+  dplyr::select(edad:p_a_diastolica)
+
+hemo_numerical <- numerical |>
+  dplyr::select(leucocitos:mch)
+
+biochem_numerical <- numerical |>
+  dplyr::select(hemoglobina:ph)
+
+electro_numerical <- numerical |>
+  dplyr::select(anion_gap:calcio, hco3)
+
+gas_numerical <- numerical |>
+  dplyr::select(saturacion_de_oxigeno:pco2)
+
+# Formal and visual exploration
+total_plots(hemo_numerical)
+```
+
+### Numerical variables in survivors and non-survivor
+
+::: {style="text-align: justify"}
+In this part, density plots will be used to illustrate the data grouped by the outcome. Other plots will not be included in the analysis, as a table with more detailed information will be presented. The questions we will ask ourselves are: Does the data appear to be normally distributed? and are the variances between groups equal?
+:::
+
+```{r}
+# Selection of numerical variables of survivors
+surv_numerical <- data |>
+  dplyr::select(where(is.numeric), a_f) |>
+  dplyr::filter(a_f == "Survivor")
+
+# Selection of numerical variables of non-survivors
+non_numerical <- data |>
+  dplyr::select(where(is.numeric), a_f) |>
+  dplyr::filter(a_f == "Non-survivor")
+```
+
+```{r eval=FALSE}
+# Summary statistics of survivors
+lapply(surv_numerical, function(x)
+  summary(x))
+
+# Summary statistics of non-survivors
+lapply(non_numerical, function(x)
+  summary(x))
+```
+
+```{r fig.height=15, fig.width=18, fig.align = 'center'}
+# Exploration of age by group
+p1 <- group_stat_table_plot(data, "edad", "a_f")
+
+# Exploration of white-cells by group
+p2 <- group_stat_table_plot(data, "leucocitos", "a_f")
+
+# Exploration of neutrophils by group
+p3 <- group_stat_table_plot(data, "neutrofilos", "a_f")
+
+# Exploration of lymphocytes by group
+p4 <- group_stat_table_plot(data, "linfocitos", "a_f")
+
+p1 + p2 + p3 + p4 + plot_annotation(tag_levels = 'A')
+```
+
+### Correlation matrix (multicollinearity)
+
+::: {style="text-align: justify"}
+The correlation between independent variables will be explored in order to identify multicollinearity. The numeric variables are different, with the exception of white-cells and the PaO~2~:FiO~2~ ratio. In the case of using white-cells and neutrophils or lymphocytes, it's possible that the information provided by white-cells may be redundant and generate biased estimates. The same applies to the PaO~2~:FiO~2~ ratio and the FiO~2~. Given the clinical relevance of the PaO₂:FiO₂ ratio, it is preferable to work with this ratio rather than the PaO₂ alone.
+:::
+
+> 📝***NOTE:*** ggplot objects can't process markdown text
+
+```{r fig.height=12, fig.width=12, fig.align='center'}
+# Selection of numerical variables
+data_num = data |>
+  dplyr::select(where(is.numeric)) |>
+  na.omit()
+
+# Rename variables
+cor_data = rename(
+  data_num,
+  "Age" = edad,
+  "Respiratory rate (BPM)" = frecuencia_respiratoria,
+  "Heart rate (BPM)" = frecuencia_cardiaca,
+  "SBP" = p_a_sistolica,
+  "DBP" = p_a_diastolica,
+  "White-cells" = leucocitos,
+  "Neutrophils" = neutrofilos,
+  "Lymphocytes" = linfocitos,
+  "Platelets" = plaquetas,
+  "MCV" = mcv,
+  "MCH" = mch,
+  "Hemoglobin" = hemoglobina,
+  "Hematocrit" = hematocrito,
+  "Serum creatinine" = creatinina,
+  "BUN" = urea,
+  "Glucose" = glucosa,
+  "pH" = ph,
+  "Anion Gap" = anion_gap,
+  "Sodium" = sodio,
+  "Potasium" = potasio,
+  "Chlorine" = cloro,
+  "Calcium" = calcio,
+  "SaO2" = saturacion_de_oxigeno,
+  "FiO2" = fio2_aga,
+  "PaO2:FiO2 ratio" = pafi,
+  "PaO2" = po2,
+  "PCO2" = pco2,
+  "HCO3" = hco3,
+  "Duration of disease" = t_de_enfermedad
+)
+
+# Correlation matrix
+corr <- round(cor(cor_data), 1)
+
+# Visualization
+FS1 <- my_ggcorrplor(corr)
+
+# View
+FS1
+
+# Visualization
+FS1_grey <- my_ggcorrplor_grey(corr)
+```
+
+# Produce outputs
+
+## Table 1. Demographics and clinical characteristics of patients
+
+```{r}
+# Demographics characteristics and history
+table_1.1 <- data |>
+  tbl_summary(
+    include = c(edad:t_de_enfermedad, a_f),
+    by = a_f,
+    percent = "column",
+    digits = list(all_continuous() ~ c(1, 1))) |>
+  add_overall() |>
+  add_p() |>
+  bold_p(t = 0.05) |>
+  modify_header(all_stat_cols() ~ "**{level}** (n = {n})",
+                stat_0 = "**All patients** (n = {N})",
+                p.value = "**p value**") |>
+  modify_spanning_header(all_stat_cols(stat_0 = FALSE) ~ "**Mortality**") |>
+  modify_caption("**Table 1**. Demographics and clinical characteristics of patients on admission")
+
+# Signs and symptoms
+table_1.2 <- data |>
+  tbl_summary(
+    include = c(fiebre:sensorio, a_f),
+    by = a_f,
+    percent = "column",
+    digits = list(all_continuous() ~ c(1, 1))) |>
+  modify_header(all_stat_cols() ~ "**{level}** (n = {n})") |>
+  add_overall() |>
+  add_p() |>
+  bold_p(t = 0.05)
+
+# Vital signs
+table_1.3 <- data |>
+  tbl_summary(
+    include = c(frecuencia_respiratoria:p_a_diastolica.c, a_f),
+    by = a_f,
+    percent = "column",
+    digits = list(all_continuous() ~ c(1, 1))) |>
+  modify_header(all_stat_cols() ~ "**{level}** (n = {n})") |>
+  add_overall() |>
+  add_p() |>
+  bold_p(t = 0.05)
+
+# Stack tables
+table_1 = tbl_stack(
+  list(table_1.1, table_1.2, table_1.3),
+  group_header = c(
+    "Demographics characteristics and history",
+    "Signs and symtoms",
+    "Vital signs"),
+  quiet = TRUE)
+
+# Convert gtsummary object to a flextable object and format character columns
+flex_table_1 <- table_1 |>
+  gtsummary::as_flex_table() |>
+  my_flextable_theme() |>
+  flextable::fontsize(part = "all", size = 10) |>
+  ftExtra::colformat_md()
+
+# View (gtsummary object)
+table_1
+```
+
+## Table 2. Laboratory findings and treatment of patients
+
+```{r}
+# Laboratory findings
+table_2.1 <- data |>
+  tbl_summary(
+    include = c(leucocitos:calcio, a_f),
+    by = a_f,
+    percent = "column",
+    digits = list(all_continuous() ~ c(1, 1))) |>
+  add_overall() |>
+  add_p() |>
+  bold_p(t = 0.05) |>
+  modify_header(all_stat_cols() ~ "**{level}** (n = {n})",
+                stat_0 = "**All patients** (n = {N})",
+                p.value = "**p value**") |>
+  modify_column_alignment(columns = everything(), align = "left") |>
+  modify_spanning_header(all_stat_cols(stat_0 = FALSE) ~ "**Mortality**") |>
+  modify_caption("Table 2. Laboratory findings and treatment of patients on admission")
+
+# Blood gas findings
+table_2.2 <- data |>
+  tbl_summary(
+    include = c(saturacion_de_oxigeno:hco3.c, a_f),
+    by = a_f,
+    percent = "column",
+    digits = list(all_continuous() ~ c(1, 1))) |>
+  modify_header(all_stat_cols() ~ "**{level}** (n = {n})") |>
+  add_overall() |>
+  add_p() |>
+  bold_p(t = 0.05)
+
+# Treatments
+table_2.3 <- data |>
+  tbl_summary(
+    include = c(antibioticos:pronacion, a_f),
+    by = a_f,
+    percent = "column",
+    digits = list(all_continuous() ~ c(1, 1))) |>
+  modify_header(all_stat_cols() ~ "**{level}** (n = {n})") |>
+  add_overall() |>
+  add_p() |>
+  bold_p(t = 0.05)
+
+# Stack tables
+table_2 = tbl_stack(
+  list(table_2.1, table_2.2, table_2.3),
+  group_header = c("Laboratory findings", "Blood gas findings", "Treatment"),
+  quiet = TRUE)
+
+# Convert gtsummary object to a flextable object and format character columns
+flex_table_2 <- table_2 |>
+  gtsummary::as_flex_table() |>
+  my_flextable_theme() |>
+  flextable::fontsize(part = "all", size = 10) |>
+  ftExtra::colformat_md()
+
+# View
+flex_table_2
+```
+
+## Table 3. Unadjusted and adjusted models
+
+::: {style="text-align: justify"}
+In the univariate analysis, self-reported or not enough event variables were eliminated, this will help to avoid *overfitting* in the subsequent multivariate analysis. Other variables such as plaquetas, plaquetas.c, hemoglobina, hematocrito, glucosa, ph, ph.c, anion_gap, anion_gap.c, sodio, potasio, cloro, and calcio, fio2_aga.c, pco2.c, antiparasitarios, and pronacion, showed *no differences* between groups in the bivariate analysis (Table 2).
+:::
+
+| Self-reported                                                                                                          | Not enough event (\<10)                                                                                                                                                                                                         |
+|-------------------------|----------------------------------------------|
+| dolor_de_garganta, malestar_general, cefalea, anosmia, disgeusia, astenia, dolor_abdominal, perdida_de_peso, sensorio. | tabaquismo, alcoholismo, dislipidemia, ecv, neoplasia, vih, e_inmunosupresora, erc, hemodialisis, asma_bronquial, anosmia, disgeusia, diarrrea, emesis, poliuria, polidipsia, polifagia, sensorio, ingreso_a_uci, antibioticos. |
+
+: Not analyzed variables
+
+```{r}
+data_uv <- data |>
+  dplyr::select(
+    # Demographics characteristics and history
+    edad.c,
+    sexo,
+    obesidad,
+    hta,
+    
+    # Signs and symptoms
+    fiebre,
+    tos,
+    taquipnea,
+    disnea,
+    estertores_pulmonares,
+    
+    # Vital signs
+    frecuencia_respiratoria.c,
+    frecuencia_cardiaca.c,
+    p_a_sistolica.c,
+    p_a_diastolica.c,
+    
+    # Laboratory findings
+    leucocitos.c,
+    neutrofilos.c,
+    linfocitos.c,
+    plaquetas.c,
+    mcv,
+    mch,
+    hemoglobina.c,
+    hematocrito.c,
+    creatinina.c,
+    urea.c,
+    
+    # Blood gas findings
+    saturacion_de_oxigeno.c,
+    fio2_aga,
+    pafi.c,
+    po2.c,
+    pco2,
+    hco3.c,
+    
+    # Treatment
+    corticoides,
+    anticoagulantes,
+    antiparasitarios,
+    antipaludicos,
+    pronacion,
+    
+    # outcomes
+    a_f
+  ) |>
+  na.omit() # Eliminate 82 observations
+```
+
+### Unadjusted models
+
+> Note: All variables included in the formula are based on bivariate analysis.
+
+```{r}
+table_3.1 <- data_uv |>
+  tbl_uvregression(
+    include = c(edad.c:pronacion),
+    y = a_f,
+    method = glm,
+    method.args = list(family = binomial),
+    exponentiate = TRUE,
+    conf.int = TRUE,
+    hide_n = TRUE,
+    add_estimate_to_reference_rows = FALSE,
+    pvalue_fun = ~ style_pvalue(.x, digits = 3),
+    estimate_fun = ~ style_number(.x, digits = 2),
+    label = list(
+      edad.c ~ "Age (years)",
+      sexo ~ "Sex",
+      obesidad ~ "Obesity",
+      hta ~ "Hypertension",
+      fiebre ~ "Fever",
+      tos ~ "Dry cought",
+      taquipnea ~ "Tachypnea",
+      disnea ~ "Dyspnea",
+      estertores_pulmonares ~ "Lung crackles",
+      frecuencia_respiratoria.c ~ "Respiratory rate (BPM)",
+      frecuencia_cardiaca.c ~ "Heart rate (BPM)",
+      p_a_sistolica.c ~ "SBP (mmHg)",
+      p_a_diastolica.c ~ "DBP (mmHg)",
+      leucocitos.c ~ "White-cells (×10^−9^/L)",
+      neutrofilos.c ~ "Neutrophils (×10^−9^/L)",
+      linfocitos.c ~ "Lymphocytes (×10^−9^/L)",
+      plaquetas.c ~ "Platelets (×10^−9^/L)",
+      mcv ~ "MCV (mm^3^)",
+      mch ~ "MCH (pg)",
+      hemoglobina.c ~ "Hemoglobin (g/dL)",
+      hematocrito.c ~ "Hematocrit (%)",
+      creatinina.c ~ "Serum creatinine (mg/dL)",
+      urea.c ~ "BUN (mg/dL)",
+      saturacion_de_oxigeno.c ~ "SaO~2~",
+      fio2_aga ~ "FiO~2~ (%)",
+      pafi.c ~ "PaO~2~:FiO~2~ ratio",
+      po2.c ~ "PaO~2~ (mmHg)",
+      pco2 ~ "PCO~2~ (mmHg)",
+      hco3.c ~ "HCO~3~ (mmol/L)",
+      corticoides ~ "Corticosteroids",
+      anticoagulantes ~ "Anticoagulants",
+      antiparasitarios ~ "Antiparasitics",
+      antipaludicos ~ "Antimalarials",
+      pronacion ~ "Pronation")) |>
+  bold_labels() |>
+  bold_p(t = 0.05) |>
+  modify_header(estimate = "**Univariable OR (95% CI)**", 
+                p.value = "**p value**")
+```
+
+### Adjusted models
+
+#### Full multivariable model
+
+```{r}
+# Model
+full_multivariable <-
+  glm(
+    a_f ~ edad.c + sexo + obesidad + hta + fiebre + tos + taquipnea + disnea +
+      estertores_pulmonares + frecuencia_respiratoria.c + frecuencia_cardiaca.c	+
+      p_a_sistolica.c + p_a_diastolica.c + leucocitos.c + neutrofilos.c	+ 
+      linfocitos.c + plaquetas.c + mcv + mch + hemoglobina.c	+ hematocrito.c	+ 
+      creatinina.c + urea.c + saturacion_de_oxigeno.c + fio2_aga	+ pafi.c +
+      po2.c	+ pco2	+ hco3.c + corticoides + anticoagulantes + antiparasitarios + 
+      antipaludicos + pronacion,
+    data = data_uv,
+    family = binomial(link = "logit")) |>
+  tbl_regression(
+    exponentiate = TRUE,
+    conf.int = TRUE,
+    pvalue_fun = ~ style_pvalue(.x, digits = 3),
+    estimate_fun = ~ style_number(.x, digits = 2)) |>
+  bold_p(t = 0.05) |>
+  
+  # Add Generalized Variance Inflation Factor (GVIF)
+  add_vif()
+```
+
+```{r fig.height=10, fig.width=10, fig.align='center'}
+# Model
+m1 = glm(
+  a_f ~ edad.c + sexo + obesidad + hta + fiebre + tos + taquipnea + disnea + 
+    estertores_pulmonares + frecuencia_respiratoria.c + frecuencia_cardiaca.c	+
+    p_a_sistolica.c + p_a_diastolica.c + leucocitos.c + neutrofilos.c	+ 
+    linfocitos.c + plaquetas.c + mcv + mch + hemoglobina.c + hematocrito.c	+ 
+    creatinina.c + urea.c + saturacion_de_oxigeno.c + fio2_aga	+ pafi.c +
+    po2.c	+ pco2	+ hco3.c + corticoides + anticoagulantes + antiparasitarios + 
+    antipaludicos + pronacion,
+  data = data_uv,
+  family = binomial(link = "logit"))
+
+# Visual check of model assumptions
+performance::check_model(m1)
+
+# Indices of model performance
+performance::model_performance(m1)
+
+# Check for Multicollinearity
+performance::check_collinearity(m1)
+```
+
+#### Reduced multivariable: step-by-step forward
+
+```{r fig.height=10, fig.width=10, fig.align='center'}
+mv_reg_stepbackward <- m1 |>
+  step(direction = "backward", trace = FALSE)
+```
+
+```{r fig.height=10, fig.width=10, fig.align='center'}
+# Forward model
+mv_reg_stepforward <- m1 |>
+  step(direction = "forward", trace = FALSE)
+
+# Forward formula-based model
+m2 <- glm(
+  a_f ~ edad.c + sexo + obesidad + hta + fiebre + tos + taquipnea + disnea +
+    estertores_pulmonares + frecuencia_respiratoria.c + frecuencia_cardiaca.c	+
+    p_a_sistolica.c + p_a_diastolica.c + leucocitos.c + neutrofilos.c	+
+    linfocitos.c + plaquetas.c + mcv + mch + hemoglobina.c + hematocrito.c	+
+    creatinina.c + urea.c + saturacion_de_oxigeno.c + fio2_aga	+ pafi.c +
+    po2.c	+ pco2	+ hco3.c + corticoides + anticoagulantes + antiparasitarios +
+    antipaludicos + pronacion,
+  data = data_uv,
+  family = binomial(link = "logit"))
+
+# Visual check of model assumptions
+performance::check_model(m2)
+
+# Indices of model performance
+performance::model_performance(m2)
+
+# Check for Multicollinearity
+performance::check_collinearity(m2)
+```
+
+#### Reduced multivariable: step-by-step backward
+
+```{r fig.height=10, fig.width=10, fig.align='center'}
+# Backward model
+mv_reg_stepbackward <- m1 |>
+  step(direction = "backward", trace = FALSE)
+
+# Backward formula-based model
+m3 <-
+  glm(
+    a_f ~ disnea + estertores_pulmonares + frecuencia_respiratoria.c +
+      frecuencia_cardiaca.c + p_a_sistolica.c + neutrofilos.c + linfocitos.c + 
+      mcv + mch + hematocrito.c + fio2_aga + po2.c + corticoides + pronacion,
+    data = data_uv,
+    family = binomial(link = "logit"))
+
+# Visual check of model assumptions
+performance::check_model(m3)
+
+# Indices of model performance
+performance::model_performance(m3)
+
+# Check for Multicollinearity
+performance::check_collinearity(m3)
+```
+
+#### Parsimonious model
+
+```{r fig.height=10, fig.width=10, fig.align='center'}
+# Parsimonious formula
+m4 <-
+  glm(
+    a_f ~ edad.c + obesidad + hta + taquipnea + disnea + estertores_pulmonares +
+      frecuencia_cardiaca.c + p_a_sistolica.c	+ neutrofilos.c	+ linfocitos.c + 
+      mch + hemoglobina.c + urea.c + saturacion_de_oxigeno.c	+ pafi.c + po2.c +
+      hco3.c + corticoides,
+    data = data_uv,
+    family = binomial(link = "logit"))
+
+# Visual check of model assumptions
+check_model(m4)
+
+# Indices of model performance
+model_performance(m4)
+
+# Check for Multicollinearity
+check_collinearity(m4)
+```
+
+### Model comparison
+
+```{r fig.height=7, fig.width=7, fig.align='center'}
+# Compare performance of different models
+compare_performance(m2, m3, m4, verbose = FALSE)
+
+# Radar plot
+plot(compare_performance(m2, m3, m4, rank = TRUE, verbose = FALSE))
+
+# Likelihood Ratio Test
+lmtest::lrtest(m3, m4)
+```
+
+> Likelihood Ratio Test (0.1131): There is insufficient evidence to conclude that the backward model is significantly better than the parsimonious model.
+
+```{r}
+# Final model
+table_3.2 <-
+  glm(
+    a_f ~ edad.c + obesidad + hta + taquipnea + disnea + estertores_pulmonares +
+      frecuencia_cardiaca.c + p_a_sistolica.c	+ neutrofilos.c	+ linfocitos.c + 
+      mch + hemoglobina.c + urea.c + saturacion_de_oxigeno.c	+ pafi.c + po2.c +
+      hco3.c + corticoides,
+    family = binomial(link = "logit"),
+    data = data_uv
+  ) |>
+  tbl_regression(
+    conf.int = TRUE,
+    exponentiate = TRUE,
+    pvalue_fun = ~ style_pvalue(.x, digits = 3),
+    estimate_fun = ~ style_number(.x, digits = 2),
+    label = list(
+      edad.c ~ "Age (years)",
+      obesidad ~ "Obesity",
+      hta ~ "Hypertension",
+      taquipnea ~ "Tachypnea",
+      disnea ~ "Dyspnea",
+      estertores_pulmonares ~ "Lung crackles",
+      frecuencia_cardiaca.c ~ "Heart rate (BPM)",
+      p_a_sistolica.c ~ "SBP (mmHg)",
+      neutrofilos.c ~ "Neutrophils (×10^−9^/L)",
+      linfocitos.c ~ "Lymphocytes (×10^−9^/L)",
+      mch ~ "MCH (pg)",
+      hemoglobina.c ~ "Hemoglobin (g/dL)",
+      urea.c ~ "BUN (mg/dL)",
+      saturacion_de_oxigeno.c ~ "SaO~2~",
+      pafi.c ~ "PaO~2~:FiO~2~ ratio",
+      po2.c ~ "PaO~2~ (mmHg)",
+      hco3.c ~ "HCO~3~ (mmol/L)",
+      corticoides ~ "Corticosteroids")) |>
+  bold_p(t = 0.05) |>
+  add_vif() |>
+  modify_header(estimate = "**Multivariable OR (95% CI)**",
+                p.value = "**p value** ")
+
+# Merge tables
+table_3 <- tbl_merge(tbls = list(table_3.1, table_3.2)) |>
+  modify_spanning_header(everything() ~ NA_character_)
+
+# Convert gtsummary object to a flextable object and format character columns
+flex_table_3 <- table_3 |>
+  gtsummary::as_flex_table() |>
+  my_flextable_theme() |>
+  flextable::fontsize(part = "all", size = 10) |>
+  ftExtra::colformat_md()
+
+# View
+flex_table_3
+```
+
+::: {style="text-align: justify"}
+PCA is an excellent technique for reducing data complexity before applying other analytical methods, such as linear regression, k-means clustering, and random forest classification. Integrating PCA with other methods enhances data analysis, model building, and interpretation, resulting in more accurate and efficient results. The choice between PCA and factor analysis depends on the objectives of the analysis.
+:::
+
+## Dimensional reduction
+
+### Principal Component Analysis (PCA)
+
+::: {style="text-align: justify"}
+The PCA is a statistical technique that reduces the dimensionality of a dataset. This process transforms high-dimensional (complex or large) data sets into simpler (smaller) data sets while preserving important information. It helps to remove noise and redundancy from the data set, making the true patterns more pronounced and easier to analyze. With fewer dimensions, it's possible to visually explore and understand complex data sets, focusing on the most relevant features. By identifying the principal components, it's possible to focus on the most influential variables or individuals driving the trends and patterns in the data. This significantly reduces the complexity of interpreting data and makes it easier to explore and visualize. The output of PCA includes the variance explained by each principal component, which helps to understand the importance of each component in the analysis. This is crucial for making informed decisions based on the data. Furthermore, this process is crucial for more effectively analyzing data. The application of PCA can facilitate the acceleration of learning algorithms employed in data analysis, thereby enabling a more efficient and faster process. A reduction in data volume will result in a decrease in the storage and computational resources required. PCA is not merely a mathematical technique; it's a strategic approach to dealing with data in the most efficient way possible.
+:::
+
+> 📝***NOTE:*** PCA only works with numerical values.
+
+#### Variables
+
+```{r}
+numerical <- data |>
+  dplyr::select(where(is.numeric), a_f) |>
+  na.omit()
+
+# Rename variables
+numerical = rename(
+  numerical,
+  "Age" = edad,
+  "Respiratory rate" = frecuencia_respiratoria,
+  "Heart rate" = frecuencia_cardiaca,
+  "SBP" = p_a_sistolica,
+  "DBP" = p_a_diastolica,
+  "White-cells" = leucocitos,
+  "Neutrophils" = neutrofilos,
+  "Lymphocytes" = linfocitos,
+  "Platelets" = plaquetas,
+  "MCV" = mcv,
+  "MCH" = mch,
+  "Hemoglobin" = hemoglobina,
+  "Hematocrit" = hematocrito,
+  "Serum creatinine" = creatinina,
+  "BUN" = urea,
+  "Glucose" = glucosa,
+  "pH" = ph,
+  "Anion Gap" = anion_gap,
+  "Sodium" = sodio,
+  "Potasium " = potasio,
+  "Chlorine" = cloro,
+  "Calcium" = calcio,
+  "SaO2" = saturacion_de_oxigeno,
+  "FiO2" = fio2_aga,
+  "PaO2:FiO2 ratio" = pafi,
+  "PaO2" = po2,
+  "PCO2" = pco2,
+  "HCO3" = hco3,
+  "Duration of disease" = t_de_enfermedad)
+```
+
+::: {style="text-align: justify"}
+The first step is to utilize the `prcomp()` function from the `stats` package to perform PCA, with the parameters **centered** and **scaled**. This function is robust and offers a standardized method to perform PCA with ease, providing the user with the principal components, variance captured, and more. The next step is to examine the summary with the `summary()` or `get_eigenvalue()` functions. This will allow you to understand the proportion of variance represented in each principal component and determine which variables contribute the most to them. This information allows us to evaluate the importance and contribution of each principal component.
+::: 
+
+> 📝***NOTE:*** The eigenvalues represent the variance explained by each principal component.
+
+::: {style="text-align: justify"}
+Explore the mathematical concepts of eigenvalues and eigenvectors. Eigenvalues measure the variance captured by each principal component. A higher eigenvalue indicates that the component accounts for a greater proportion of the variance in the data set. This allows for the determination of which principal components are worth keeping for analysis. Eigenvectors, on the other hand, define the direction of the principal components, which are formed by the combination of the original variables. In addition, eigenvectors are perpendicular (orthogonal) to each other, representing a new axis in data space that is aligned with the maximum variance. This orthogonal property ensures that the principal components are independent of each other. The eigenvalues and eigenvectors operate in tandem within PCA to transform and simplify the data set. By identifying new axes (eigenvectors) that maximize variance (eigenvalues), PCA allows the data to be viewed from a different perspective, focusing on the most informative aspects.
+:::
+
+```{r}
+# Scaled (standardization)
+pca_data <- stats::prcomp(numerical[1:29], scale. = TRUE, center = TRUE)
+
+# Extract eigenvalues of dimensions
+get_eigenvalue(pca_data) |>
+  mutate(across(where(is.numeric), round, 2))
+```
+
+::: {style="text-align: justify"}
+To visualize the PCA, the `ggplot2` and `factoextra` packages can be utilized. Plots such as scree plots can be used to understand the variance explained (eigenvalues) by each component or biplots to understand the relationship between variables and components and how the data is distributed across these new dimensions (principal components). This helps to reveal patterns and clusters. A scree plot assesses the contribution of each component to the total variance. It determines the optimal number of principal components to keep, streamlines the analysis by focusing on the most important components.
+::: 
+
+```{r fig.height=8.5, fig.width=8.5, fig.align='center'}
+# Graph eigenvalues of dimensions
+fviz_eig(pca_data, addlabels = TRUE)
+```
+
+```{r fig.height=8.5, fig.width=8.5, fig.align='center'}
+# Extract results for the variables
+var <- get_pca_var(pca_data)
+
+# Coordinates for the variables
+head(var$coord, 5)
+
+# Correlations between variables and dimensions
+head(var$cor, 4)
+
+# Quality of representation (Cos2) for the  variables on the dimensions
+head(var$cos2, 5)
+
+# Correlation matrix - Cos2 for the variables
+my_ggcorrplor(var$cos2)
+
+# Cos2 plot for the variables on dimensions 1 and 2
+fviz_cos2(pca_data, choice = "var", axes = 1:2)
+
+# Plot of 10 variables with highest cos2 on PC1 and PC2
+a <- fviz_cos2(pca_data, choice = "var", axes = 1:2, top = 10)
+
+# Plot of 10 variables with highest cos2 on PC3 and PC4
+b <- fviz_cos2(pca_data, choice = "var", axes = 3:4, top = 10)
+
+# Correlations circle and color by cos2 values
+c <- fviz_pca_var(
+  pca_data,
+  col.var = "cos2",
+  gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
+  repel = TRUE) # repel = TRUE avoid text overlapping
+
+# Contributions of the variables on the dimensions
+head(var$contrib, 5)
+
+# Correlation matrix - contributions of the variables
+corrplot(var$contrib, is.corr=FALSE)
+
+# Contribution plot of the top 10 variables on PC1
+fviz_contrib(pca_data, choice = "var", axes = 1, top = 10)
+
+# Contribution plot of the top 10 variables on PC2
+fviz_contrib(pca_data, choice = "var", axes = 2, top = 10)
+
+# Plot of 10 variables with the highest contribution on PC1 and PC2
+d <- fviz_contrib(pca_data, choice = "var", axes = 1:2, top = 10)
+
+# Plot of 10 variables with the highest contribution on PC3 and PC4
+e <- fviz_contrib(pca_data, choice = "var", axes = 3:4, top = 10)
+
+# Correlations circle and color by contributions values 
+f <- fviz_pca_var(
+  pca_data,
+  col.var = "contrib",
+  gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
+  repel = TRUE)
+```
+
+```{r fig.height=12, fig.width=12, fig.align='center'}
+# Arrange multiple plots
+ggpubr::ggarrange(a, d, b, e, c, f, ncol = 2, nrow = 3, 
+                  labels = c("A)", "B)", "C)", "D)", "E)", "F)"), 
+                  legend = "right")
+```
+
+#### Individuals
+
+```{r results='hide', fig.height=10, fig.width=10, fig.align='center'}
+# Extract results for the individuals
+ind <- get_pca_ind(pca_data)
+
+# Coordinates for the individuals
+head(ind$coord, 5)
+
+# Cos2 of the individuals on dimensions
+head(ind$cos2, 5)
+
+# Plot of 30 individuals with the highest cos2 on PC1 and PC2
+a <- fviz_cos2(pca_data, choice = "ind", axes = 1:2, top = 30)
+
+# Plot of 30 individuals with the highest cos2 on PC3 and PC4
+b <- fviz_cos2(pca_data, choice = "ind", axes = 3:4, top = 30)
+
+# Correlations circle and color by cos2 values 
+c <- fviz_pca_ind(
+  pca_data,
+  col.ind = "cos2",
+  gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
+  repel = TRUE)
+
+# Contributions of the individuals on dimensions
+head(ind$contrib, 5)
+
+# Plot of 30 individuals with the highest contribution on PC1 and PC2
+d <- fviz_contrib(pca_data, choice = "ind", axes = 1:2, top = 30)
+
+# Plot of 30 individuals with the highest contribution on PC3 and PC4
+e <- fviz_contrib(pca_data, choice = "ind", axes = 3:4, top = 30)
+
+# Correlations circle and color by contributions values 
+f <- fviz_pca_ind(
+  pca_data,
+  col.ind = "contrib",
+  gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"))
+```
+
+```{r fig.height=12, fig.width=12, fig.align='center'}
+# Arrange multiple plots
+ggpubr::ggarrange(a, d, b, e, c, f, ncol = 2, nrow = 3, 
+                  labels = c("A)", "B)", "C)", "D)", "E)", "F)"), 
+                  legend = "right")
+```
+
+```{r fig.height=6, fig.width=14, fig.align='center'}
+# Plot of individuals and color by outcome on PC1 and PC2
+ind.graph <- fviz_pca_ind(
+  pca_data,
+  axes = 1:2,
+  geom.ind = "point",
+  col.ind = numerical$a_f,
+  palette = "igv",
+  addEllipses = TRUE,
+  mean.point = FALSE,
+  ggtheme = theme_pubr())
+
+a <- ggpubr::ggpar(
+  ind.graph,
+  title = element_blank(),
+  xlab = "PC1 (12.7%)",
+  ylab = "PC2 (10.6%)",
+  legend.title = "Group",
+  legend = "right",
+  font.legend = c(12, "black"))
+
+# Plot of individuals and color by outcome on PC3 and PC4
+ind.graph <- fviz_pca_ind(
+  pca_data,
+  axes = 3:4,
+  geom.ind = "point",
+  col.ind = numerical$a_f,
+  palette = "igv",
+  addEllipses = TRUE,
+  mean.point = FALSE,
+  ggtheme = theme_pubr())
+
+b <- ggpubr::ggpar(
+  ind.graph,
+  title = element_blank(),
+  xlab = "PC3 (9.2%)",
+  ylab = "PC2 (8.6%)",
+  legend.title = "Group",
+  legend = "right",
+  font.legend = c(12, "black"))
+```
+
+```{r fig.height=6, fig.width=14, fig.align='center'}
+# Arrange multiple plots
+ggpubr::ggarrange(a, b, ncol = 2, nrow = 1, labels = c("A)", "B)"), 
+                  legend = "bottom", common.legend = TRUE)
+```
+
+#### Biplot of individuals and variables
+
+```{r fig.height=6, fig.width=14, fig.align='center'}
+# Contributions on PC1 and PC2
+a <- fviz_pca_biplot(
+  pca_data,
+  # Dimensions 1 and 2
+  axes = 1:2,
+  # Individuals
+  col.ind = numerical$a_f,
+  geom.ind = "point",
+  col.var = "black",
+  # Top 10 contributing variables
+  geom.var = "text",
+  select.var = list(contrib = 10),
+  # Theme
+  palette = "Set1",
+  addEllipses = TRUE,
+  mean.point = FALSE,
+  repel = TRUE,
+  ggtheme = theme_pubr())
+
+# Plot parameters
+a1 <- ggpubr::ggpar(
+  a,
+  title = element_blank(),
+  xlab = "PC1 (12.7%)",
+  ylab = "PC2 (10.6%)",
+  legend.title = "Group",
+  font.legend = c(12, "black"))
+
+# Contributions on PC3 and PC4
+b <- fviz_pca_biplot(
+  pca_data,
+  # Dimensions 3 and 4
+  axes = 3:4,
+  # Individuals
+  col.ind = numerical$a_f,
+  geom.ind = "point",
+  col.var = "black",
+  # Top 10 contributing variables
+  geom.var = "text",
+  select.var = list(contrib = 10),
+  # Theme
+  palette = "Set1",
+  addEllipses = TRUE,
+  mean.point = FALSE,
+  repel = TRUE,
+  ggtheme = theme_pubr())
+
+# Plot parameters
+b1 <- ggpubr::ggpar(
+  b,
+  title = element_blank(),
+  xlab = "PC3 (9.2%)",
+  ylab = "PC4 (8.6%)",
+  legend.title = "Group",
+  font.legend = c(12, "black"))
+
+# Arrange multiple plots
+F1 <- ggpubr::ggarrange(a1, b1, ncol = 2, nrow = 1, labels = c("A)", "B)"), 
+                        legend = "bottom", common.legend = TRUE)
+
+# View
+F1
+```
+
+```{r echo=FALSE, fig.height=6, fig.width=14, fig.align='center'}
+# Contributions on PC1 and PC2
+a_grey <- fviz_pca_biplot(
+  pca_data,
+  axes = 1:2,
+  col.ind = numerical$a_f,
+  geom.ind = "point",
+  col.var = "black",
+  geom.var = "text",
+  select.var = list(contrib = 10),
+  addEllipses = TRUE,
+  mean.point = FALSE,
+  repel = TRUE,
+  ggtheme = theme_pubr()) +
+  scale_color_manual(values = c("grey14", "grey59")) +
+  scale_fill_manual(values = c("grey14", "grey59"))
+
+# Plot parameters
+a1_grey <- ggpubr::ggpar(
+  a_grey,
+  title = element_blank(),
+  xlab = "PC1 (12.7%)",
+  ylab = "PC2 (10.6%)",
+  legend.title = "Group",
+  font.legend = c(12, "black"))
+
+# Contributions on PC3 and PC4
+b_grey <- fviz_pca_biplot(
+  pca_data,
+  axes = 3:4,
+  col.ind = numerical$a_f,
+  geom.ind = "point",
+  col.var = "black",
+  geom.var = "text",
+  select.var = list(contrib = 10),
+  addEllipses = TRUE,
+  mean.point = FALSE,
+  repel = TRUE,
+  ggtheme = theme_pubr()) +
+  scale_color_manual(values = c("grey14", "grey59")) +
+  scale_fill_manual(values = c("grey14", "grey59"))
+
+# Plot parameters
+b1_grey <- ggpubr::ggpar(
+  b_grey,
+  title = element_blank(),
+  xlab = "PC3 (9.2%)",
+  ylab = "PC4 (8.6%)",
+  legend.title = "Group",
+  font.legend = c(12, "black"))
+
+# Arrange multiple plots
+F1_grey <- ggpubr::ggarrange(a1_grey , b1_grey , ncol = 2, nrow = 1, 
+                             labels = c("A)", "B)"), legend = "bottom", 
+                             common.legend = TRUE)
+
+# View
+F1_grey
+```
+
+::: {style="text-align: justify"}
+The PCA has limitations, including **sensitivity to the scale of variables**. It's essential to standardize variables to have *unit variance* before conducting PCA to mitigate this issue. PCA also assumes **linearity**; if variables do not exhibit linear relationships, alternative dimensionality reduction methods like t-SNE or UMAP may be more suitable for non-linear data structures. The principal components (new dimensions) created by PCA are linear combinations of the original variables (original dimensions) and may lack direct interpretability, necessitating careful evaluation. Dimension reduction through PCA inevitably leads to some information loss. While the discarded components are less significant, they may still hold valuable insights. Recognizing these limitations is crucial as it does not lessen PCA's value but rather enhances its usefulness in guiding its application.
+:::
+
+### t-Distributed Stochastic Neighbor Embedding (t-SNE)
+
+```{r fig.height=5, fig.width=8, fig.align='center'}
+tsne_numerical <- data |>
+  dplyr::select(where(is.numeric), -t_de_enfermedad, a_f) |>
+  na.omit() |>
+  mutate(ID = row_number())
+
+meta_numerical <- tsne_numerical |>
+  dplyr::select(ID, a_f)
+
+tSNE_fit <- tsne_numerical |>
+  dplyr::select(where(is.numeric)) |>
+  scale() |>
+  Rtsne()
+
+tSNE_df <- tSNE_fit$Y %>%
+  as.data.frame() %>%
+  rename(tSNE1 = "V1",
+         tSNE2 = "V2") %>%
+  mutate(ID = row_number())
+
+tSNE_df <- tSNE_df |>
+  inner_join(meta_numerical, by = "ID")
+
+tSNE_df |>
+  ggplot(aes(x = tSNE1,
+             y = tSNE2,
+             color = a_f)) +
+  geom_point() +
+  scale_color_igv() +
+  labs(color = "Group") +
+  theme_minimal() +
+  theme(legend.position = "right",
+        axis.line = element_line(color = "black"))
+```
+
+::: {style="text-align: justify"}
+It's recommended to perform PCA before K-means clustering because speeds up the clustering process and optimizes computational resources, especially on large datasets. The PCA optimizes clustering by reducing noise and redundant information, which helps K-means clustering focus on relevant features, leading to more accurate cluster assignments. Dimension reduction captures important information into few dimensions, this reduces the number of features and preserves most of the variation, making subsequent clustering more efficient and improves interpretation.
+:::
+
+# Save outputs
+
+All distances are in inches
+
+```{r echo=FALSE}
+outputs_dir <- "/Academic/COVID-19 proyects/COVID-19_DMII_ICA/COVID-19_ICA/outputs/"
+```
+
+```{r}
+sect_properties <- prop_section(
+  type = "continuous",
+  page_margins = page_mar(bottom = 1, top = 1, right = 1, left = 1))
+```
+
+## Tables
+
+```{r}
+# Save tables
+save_as_docx(
+  flex_table_1,
+  path = stringr::str_glue(outputs_dir, "Table_1.docx"),
+  align = "center")
+
+save_as_docx(
+  flex_table_2,
+  path = stringr::str_glue(outputs_dir, "Table_2.docx"),
+  align = "center")
+
+save_as_docx(
+  flex_table_3,
+  path = stringr::str_glue(outputs_dir, "Table_3.docx"),
+  align = "center")
+```
+
+## Figures
+
+```{r}
+# Save supplementary figure 1 (EPS)
+ggsave(
+  plot = FS1,
+  filename = stringr::str_glue(outputs_dir, "FIG_S1.eps"),
+  width = 12,
+  height = 12,
+  units = "in")
+
+# Save supplementary figure 1 (PNG)
+ggsave(
+  plot = FS1,
+  filename = stringr::str_glue(outputs_dir, "FIG_S1.png"),
+  width = 12,
+  height = 12,
+  dpi = 300,
+  units = "in")
+
+# Save supplementary figure 1 (JPEG)
+ggsave(
+  plot = FS1,
+  filename = stringr::str_glue(outputs_dir, "FIG_S1.jpeg"),
+  width = 12,
+  height = 12,
+  dpi = 300,
+  units = "in")
+
+# Save supplementary figure 1 grey (JPEG)
+ggsave(
+  plot = FS1_grey,
+  filename = stringr::str_glue(outputs_dir, "FIG_S1_grey.jpeg"),
+  width = 12,
+  height = 12,
+  dpi = 500,
+  units = "in")
+
+# Save figure 2 (EPS)
+ggsave(
+  plot = F1,
+  filename = stringr::str_glue(outputs_dir, "FIG2.eps"),
+  width = 14,
+  height = 6,
+  units = "in")
+
+# Save figure 2 (PNG)
+ggsave(
+  plot = F1,
+  filename = stringr::str_glue(outputs_dir, "FIG2.png"),
+  width = 14,
+  height = 6,
+  dpi = 300,
+  units = "in")
+
+# Save figure 2 (JPEG)
+ggsave(
+  plot = F1,
+  filename = stringr::str_glue(outputs_dir, "FIG2.jpeg"),
+  width = 14,
+  height = 6,
+  dpi = 300,
+  units = "in")
+
+# Save figure 2 grey (JPEG)
+ggsave(
+  plot = F1_grey,
+  filename = stringr::str_glue(outputs_dir, "FIG2_grey.jpeg"),
+  width = 14,
+  height = 6,
+  dpi = 500,
+  units = "in")
+```
