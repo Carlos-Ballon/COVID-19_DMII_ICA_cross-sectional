@@ -68,7 +68,7 @@ rfextras::load_scripts()
 
 ```{r include=FALSE}
 grateful::cite_packages(
-  output = "paragraph",
+  output = "file",
   out.format = "docx",
   out.dir = ".",
   citation.style = "vancouver")
@@ -1571,7 +1571,7 @@ F1 <- ggpubr::ggarrange(a1, b1, ncol = 2, nrow = 1, labels = c("A)", "B)"),
 F1
 ```
 
-```{r echo=FALSE, fig.height=6, fig.width=14, fig.align='center'}
+```{r fig.height=6, fig.width=14, fig.align='center'}
 # Contributions on PC1 and PC2
 a_grey <- fviz_pca_biplot(
   pca_data,
