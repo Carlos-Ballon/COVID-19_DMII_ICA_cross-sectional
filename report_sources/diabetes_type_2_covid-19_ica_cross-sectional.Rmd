@@ -937,8 +937,8 @@ flex_table_2
 In the univariate analysis, self-reported or not enough event variables were eliminated, this will help to avoid *overfitting* in the subsequent multivariate analysis. Other variables such as plaquetas, plaquetas.c, hemoglobina, hematocrito, glucosa, ph, ph.c, anion_gap, anion_gap.c, sodio, potasio, cloro, and calcio, fio2_aga.c, pco2.c, antiparasitarios, and pronacion, showed *no differences* between groups in the bivariate analysis (Table 2).
 :::
 
-| Self-reported                                                                                                          | Not enough event (\<10)                                                                                                                                                                                                         |
-|-------------------------|----------------------------------------------|
+| Self-reported | Not enough event (\<10) |
+|----------------------------|----------------------------|
 | dolor_de_garganta, malestar_general, cefalea, anosmia, disgeusia, astenia, dolor_abdominal, perdida_de_peso, sensorio. | tabaquismo, alcoholismo, dislipidemia, ecv, neoplasia, vih, e_inmunosupresora, erc, hemodialisis, asma_bronquial, anosmia, disgeusia, diarrrea, emesis, poliuria, polidipsia, polifagia, sensorio, ingreso_a_uci, antibioticos. |
 
 : Not analyzed variables
@@ -1317,7 +1317,7 @@ numerical = rename(
 
 ::: {style="text-align: justify"}
 The first step is to utilize the `prcomp()` function from the `stats` package to perform PCA, with the parameters **centered** and **scaled**. This function is robust and offers a standardized method to perform PCA with ease, providing the user with the principal components, variance captured, and more. The next step is to examine the summary with the `summary()` or `get_eigenvalue()` functions. This will allow you to understand the proportion of variance represented in each principal component and determine which variables contribute the most to them. This information allows us to evaluate the importance and contribution of each principal component.
-::: 
+:::
 
 > 📝***NOTE:*** The eigenvalues represent the variance explained by each principal component.
 
@@ -1336,7 +1336,7 @@ get_eigenvalue(pca_data) |>
 
 ::: {style="text-align: justify"}
 To visualize the PCA, the `ggplot2` and `factoextra` packages can be utilized. Plots such as scree plots can be used to understand the variance explained (eigenvalues) by each component or biplots to understand the relationship between variables and components and how the data is distributed across these new dimensions (principal components). This helps to reveal patterns and clusters. A scree plot assesses the contribution of each component to the total variance. It determines the optimal number of principal components to keep, streamlines the analysis by focusing on the most important components.
-::: 
+:::
 
 ```{r fig.height=8.5, fig.width=8.5, fig.align='center'}
 # Graph eigenvalues of dimensions
@@ -1783,4 +1783,3 @@ ggsave(
   dpi = 500,
   units = "in")
 ```
-
