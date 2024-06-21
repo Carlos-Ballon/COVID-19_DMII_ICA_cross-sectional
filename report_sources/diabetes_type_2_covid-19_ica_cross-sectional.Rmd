@@ -1,5 +1,5 @@
 ---
-title: "Risk factors associated with mortality of COVID-19 in patients with type 2 diabetes - Cross-Sectional"
+title: "Risk factors associated with COVID-19 mortality in patients with type 2 diabetes - Cross-Sectional"
 author: "Carlos Ballon-Salcedo & Kevin J. Paez"
 date: "`r Sys.Date()`"
 format: 
