@@ -1,5 +1,5 @@
 ---
-title: "Type 2 Diabetes and COVID-19 in ICA - Cross-Sectional"
+title: "Risk factors associated with mortality of COVID-19 in patients with type 2 diabetes - Cross-Sectional"
 author: "Carlos Ballon-Salcedo & Kevin J. Paez"
 date: "`r Sys.Date()`"
 format: 
@@ -533,7 +533,7 @@ data <- data |>
 ```{r}
 data <- data |>
   select(
-    # Demographics characteristics and history
+    # Demographic characteristics and clinical history
     edad,
     edad.c,
     sexo,
@@ -806,7 +806,7 @@ FS1_grey <- my_ggcorrplor_grey(corr)
 
 # Produce outputs
 
-## Table 1. Demographics and clinical characteristics of patients
+## Table 1. Demographic and clinical characteristics of the patients
 
 ```{r}
 # Demographics characteristics and history
@@ -823,7 +823,7 @@ table_1.1 <- data |>
                 stat_0 = "**All patients** (n = {N})",
                 p.value = "**p value**") |>
   modify_spanning_header(all_stat_cols(stat_0 = FALSE) ~ "**Mortality**") |>
-  modify_caption("**Table 1**. Demographics and clinical characteristics of patients on admission")
+  modify_caption("Table 1. Demographic and clinical characteristics of the patients")
 
 # Signs and symptoms
 table_1.2 <- data |>
@@ -853,7 +853,7 @@ table_1.3 <- data |>
 table_1 = tbl_stack(
   list(table_1.1, table_1.2, table_1.3),
   group_header = c(
-    "Demographics characteristics and history",
+    "Demographic characteristics and clinical history",
     "Signs and symtoms",
     "Vital signs"),
   quiet = TRUE)
@@ -887,7 +887,7 @@ table_2.1 <- data |>
                 p.value = "**p value**") |>
   modify_column_alignment(columns = everything(), align = "left") |>
   modify_spanning_header(all_stat_cols(stat_0 = FALSE) ~ "**Mortality**") |>
-  modify_caption("Table 2. Laboratory findings and treatment of patients on admission")
+  modify_caption("Table 2. Laboratory findings and treatment of patients")
 
 # Blood gas findings
 table_2.2 <- data |>
@@ -936,7 +936,7 @@ flex_table_2
 In the univariate analysis, self-reported or not enough event variables were eliminated, this will help to avoid *overfitting* in the subsequent multivariate analysis. Other variables such as plaquetas, plaquetas.c, hemoglobina, hematocrito, glucosa, ph, ph.c, anion_gap, anion_gap.c, sodio, potasio, cloro, and calcio, fio2_aga.c, pco2.c, antiparasitarios, and pronacion, showed *no differences* between groups in the bivariate analysis (Table 2).
 :::
 
-| Self-reported                                                                                                          | Not enough event (\<10)                                                                                                                                                                                                         |
+| Self-reported | Not enough event (\<10) |
 |------------------------------------|------------------------------------|
 | dolor_de_garganta, malestar_general, cefalea, anosmia, disgeusia, astenia, dolor_abdominal, perdida_de_peso, sensorio. | tabaquismo, alcoholismo, dislipidemia, ecv, neoplasia, vih, e_inmunosupresora, erc, hemodialisis, asma_bronquial, anosmia, disgeusia, diarrrea, emesis, poliuria, polidipsia, polifagia, sensorio, ingreso_a_uci, antibioticos. |
 
@@ -999,7 +999,7 @@ data_uv <- data |>
 
 ### Unadjusted models
 
-> Note: All variables included in the formula are based on bivariate analysis.
+> 📝***NOTE:*** The variables included in the univariate regression analysis were selected based on the results of the bivariate analysis.
 
 ```{r}
 table_3.1 <- data_uv |>
@@ -1202,7 +1202,7 @@ plot(compare_performance(m2, m3, m4, rank = TRUE, verbose = FALSE))
 lmtest::lrtest(m3, m4)
 ```
 
-> Likelihood Ratio Test (0.1131): There is insufficient evidence to conclude that the backward model is significantly better than the parsimonious model.
+> *Likelihood Ratio Test = 0.1131*: There is insufficient evidence to conclude that the backward model is significantly better than the parsimonious model.
 
 ```{r}
 # Final model
