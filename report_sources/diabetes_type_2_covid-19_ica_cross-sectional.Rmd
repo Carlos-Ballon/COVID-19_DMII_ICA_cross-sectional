@@ -809,7 +809,7 @@ FS1_grey <- my_ggcorrplor_grey(corr)
 ## Table 1. Demographic and clinical characteristics of the patients
 
 ```{r}
-# Demographics characteristics and history
+# Demographic characteristics and clinical history
 table_1.1 <- data |>
   tbl_summary(
     include = c(edad:t_de_enfermedad, a_f),
@@ -936,7 +936,7 @@ flex_table_2
 In the univariate analysis, self-reported or not enough event variables were eliminated, this will help to avoid *overfitting* in the subsequent multivariate analysis. Other variables such as plaquetas, plaquetas.c, hemoglobina, hematocrito, glucosa, ph, ph.c, anion_gap, anion_gap.c, sodio, potasio, cloro, and calcio, fio2_aga.c, pco2.c, antiparasitarios, and pronacion, showed *no differences* between groups in the bivariate analysis (Table 2).
 :::
 
-| Self-reported | Not enough event (\<10) |
+| Self-reported                                                                                                          | Not enough event (\<10)                                                                                                                                                                                                         |
 |------------------------------------|------------------------------------|
 | dolor_de_garganta, malestar_general, cefalea, anosmia, disgeusia, astenia, dolor_abdominal, perdida_de_peso, sensorio. | tabaquismo, alcoholismo, dislipidemia, ecv, neoplasia, vih, e_inmunosupresora, erc, hemodialisis, asma_bronquial, anosmia, disgeusia, diarrrea, emesis, poliuria, polidipsia, polifagia, sensorio, ingreso_a_uci, antibioticos. |
 
@@ -945,7 +945,7 @@ In the univariate analysis, self-reported or not enough event variables were eli
 ```{r}
 data_uv <- data |>
   dplyr::select(
-    # Demographics characteristics and history
+    # Demographic characteristics and clinical history
     edad.c,
     sexo,
     obesidad,
