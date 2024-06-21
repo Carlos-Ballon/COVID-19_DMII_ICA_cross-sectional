@@ -1,4 +1,5 @@
-Type 2 Diabetes and COVID-19 in ICA - Cross-Sectional
+Risk factors associated with COVID-19 mortality in patients with type 2
+diabetes - Cross-Sectional
 ================
 Carlos Ballon-Salcedo & Kevin J. Paez
 
@@ -60,17 +61,16 @@ clean_data <- import(here("data", "clean_data.tsv"))
 ``` r
 my_gtsummary_theme <-
   list(
-    "pkgwide-fn:pvalue_fun" = function(x) style_pvalue(x, digits = 2),
-    "pkgwide-fn:prependpvalue_fun" = function(x) style_pvalue(x, digits = 2, 
-                                                              prepend_p = TRUE),
-
+    "pkgwide-fn:pvalue_fun" = function(x)
+      style_pvalue(x, digits = 2),
+    "pkgwide-fn:prependpvalue_fun" = function(x)
+      style_pvalue(x, digits = 2, prepend_p = TRUE),
     "tbl_summary-str:continuous_stat" = "{median} ({p25}, {p75})",
     "tbl_summary-str:categorical_stat" = "{n} ({p}%)",
-    
-    "tbl_summary-fn:percent_fun" = function(x) style_number(x, digits = 1, scale = 100),
-    
+    "tbl_summary-fn:percent_fun" = function(x)
+      style_number(x, digits = 1, scale = 100),
     "tbl_summary-arg:missing" = "no"
-    )
+  )
 
 # Set a gtsummary theme
 set_gtsummary_theme(my_gtsummary_theme, theme_gtsummary_compact())
@@ -125,7 +125,7 @@ analysis).
 
 <div style="text-align: justify">
 
-Possible risk factors associated with mortality from COVID-19 in
+Possible risk factors associated with mortality caused by COVID-19 in
 patients with type II diabetes mellitus (T2DM), each factor is labeled
 with a legend that indicates its clinical importance, accuracy, and
 number of events.
@@ -529,7 +529,7 @@ data <- data |>
 ``` r
 data <- data |>
   select(
-    # Demographics characteristics and history
+    # Demographic characteristics and clinical history
     edad,
     edad.c,
     sexo,
@@ -851,10 +851,10 @@ FS1_grey <- my_ggcorrplor_grey(corr)
 
 # Produce outputs
 
-## Table 1. Demographics and clinical characteristics of patients
+## Table 1. Demographic and clinical characteristics of the patients
 
 ``` r
-# Demographics characteristics and history
+# Demographic characteristics and clinical history
 table_1.1 <- data |>
   tbl_summary(
     include = c(edad:t_de_enfermedad, a_f),
@@ -868,7 +868,7 @@ table_1.1 <- data |>
                 stat_0 = "**All patients** (n = {N})",
                 p.value = "**p value**") |>
   modify_spanning_header(all_stat_cols(stat_0 = FALSE) ~ "**Mortality**") |>
-  modify_caption("**Table 1**. Demographics and clinical characteristics of patients on admission")
+  modify_caption("Table 1. Demographic and clinical characteristics of the patients")
 
 # Signs and symptoms
 table_1.2 <- data |>
@@ -898,7 +898,7 @@ table_1.3 <- data |>
 table_1 = tbl_stack(
   list(table_1.1, table_1.2, table_1.3),
   group_header = c(
-    "Demographics characteristics and history",
+    "Demographic characteristics and clinical history",
     "Signs and symtoms",
     "Vital signs"),
   quiet = TRUE)
@@ -932,7 +932,7 @@ table_2.1 <- data |>
                 p.value = "**p value**") |>
   modify_column_alignment(columns = everything(), align = "left") |>
   modify_spanning_header(all_stat_cols(stat_0 = FALSE) ~ "**Mortality**") |>
-  modify_caption("Table 2. Laboratory findings and treatment of patients on admission")
+  modify_caption("Table 2. Laboratory findings and treatment of patients")
 
 # Blood gas findings
 table_2.2 <- data |>
@@ -998,7 +998,7 @@ Not analyzed variables
 ``` r
 data_uv <- data |>
   dplyr::select(
-    # Demographics characteristics and history
+    # Demographic characteristics and clinical history
     edad.c,
     sexo,
     obesidad,
@@ -1052,8 +1052,8 @@ data_uv <- data |>
 
 ### Unadjusted models
 
-> Note: All variables included in the formula are based on bivariate
-> analysis.
+> 📝***NOTE:*** The variables included in the univariate regression
+> analysis were selected based on the results of the bivariate analysis.
 
 ``` r
 table_3.1 <- data_uv |>
@@ -1256,7 +1256,7 @@ plot(compare_performance(m2, m3, m4, rank = TRUE, verbose = FALSE))
 lmtest::lrtest(m3, m4)
 ```
 
-> Likelihood Ratio Test (0.1131): There is insufficient evidence to
+> *Likelihood Ratio Test = 0.1131*: There is insufficient evidence to
 > conclude that the backward model is significantly better than the
 > parsimonious model.
 
@@ -1691,6 +1691,66 @@ F1 <- ggpubr::ggarrange(a1, b1, ncol = 2, nrow = 1, labels = c("A)", "B)"),
 
 # View
 F1
+```
+
+``` r
+# Contributions on PC1 and PC2
+a_grey <- fviz_pca_biplot(
+  pca_data,
+  axes = 1:2,
+  col.ind = numerical$a_f,
+  geom.ind = "point",
+  col.var = "black",
+  geom.var = "text",
+  select.var = list(contrib = 10),
+  addEllipses = TRUE,
+  mean.point = FALSE,
+  repel = TRUE,
+  ggtheme = theme_pubr()) +
+  scale_color_manual(values = c("grey14", "grey59")) +
+  scale_fill_manual(values = c("grey14", "grey59"))
+
+# Plot parameters
+a1_grey <- ggpubr::ggpar(
+  a_grey,
+  title = element_blank(),
+  xlab = "PC1 (12.7%)",
+  ylab = "PC2 (10.6%)",
+  legend.title = "Group",
+  font.legend = c(12, "black"))
+
+# Contributions on PC3 and PC4
+b_grey <- fviz_pca_biplot(
+  pca_data,
+  axes = 3:4,
+  col.ind = numerical$a_f,
+  geom.ind = "point",
+  col.var = "black",
+  geom.var = "text",
+  select.var = list(contrib = 10),
+  addEllipses = TRUE,
+  mean.point = FALSE,
+  repel = TRUE,
+  ggtheme = theme_pubr()) +
+  scale_color_manual(values = c("grey14", "grey59")) +
+  scale_fill_manual(values = c("grey14", "grey59"))
+
+# Plot parameters
+b1_grey <- ggpubr::ggpar(
+  b_grey,
+  title = element_blank(),
+  xlab = "PC3 (9.2%)",
+  ylab = "PC4 (8.6%)",
+  legend.title = "Group",
+  font.legend = c(12, "black"))
+
+# Arrange multiple plots
+F1_grey <- ggpubr::ggarrange(a1_grey , b1_grey , ncol = 2, nrow = 1, 
+                             labels = c("A)", "B)"), legend = "bottom", 
+                             common.legend = TRUE)
+
+# View
+F1_grey
 ```
 
 <div style="text-align: justify">
