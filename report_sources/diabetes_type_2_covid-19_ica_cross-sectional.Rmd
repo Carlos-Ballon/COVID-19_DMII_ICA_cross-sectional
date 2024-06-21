@@ -87,17 +87,16 @@ clean_data <- import(here("data", "clean_data.tsv"))
 ```{r}
 my_gtsummary_theme <-
   list(
-    "pkgwide-fn:pvalue_fun" = function(x) style_pvalue(x, digits = 2),
-    "pkgwide-fn:prependpvalue_fun" = function(x) style_pvalue(x, digits = 2, 
-                                                              prepend_p = TRUE),
-
+    "pkgwide-fn:pvalue_fun" = function(x)
+      style_pvalue(x, digits = 2),
+    "pkgwide-fn:prependpvalue_fun" = function(x)
+      style_pvalue(x, digits = 2, prepend_p = TRUE),
     "tbl_summary-str:continuous_stat" = "{median} ({p25}, {p75})",
     "tbl_summary-str:categorical_stat" = "{n} ({p}%)",
-    
-    "tbl_summary-fn:percent_fun" = function(x) style_number(x, digits = 1, scale = 100),
-    
+    "tbl_summary-fn:percent_fun" = function(x)
+      style_number(x, digits = 1, scale = 100),
     "tbl_summary-arg:missing" = "no"
-    )
+  )
 
 # Set a gtsummary theme
 set_gtsummary_theme(my_gtsummary_theme, theme_gtsummary_compact())
@@ -137,7 +136,7 @@ This subsection converts categorical variables into factors and recode/clean val
 ### Exposures
 
 ::: {style="text-align: justify"}
-Possible risk factors associated with mortality from COVID-19 in patients with type II diabetes mellitus (T2DM), each factor is labeled with a legend that indicates its clinical importance, accuracy, and number of events.
+Possible risk factors associated with mortality caused by COVID-19 in patients with type II diabetes mellitus (T2DM), each factor is labeled with a legend that indicates its clinical importance, accuracy, and number of events.
 :::
 
 -   Clinically important with enough evidence but with small number of events, shown as `\####`
@@ -937,8 +936,8 @@ flex_table_2
 In the univariate analysis, self-reported or not enough event variables were eliminated, this will help to avoid *overfitting* in the subsequent multivariate analysis. Other variables such as plaquetas, plaquetas.c, hemoglobina, hematocrito, glucosa, ph, ph.c, anion_gap, anion_gap.c, sodio, potasio, cloro, and calcio, fio2_aga.c, pco2.c, antiparasitarios, and pronacion, showed *no differences* between groups in the bivariate analysis (Table 2).
 :::
 
-| Self-reported | Not enough event (\<10) |
-|----------------------------|----------------------------|
+| Self-reported                                                                                                          | Not enough event (\<10)                                                                                                                                                                                                         |
+|------------------------------------|------------------------------------|
 | dolor_de_garganta, malestar_general, cefalea, anosmia, disgeusia, astenia, dolor_abdominal, perdida_de_peso, sensorio. | tabaquismo, alcoholismo, dislipidemia, ecv, neoplasia, vih, e_inmunosupresora, erc, hemodialisis, asma_bronquial, anosmia, disgeusia, diarrrea, emesis, poliuria, polidipsia, polifagia, sensorio, ingreso_a_uci, antibioticos. |
 
 : Not analyzed variables
