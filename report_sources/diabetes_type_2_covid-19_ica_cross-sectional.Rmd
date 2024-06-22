@@ -128,7 +128,7 @@ my_flextable_theme <- function(x, bold_header = FALSE) {
 ## Recode and relevel (dictionary)
 
 ::: {style="text-align: justify"}
-This subsection converts categorical variables into factors and recode/clean values using a data dictionary. The categorical variables will be saved as factor vectors, while some continuous/numeric variables will be categorized and converted into factors. Then, recode and change the factor levels using the `forcats` package. Also, the `finalfit` package will be utilized to label variables, while the `ftExtra` package will detect special characters and format the character columns as markdown text to be added to the flextable object. An alternate option is to utilize the `matchmaker` package for dictionary-based cleanup. The disadvantage of categorizing continuous variables is that information is discarded. To address this, repeat the analysis on continuous variables to ensure there are no differences in the conclusion (sensitivity analysis).
+This subsection converts categorical variables into factors and recode/clean values using a data dictionary. The categorical variables will be saved as factor vectors, while some continuous/numeric variables will be categorized and converted into factors. Then, recode and change the factor levels using the `forcats` package. Also, the `finalfit` package will be utilized to label variables, while the `ftExtra` package will detect special characters and format the character columns as markdown text to be added to the flextable object. An alternate option is to utilize the `matchmaker` package for dictionary-based cleanup or `labelled` package to manipulate metadata. The disadvantage of categorizing continuous variables is that information is discarded. To address this, repeat the analysis on continuous variables to ensure there are no differences in the conclusion (sensitivity analysis).
 :::
 
 > 📝***NOTE:*** The markdown texts is by design a plain text
@@ -823,7 +823,7 @@ table_1.1 <- data |>
                 stat_0 = "**All patients** (n = {N})",
                 p.value = "**p value**") |>
   modify_spanning_header(all_stat_cols(stat_0 = FALSE) ~ "**Mortality**") |>
-  modify_caption("Table 1. Demographic and clinical characteristics of the patients")
+  modify_caption("**Table 1**. Demographic and clinical characteristics of the patients")
 
 # Signs and symptoms
 table_1.2 <- data |>
@@ -1241,11 +1241,15 @@ table_3.2 <-
       corticoides ~ "Corticosteroids")) |>
   bold_p(t = 0.05) |>
   add_vif() |>
-  modify_header(estimate = "**Multivariable OR (95% CI)**",
-                p.value = "**p value** ")
+  add_glance_source_note() |>
+  modify_header(estimate = "**Multivariable OR**",
+                p.value = "**p value**",
+                aGVIF = "**aGVIF**") |>
+  modify_footnote(aGVIF = "aGVIF = adjusted GVIF or GVIF^[1/(2*df)]")
 
 # Merge tables
 table_3 <- tbl_merge(tbls = list(table_3.1, table_3.2)) |>
+  modify_table_body(~.x |> arrange(row_type == "glance_statistic")) |>
   modify_spanning_header(everything() ~ NA_character_)
 
 # Convert gtsummary object to a flextable object and format character columns
