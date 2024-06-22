@@ -930,13 +930,13 @@ flex_table_2 <- table_2 |>
 flex_table_2
 ```
 
-## Table 3. Unadjusted and adjusted models
+## Table 3. Logistic regression
 
 ::: {style="text-align: justify"}
-In the univariate analysis, self-reported or not enough event variables were eliminated, this will help to avoid *overfitting* in the subsequent multivariate analysis. Other variables such as plaquetas, plaquetas.c, hemoglobina, hematocrito, glucosa, ph, ph.c, anion_gap, anion_gap.c, sodio, potasio, cloro, and calcio, fio2_aga.c, pco2.c, antiparasitarios, and pronacion, showed *no differences* between groups in the bivariate analysis (Table 2).
+In the univariate analysis, self-reported or not enough event variables were eliminated, this will help to avoid *overfitting* in the subsequent multivariable analysis. Other variables such as plaquetas, plaquetas.c, hemoglobina, hematocrito, glucosa, ph, ph.c, anion_gap, anion_gap.c, sodio, potasio, cloro, and calcio, fio2_aga.c, pco2.c, antiparasitarios, and pronacion, showed *no differences* between groups in the bivariate analysis (Table 2).
 :::
 
-| Self-reported                                                                                                          | Not enough event (\<10)                                                                                                                                                                                                         |
+| Self-reported | Not enough event (\<10) |
 |------------------------------------|------------------------------------|
 | dolor_de_garganta, malestar_general, cefalea, anosmia, disgeusia, astenia, dolor_abdominal, perdida_de_peso, sensorio. | tabaquismo, alcoholismo, dislipidemia, ecv, neoplasia, vih, e_inmunosupresora, erc, hemodialisis, asma_bronquial, anosmia, disgeusia, diarrrea, emesis, poliuria, polidipsia, polifagia, sensorio, ingreso_a_uci, antibioticos. |
 
@@ -997,7 +997,7 @@ data_uv <- data |>
   na.omit() # Eliminate 82 observations
 ```
 
-### Unadjusted models
+###  Univariate models (Not adjusted)
 
 > 📝***NOTE:*** The variables included in the univariate regression analysis were selected based on the results of the bivariate analysis.
 
@@ -1051,13 +1051,13 @@ table_3.1 <- data_uv |>
       pronacion ~ "Pronation")) |>
   bold_labels() |>
   bold_p(t = 0.05) |>
-  modify_header(estimate = "**Univariable OR (95% CI)**", 
+  modify_header(estimate = "**Univariate OR (95% CI)**", 
                 p.value = "**p value**")
 ```
 
-### Adjusted models
+### Multivariable models (Adjusted)
 
-#### Full multivariable model
+#### Multivariable complete
 
 ```{r}
 # Model
