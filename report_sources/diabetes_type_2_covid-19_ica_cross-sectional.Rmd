@@ -937,7 +937,7 @@ In the univariate analysis, self-reported or not enough event variables were eli
 :::
 
 | Self-reported                                                                                                          | Not enough event (\<10)                                                                                                                                                                                                         |
-|------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-------------------------|----------------------------------------------|
 | dolor_de_garganta, malestar_general, cefalea, anosmia, disgeusia, astenia, dolor_abdominal, perdida_de_peso, sensorio. | tabaquismo, alcoholismo, dislipidemia, ecv, neoplasia, vih, e_inmunosupresora, erc, hemodialisis, asma_bronquial, anosmia, disgeusia, diarrrea, emesis, poliuria, polidipsia, polifagia, sensorio, ingreso_a_uci, antibioticos. |
 
 : Not analyzed variables
@@ -1095,7 +1095,9 @@ m1 = glm(
     antipaludicos + pronacion,
   data = data_uv,
   family = binomial(link = "logit"))
+```
 
+```{r fig.height=10, fig.width=10, fig.align='center'}
 # Visual check of model assumptions
 performance::check_model(m1)
 
@@ -1129,7 +1131,9 @@ m2 <- glm(
     antipaludicos + pronacion,
   data = data_uv,
   family = binomial(link = "logit"))
+```
 
+```{r fig.height=10, fig.width=10, fig.align='center'}
 # Visual check of model assumptions
 performance::check_model(m2)
 
@@ -1155,7 +1159,9 @@ m3 <-
       mcv + mch + hematocrito.c + fio2_aga + po2.c + corticoides + pronacion,
     data = data_uv,
     family = binomial(link = "logit"))
+```
 
+```{r fig.height=10, fig.width=10, fig.align='center'}
 # Visual check of model assumptions
 performance::check_model(m3)
 
@@ -1178,7 +1184,9 @@ m4 <-
       hco3.c + corticoides,
     data = data_uv,
     family = binomial(link = "logit"))
+```
 
+```{r fig.height=10, fig.width=10, fig.align='center'}
 # Visual check of model assumptions
 check_model(m4)
 
@@ -1246,7 +1254,9 @@ table_3.2 <-
                 p.value = "**p value**",
                 aGVIF = "**aGVIF**") |>
   modify_footnote(aGVIF = "aGVIF = adjusted GVIF or GVIF^[1/(2*df)]")
+```
 
+```{r}
 # Merge tables
 table_3 <- tbl_merge(tbls = list(table_3.1, table_3.2)) |>
   modify_table_body(~.x |> arrange(row_type == "glance_statistic")) |>
@@ -1263,21 +1273,19 @@ flex_table_3 <- table_3 |>
 flex_table_3
 ```
 
+# Dimensional reduction
+
 ::: {style="text-align: justify"}
-PCA is an excellent technique for reducing data complexity before applying other analytical methods, such as linear regression, k-means clustering, and random forest classification. Integrating PCA with other methods enhances data analysis, model building, and interpretation, resulting in more accurate and efficient results. The choice between PCA and factor analysis depends on the objectives of the analysis.
+Principal Component Analysis (PCA) is an excellent technique for reducing data complexity **before** applying other analytical methods, such as linear regression, k-means clustering, and random forest classification. Integrating PCA with other methods enhances data analysis, model building, and interpretation, resulting in more accurate and efficient results. The choice between PCA and factor analysis depends on the objectives of the analysis.
 :::
 
-## Dimensional reduction
-
-### Principal Component Analysis (PCA)
+## Principal Component Analysis (PCA)
 
 ::: {style="text-align: justify"}
 The PCA is a statistical technique that reduces the dimensionality of a dataset. This process transforms high-dimensional (complex or large) data sets into simpler (smaller) data sets while preserving important information. It helps to remove noise and redundancy from the data set, making the true patterns more pronounced and easier to analyze. With fewer dimensions, it's possible to visually explore and understand complex data sets, focusing on the most relevant features. By identifying the principal components, it's possible to focus on the most influential variables or individuals driving the trends and patterns in the data. This significantly reduces the complexity of interpreting data and makes it easier to explore and visualize. The output of PCA includes the variance explained by each principal component, which helps to understand the importance of each component in the analysis. This is crucial for making informed decisions based on the data. Furthermore, this process is crucial for more effectively analyzing data. The application of PCA can facilitate the acceleration of learning algorithms employed in data analysis, thereby enabling a more efficient and faster process. A reduction in data volume will result in a decrease in the storage and computational resources required. PCA is not merely a mathematical technique; it's a strategic approach to dealing with data in the most efficient way possible.
 :::
 
 > 📝***NOTE:*** PCA only works with numerical values.
-
-#### Variables
 
 ```{r}
 numerical <- data |>
@@ -1328,12 +1336,16 @@ The first step is to utilize the `prcomp()` function from the `stats` package to
 Explore the mathematical concepts of eigenvalues and eigenvectors. Eigenvalues measure the variance captured by each principal component. A higher eigenvalue indicates that the component accounts for a greater proportion of the variance in the data set. This allows for the determination of which principal components are worth keeping for analysis. Eigenvectors, on the other hand, define the direction of the principal components, which are formed by the combination of the original variables. In addition, eigenvectors are perpendicular (orthogonal) to each other, representing a new axis in data space that is aligned with the maximum variance. This orthogonal property ensures that the principal components are independent of each other. The eigenvalues and eigenvectors operate in tandem within PCA to transform and simplify the data set. By identifying new axes (eigenvectors) that maximize variance (eigenvalues), PCA allows the data to be viewed from a different perspective, focusing on the most informative aspects.
 :::
 
+### Perform PCA and analyze the eigenvalues/variances
+
 ```{r}
 # Scaled (standardization)
 pca_data <- stats::prcomp(numerical[1:29], scale. = TRUE, center = TRUE)
+```
 
-# Extract eigenvalues of dimensions
-get_eigenvalue(pca_data) |>
+```{r}
+# Extract the eigenvalues of the new dimensions
+factoextra::get_eigenvalue(pca_data) |>
   mutate(across(where(is.numeric), round, 2))
 ```
 
@@ -1341,13 +1353,22 @@ get_eigenvalue(pca_data) |>
 To visualize the PCA, the `ggplot2` and `factoextra` packages can be utilized. Plots such as scree plots can be used to understand the variance explained (eigenvalues) by each component or biplots to understand the relationship between variables and components and how the data is distributed across these new dimensions (principal components). This helps to reveal patterns and clusters. A scree plot assesses the contribution of each component to the total variance. It determines the optimal number of principal components to keep, streamlines the analysis by focusing on the most important components.
 :::
 
-```{r fig.height=8.5, fig.width=8.5, fig.align='center'}
-# Graph eigenvalues of dimensions
-fviz_eig(pca_data, addlabels = TRUE)
+```{r fig.height=7, fig.width=7, fig.align='center'}
+# Plot variances of new dimensions
+fviz_eig(
+  pca_data,
+  addlabels = TRUE,
+  choice = "variance",
+  barfill = "#99CC00FF",
+  barcolor = "#99CC00FF",
+  xlab = "New dimensions"
+)
 ```
 
-```{r fig.height=8.5, fig.width=8.5, fig.align='center'}
-# Extract results for the variables
+### Variables
+
+```{r}
+# Extract the results for the variables
 var <- get_pca_var(pca_data)
 
 # Coordinates for the variables
@@ -1356,64 +1377,100 @@ head(var$coord, 5)
 # Correlations between variables and dimensions
 head(var$cor, 4)
 
-# Quality of representation (Cos2) for the  variables on the dimensions
+# Quality of representation (Cos2) for the variables on the dimensions
 head(var$cos2, 5)
+```
 
+
+```{r fig.height=7, fig.width=7, fig.align='center'}
 # Correlation matrix - Cos2 for the variables
 my_ggcorrplor(var$cos2)
+```
 
-# Cos2 plot for the variables on dimensions 1 and 2
+```{r fig.height=7, fig.width=7, fig.align='center'}
+# Cos2 plot for the variables on the dimensions 1 and 2
 fviz_cos2(pca_data, choice = "var", axes = 1:2)
+```
 
+```{r}
 # Plot of 10 variables with highest cos2 on PC1 and PC2
-a <- fviz_cos2(pca_data, choice = "var", axes = 1:2, top = 10)
+a <- fviz_cos2(pca_data,
+               choice = "var",
+               axes = 1:2,
+               top = 10)
 
 # Plot of 10 variables with highest cos2 on PC3 and PC4
-b <- fviz_cos2(pca_data, choice = "var", axes = 3:4, top = 10)
+b <- fviz_cos2(pca_data,
+               choice = "var",
+               axes = 3:4,
+               top = 10)
 
 # Correlations circle and color by cos2 values
 c <- fviz_pca_var(
   pca_data,
   col.var = "cos2",
   gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
-  repel = TRUE) # repel = TRUE avoid text overlapping
+  repel = TRUE
+) # repel = TRUE avoid text overlapping
+```
 
+```{r}
 # Contributions of the variables on the dimensions
 head(var$contrib, 5)
+```
 
+```{r fig.height=7, fig.width=7, fig.align='center'}
 # Correlation matrix - contributions of the variables
-corrplot(var$contrib, is.corr=FALSE)
+corrplot(var$contrib, is.corr = FALSE)
+```
 
+```{r fig.height=8.5, fig.width=8.5, fig.align='center'}
 # Contribution plot of the top 10 variables on PC1
-fviz_contrib(pca_data, choice = "var", axes = 1, top = 10)
+fviz_contrib(pca_data,
+             choice = "var",
+             axes = 1,
+             top = 10)
 
 # Contribution plot of the top 10 variables on PC2
-fviz_contrib(pca_data, choice = "var", axes = 2, top = 10)
+fviz_contrib(pca_data,
+             choice = "var",
+             axes = 2,
+             top = 10)
+```
 
+```{r}
 # Plot of 10 variables with the highest contribution on PC1 and PC2
-d <- fviz_contrib(pca_data, choice = "var", axes = 1:2, top = 10)
+d <- fviz_contrib(pca_data,
+                  choice = "var",
+                  axes = 1:2,
+                  top = 10)
 
 # Plot of 10 variables with the highest contribution on PC3 and PC4
-e <- fviz_contrib(pca_data, choice = "var", axes = 3:4, top = 10)
+e <- fviz_contrib(pca_data,
+                  choice = "var",
+                  axes = 3:4,
+                  top = 10)
 
-# Correlations circle and color by contributions values 
+# Correlations circle and color by contributions values
 f <- fviz_pca_var(
   pca_data,
   col.var = "contrib",
   gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
-  repel = TRUE)
+  repel = TRUE
+)
 ```
 
 ```{r fig.height=12, fig.width=12, fig.align='center'}
 # Arrange multiple plots
-ggpubr::ggarrange(a, d, b, e, c, f, ncol = 2, nrow = 3, 
+ggpubr::ggarrange(a, d, b, e, c, f, 
+                  ncol = 2, nrow = 3, 
                   labels = c("A)", "B)", "C)", "D)", "E)", "F)"), 
                   legend = "right")
 ```
 
-#### Individuals
+### Individuals
 
-```{r results='hide', fig.height=10, fig.width=10, fig.align='center'}
+```{r}
 # Extract results for the individuals
 ind <- get_pca_ind(pca_data)
 
@@ -1422,7 +1479,9 @@ head(ind$coord, 5)
 
 # Cos2 of the individuals on dimensions
 head(ind$cos2, 5)
+```
 
+```{r}
 # Plot of 30 individuals with the highest cos2 on PC1 and PC2
 a <- fviz_cos2(pca_data, choice = "ind", axes = 1:2, top = 30)
 
@@ -1435,10 +1494,14 @@ c <- fviz_pca_ind(
   col.ind = "cos2",
   gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
   repel = TRUE)
+```
 
-# Contributions of the individuals on dimensions
+```{r}
+# Contributions of the individuals on the dimensions
 head(ind$contrib, 5)
+```
 
+```{r}
 # Plot of 30 individuals with the highest contribution on PC1 and PC2
 d <- fviz_contrib(pca_data, choice = "ind", axes = 1:2, top = 30)
 
@@ -1469,7 +1532,8 @@ ind.graph <- fviz_pca_ind(
   palette = "igv",
   addEllipses = TRUE,
   mean.point = FALSE,
-  ggtheme = theme_pubr())
+  ggtheme = theme_pubr()
+  )
 
 a <- ggpubr::ggpar(
   ind.graph,
@@ -1478,7 +1542,8 @@ a <- ggpubr::ggpar(
   ylab = "PC2 (10.6%)",
   legend.title = "Group",
   legend = "right",
-  font.legend = c(12, "black"))
+  font.legend = c(12, "black")
+  )
 
 # Plot of individuals and color by outcome on PC3 and PC4
 ind.graph <- fviz_pca_ind(
@@ -1489,7 +1554,8 @@ ind.graph <- fviz_pca_ind(
   palette = "igv",
   addEllipses = TRUE,
   mean.point = FALSE,
-  ggtheme = theme_pubr())
+  ggtheme = theme_pubr()
+  )
 
 b <- ggpubr::ggpar(
   ind.graph,
@@ -1498,16 +1564,20 @@ b <- ggpubr::ggpar(
   ylab = "PC2 (8.6%)",
   legend.title = "Group",
   legend = "right",
-  font.legend = c(12, "black"))
+  font.legend = c(12, "black")
+  )
 ```
 
 ```{r fig.height=6, fig.width=14, fig.align='center'}
 # Arrange multiple plots
-ggpubr::ggarrange(a, b, ncol = 2, nrow = 1, labels = c("A)", "B)"), 
-                  legend = "bottom", common.legend = TRUE)
+ggpubr::ggarrange(a, b, 
+                  ncol = 2, nrow = 1, 
+                  labels = c("A)", "B)"), 
+                  legend = "bottom", common.legend = TRUE
+                  )
 ```
 
-#### Biplot of individuals and variables
+### Biplot of individuals and variables
 
 ```{r fig.height=6, fig.width=14, fig.align='center'}
 # Contributions on PC1 and PC2
@@ -1527,7 +1597,8 @@ a <- fviz_pca_biplot(
   addEllipses = TRUE,
   mean.point = FALSE,
   repel = TRUE,
-  ggtheme = theme_pubr())
+  ggtheme = theme_pubr()
+  )
 
 # Plot parameters
 a1 <- ggpubr::ggpar(
@@ -1536,7 +1607,8 @@ a1 <- ggpubr::ggpar(
   xlab = "PC1 (12.7%)",
   ylab = "PC2 (10.6%)",
   legend.title = "Group",
-  font.legend = c(12, "black"))
+  font.legend = c(12, "black")
+  )
 
 # Contributions on PC3 and PC4
 b <- fviz_pca_biplot(
@@ -1555,7 +1627,8 @@ b <- fviz_pca_biplot(
   addEllipses = TRUE,
   mean.point = FALSE,
   repel = TRUE,
-  ggtheme = theme_pubr())
+  ggtheme = theme_pubr()
+  )
 
 # Plot parameters
 b1 <- ggpubr::ggpar(
@@ -1564,11 +1637,20 @@ b1 <- ggpubr::ggpar(
   xlab = "PC3 (9.2%)",
   ylab = "PC4 (8.6%)",
   legend.title = "Group",
-  font.legend = c(12, "black"))
+  font.legend = c(12, "black")
+  )
 
 # Arrange multiple plots
-F1 <- ggpubr::ggarrange(a1, b1, ncol = 2, nrow = 1, labels = c("A)", "B)"), 
-                        legend = "bottom", common.legend = TRUE)
+F1 <-
+  ggpubr::ggarrange(
+    a1,
+    b1,
+    ncol = 2,
+    nrow = 1,
+    labels = c("A)", "B)"),
+    legend = "bottom",
+    common.legend = TRUE
+  )
 
 # View
 F1
@@ -1587,7 +1669,8 @@ a_grey <- fviz_pca_biplot(
   addEllipses = TRUE,
   mean.point = FALSE,
   repel = TRUE,
-  ggtheme = theme_pubr()) +
+  ggtheme = theme_pubr()
+  ) +
   scale_color_manual(values = c("grey14", "grey59")) +
   scale_fill_manual(values = c("grey14", "grey59"))
 
@@ -1598,7 +1681,8 @@ a1_grey <- ggpubr::ggpar(
   xlab = "PC1 (12.7%)",
   ylab = "PC2 (10.6%)",
   legend.title = "Group",
-  font.legend = c(12, "black"))
+  font.legend = c(12, "black")
+  )
 
 # Contributions on PC3 and PC4
 b_grey <- fviz_pca_biplot(
@@ -1612,7 +1696,8 @@ b_grey <- fviz_pca_biplot(
   addEllipses = TRUE,
   mean.point = FALSE,
   repel = TRUE,
-  ggtheme = theme_pubr()) +
+  ggtheme = theme_pubr()
+  ) +
   scale_color_manual(values = c("grey14", "grey59")) +
   scale_fill_manual(values = c("grey14", "grey59"))
 
@@ -1623,12 +1708,20 @@ b1_grey <- ggpubr::ggpar(
   xlab = "PC3 (9.2%)",
   ylab = "PC4 (8.6%)",
   legend.title = "Group",
-  font.legend = c(12, "black"))
+  font.legend = c(12, "black")
+  )
 
 # Arrange multiple plots
-F1_grey <- ggpubr::ggarrange(a1_grey , b1_grey , ncol = 2, nrow = 1, 
-                             labels = c("A)", "B)"), legend = "bottom", 
-                             common.legend = TRUE)
+F1_grey <-
+  ggpubr::ggarrange(
+    a1_grey ,
+    b1_grey ,
+    ncol = 2,
+    nrow = 1,
+    labels = c("A)", "B)"),
+    legend = "bottom",
+    common.legend = TRUE
+  )
 
 # View
 F1_grey
@@ -1636,9 +1729,10 @@ F1_grey
 
 ::: {style="text-align: justify"}
 The PCA has limitations, including **sensitivity to the scale of variables**. It's essential to standardize variables to have *unit variance* before conducting PCA to mitigate this issue. PCA also assumes **linearity**; if variables do not exhibit linear relationships, alternative dimensionality reduction methods like t-SNE or UMAP may be more suitable for non-linear data structures. The principal components (new dimensions) created by PCA are linear combinations of the original variables (original dimensions) and may lack direct interpretability, necessitating careful evaluation. Dimension reduction through PCA inevitably leads to some information loss. While the discarded components are less significant, they may still hold valuable insights. Recognizing these limitations is crucial as it does not lessen PCA's value but rather enhances its usefulness in guiding its application.
+It's recommended to perform PCA before K-means clustering because speeds up the clustering process and optimizes computational resources, especially on large datasets. The PCA optimizes clustering by reducing noise and redundant information, which helps K-means clustering focus on relevant features, leading to more accurate cluster assignments. Dimension reduction captures important information into few dimensions, this reduces the number of features and preserves most of the variation, making subsequent clustering more efficient and improves interpretation.
 :::
 
-### t-Distributed Stochastic Neighbor Embedding (t-SNE)
+## t-Distributed Stochastic Neighbor Embedding (t-SNE)
 
 ```{r fig.height=5, fig.width=8, fig.align='center'}
 tsne_numerical <- data |>
@@ -1654,10 +1748,10 @@ tSNE_fit <- tsne_numerical |>
   scale() |>
   Rtsne()
 
-tSNE_df <- tSNE_fit$Y %>%
-  as.data.frame() %>%
+tSNE_df <- tSNE_fit$Y |>
+  as.data.frame() |>
   rename(tSNE1 = "V1",
-         tSNE2 = "V2") %>%
+         tSNE2 = "V2") |>
   mutate(ID = row_number())
 
 tSNE_df <- tSNE_df |>
@@ -1674,10 +1768,6 @@ tSNE_df |>
   theme(legend.position = "right",
         axis.line = element_line(color = "black"))
 ```
-
-::: {style="text-align: justify"}
-It's recommended to perform PCA before K-means clustering because speeds up the clustering process and optimizes computational resources, especially on large datasets. The PCA optimizes clustering by reducing noise and redundant information, which helps K-means clustering focus on relevant features, leading to more accurate cluster assignments. Dimension reduction captures important information into few dimensions, this reduces the number of features and preserves most of the variation, making subsequent clustering more efficient and improves interpretation.
-:::
 
 # Save outputs
 
