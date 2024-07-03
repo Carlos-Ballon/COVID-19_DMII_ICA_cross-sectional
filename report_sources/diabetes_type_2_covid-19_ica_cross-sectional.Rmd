@@ -641,10 +641,10 @@ data <- data |>
 ## Exploratory Data Analysis (EDA)
 
 ::: {style="text-align: justify"}
-In this subsection we will see a preview of the descriptive statistics, some summary measures from our sample. How you visualize the distribution of a variable will depend on whether the variable is categorical or continuous. The continuous data can be measured and categorical/discrete data can be counted. To examine the distribution of a continuous variable, use a histogram. To examine the distribution of a categorical variable, use a bar chart
-
-Descriptive statistics help you describe your current data, while inferential statistics allow you to make predictions and informed decisions based on your data.
+In this subsection we will see a preview of the descriptive statistics, some summary measures from our sample. How you visualize the distribution of a variable will depend on whether the variable is categorical or continuous. To analyze the distribution of a continuous variable, begin with a histogram or density plot for a visual representation of the data distribution. For categorical variables, a bar chart or a pie/donut chart provides a clear comparison of different categories.  In cases where a categorical variable has few levels, consider using tables or boxplots for a more concise display of the data.
 :::
+
+> 📝***NOTE:*** Descriptive statistics help you describe your current data, while inferential statistics allow you to make predictions and informed decisions based on your data.
 
 ### Categorical variables
 
@@ -652,7 +652,7 @@ Descriptive statistics help you describe your current data, while inferential st
 A categorical variable is a variable that can take on one of a small set of values. These values can be character, logical, or factor values. According to the object classes, character class objects are the most flexible, while logic class objects are the most restrictive. Many categorical variables lack an intrinsic order, and thus, it is necessary to reorder them to create a more informative display.
 :::
 
-```{r results='hide'}
+```{r echo=TRUE, include=FALSE}
 # Selection of factors
 categorical <- data |>
   dplyr::select(where(is.factor))
@@ -662,13 +662,23 @@ lapply(categorical, function(x)
   table(x, categorical$a_f))
 ```
 
+```{r eval=FALSE, include=FALSE}
+hc_76 <- import(here("data", "hc.csv"))
+data_raw <- import(here("data", "data_raw.csv"))
+
+data_raw <- data_raw |>
+  dplyr::mutate(hc = as.integer(hc))
+
+data_raw <- dplyr::right_join(data_raw, hc_76, by = c("hc" = "hc"))
+```
+
 ### Numerical variables
 
 ::: {style="text-align: justify"}
 The distribution of continuous/numeric variables can be visualized using histograms, frequency polygons, Q-Q plots, box plots, violin plots, jitter plots, and Sina plots. A variable is considered continuous if it can assume any value from an infinite set of ordered values within an interval. A histogram shows the distribution of a continuous variable and differs from a bar chart by grouping data into continuous intervals. It also examines the distribution of a continuous variable broken down by a categorical variable (categorical outcome). A density plot displays the density instead of the count, which is the standardized count so that the area under each frequency polygon is 1 or 100%. In addition to the histogram and the frequency polygon, the probability distribution of a continuous variable can be obtained from the **density function**. This function is defined in terms of probability and would construct a frequency polygon if we had an infinite set of data, resulting in a continuous curve.
 :::
 
-```{r results='hide'}
+```{r echo=TRUE, include=FALSE}
 # Selection of numerical variables
 numerical <- data |>
   dplyr::select(where(is.numeric))
@@ -937,7 +947,7 @@ In the univariate analysis, self-reported or not enough event variables were eli
 :::
 
 | Self-reported                                                                                                          | Not enough event (\<10)                                                                                                                                                                                                         |
-|-------------------------|----------------------------------------------|
+|------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | dolor_de_garganta, malestar_general, cefalea, anosmia, disgeusia, astenia, dolor_abdominal, perdida_de_peso, sensorio. | tabaquismo, alcoholismo, dislipidemia, ecv, neoplasia, vih, e_inmunosupresora, erc, hemodialisis, asma_bronquial, anosmia, disgeusia, diarrrea, emesis, poliuria, polidipsia, polifagia, sensorio, ingreso_a_uci, antibioticos. |
 
 : Not analyzed variables
@@ -1381,7 +1391,6 @@ head(var$cor, 4)
 head(var$cos2, 5)
 ```
 
-
 ```{r fig.height=7, fig.width=7, fig.align='center'}
 # Correlation matrix - Cos2 for the variables
 my_ggcorrplor(var$cos2)
@@ -1728,8 +1737,7 @@ F1_grey
 ```
 
 ::: {style="text-align: justify"}
-The PCA has limitations, including **sensitivity to the scale of variables**. It's essential to standardize variables to have *unit variance* before conducting PCA to mitigate this issue. PCA also assumes **linearity**; if variables do not exhibit linear relationships, alternative dimensionality reduction methods like t-SNE or UMAP may be more suitable for non-linear data structures. The principal components (new dimensions) created by PCA are linear combinations of the original variables (original dimensions) and may lack direct interpretability, necessitating careful evaluation. Dimension reduction through PCA inevitably leads to some information loss. While the discarded components are less significant, they may still hold valuable insights. Recognizing these limitations is crucial as it does not lessen PCA's value but rather enhances its usefulness in guiding its application.
-It's recommended to perform PCA before K-means clustering because speeds up the clustering process and optimizes computational resources, especially on large datasets. The PCA optimizes clustering by reducing noise and redundant information, which helps K-means clustering focus on relevant features, leading to more accurate cluster assignments. Dimension reduction captures important information into few dimensions, this reduces the number of features and preserves most of the variation, making subsequent clustering more efficient and improves interpretation.
+The PCA has limitations, including **sensitivity to the scale of variables**. It's essential to standardize variables to have *unit variance* before conducting PCA to mitigate this issue. PCA also assumes **linearity**; if variables do not exhibit linear relationships, alternative dimensionality reduction methods like t-SNE or UMAP may be more suitable for non-linear data structures. The principal components (new dimensions) created by PCA are linear combinations of the original variables (original dimensions) and may lack direct interpretability, necessitating careful evaluation. Dimension reduction through PCA inevitably leads to some information loss. While the discarded components are less significant, they may still hold valuable insights. Recognizing these limitations is crucial as it does not lessen PCA's value but rather enhances its usefulness in guiding its application. It's recommended to perform PCA before K-means clustering because speeds up the clustering process and optimizes computational resources, especially on large datasets. The PCA optimizes clustering by reducing noise and redundant information, which helps K-means clustering focus on relevant features, leading to more accurate cluster assignments. Dimension reduction captures important information into few dimensions, this reduces the number of features and preserves most of the variation, making subsequent clustering more efficient and improves interpretation.
 :::
 
 ## t-Distributed Stochastic Neighbor Embedding (t-SNE)
