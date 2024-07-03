@@ -641,7 +641,7 @@ data <- data |>
 ## Exploratory Data Analysis (EDA)
 
 ::: {style="text-align: justify"}
-In this subsection we will see a preview of the descriptive statistics, some summary measures from our sample. How you visualize the distribution of a variable will depend on whether the variable is categorical or continuous. To analyze the distribution of a continuous variable, begin with a histogram or density plot for a visual representation of the data distribution. For categorical variables, a bar chart or a pie/donut chart provides a clear comparison of different categories.  In cases where a categorical variable has few levels, consider using tables or boxplots for a more concise display of the data.
+In this subsection we will see a preview of the descriptive statistics, some summary measures from our sample. How you visualize the distribution of a variable will depend on whether the variable is categorical or continuous. To analyze the distribution of a continuous variable, begin with a histogram or density plot for a visual representation of the data distribution. For categorical variables, a bar chart or a pie/donut chart provides a clear comparison of different categories. In cases where a categorical variable has few levels, consider using tables or boxplots for a more concise display of the data.
 :::
 
 > 📝***NOTE:*** Descriptive statistics help you describe your current data, while inferential statistics allow you to make predictions and informed decisions based on your data.
@@ -946,8 +946,8 @@ flex_table_2
 In the univariate analysis, self-reported or not enough event variables were eliminated, this will help to avoid *overfitting* in the subsequent multivariable analysis. Other variables such as plaquetas, plaquetas.c, hemoglobina, hematocrito, glucosa, ph, ph.c, anion_gap, anion_gap.c, sodio, potasio, cloro, and calcio, fio2_aga.c, pco2.c, antiparasitarios, and pronacion, showed *no differences* between groups in the bivariate analysis (Table 2).
 :::
 
-| Self-reported                                                                                                          | Not enough event (\<10)                                                                                                                                                                                                         |
-|------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Self-reported | Not enough event (\<10) |
+|-------------------------|-------------------------|
 | dolor_de_garganta, malestar_general, cefalea, anosmia, disgeusia, astenia, dolor_abdominal, perdida_de_peso, sensorio. | tabaquismo, alcoholismo, dislipidemia, ecv, neoplasia, vih, e_inmunosupresora, erc, hemodialisis, asma_bronquial, anosmia, disgeusia, diarrrea, emesis, poliuria, polidipsia, polifagia, sensorio, ingreso_a_uci, antibioticos. |
 
 : Not analyzed variables
