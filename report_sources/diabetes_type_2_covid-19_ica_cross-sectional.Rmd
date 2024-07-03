@@ -8,12 +8,13 @@ format:
     toc-depth: 4
     code-overflow: wrap
     code-fold: true
-    code-tools: true
+    code-tools: 
+      source: "https://github.com/Carlos-Ballon/COVID-19_DMII_ICA_Cross-Sectional"
     theme: 
      light: flatly
      dark: darkly
     highlight-style: github
-editor: visual
+editor: source
 editor_options: 
   chunk_output_type: inline
 bibliography: grateful-refs.bib
