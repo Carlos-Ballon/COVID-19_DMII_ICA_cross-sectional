@@ -652,7 +652,7 @@ In this subsection we will see a preview of the descriptive statistics, some sum
 A categorical variable is a variable that can take on one of a small set of values. These values can be character, logical, or factor values. According to the object classes, character class objects are the most flexible, while logic class objects are the most restrictive. Many categorical variables lack an intrinsic order, and thus, it is necessary to reorder them to create a more informative display.
 :::
 
-```{r echo=TRUE, include=FALSE}
+```{r eval=FALSE}
 # Selection of factors
 categorical <- data |>
   dplyr::select(where(is.factor))
@@ -678,7 +678,7 @@ data_raw <- dplyr::right_join(data_raw, hc_76, by = c("hc" = "hc"))
 The distribution of continuous/numeric variables can be visualized using histograms, frequency polygons, Q-Q plots, box plots, violin plots, jitter plots, and Sina plots. A variable is considered continuous if it can assume any value from an infinite set of ordered values within an interval. A histogram shows the distribution of a continuous variable and differs from a bar chart by grouping data into continuous intervals. It also examines the distribution of a continuous variable broken down by a categorical variable (categorical outcome). A density plot displays the density instead of the count, which is the standardized count so that the area under each frequency polygon is 1 or 100%. In addition to the histogram and the frequency polygon, the probability distribution of a continuous variable can be obtained from the **density function**. This function is defined in terms of probability and would construct a frequency polygon if we had an infinite set of data, resulting in a continuous curve.
 :::
 
-```{r echo=TRUE, include=FALSE}
+```{r echo=TRUE, results='hide'}
 # Selection of numerical variables
 numerical <- data |>
   dplyr::select(where(is.numeric))
