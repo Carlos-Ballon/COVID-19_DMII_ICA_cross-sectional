@@ -826,7 +826,8 @@ table_1.1 <- data |>
     include = c(edad:t_de_enfermedad, a_f),
     by = a_f,
     percent = "column",
-    digits = list(all_continuous() ~ c(1, 1))) |>
+    digits = list(all_continuous() ~ c(1, 1))
+  ) |>
   add_overall() |>
   add_p() |>
   bold_p(t = 0.05) |>
@@ -842,7 +843,8 @@ table_1.2 <- data |>
     include = c(fiebre:sensorio, a_f),
     by = a_f,
     percent = "column",
-    digits = list(all_continuous() ~ c(1, 1))) |>
+    digits = list(all_continuous() ~ c(1, 1))
+  ) |>
   modify_header(all_stat_cols() ~ "**{level}** (n = {n})") |>
   add_overall() |>
   add_p() |>
@@ -854,7 +856,8 @@ table_1.3 <- data |>
     include = c(frecuencia_respiratoria:p_a_diastolica.c, a_f),
     by = a_f,
     percent = "column",
-    digits = list(all_continuous() ~ c(1, 1))) |>
+    digits = list(all_continuous() ~ c(1, 1))
+  ) |>
   modify_header(all_stat_cols() ~ "**{level}** (n = {n})") |>
   add_overall() |>
   add_p() |>
@@ -866,8 +869,10 @@ table_1 = tbl_stack(
   group_header = c(
     "Demographic characteristics and clinical history",
     "Signs and symtoms",
-    "Vital signs"),
-  quiet = TRUE)
+    "Vital signs"
+  ),
+  quiet = TRUE
+)
 
 # Convert gtsummary object to a flextable object and format character columns
 flex_table_1 <- table_1 |>
@@ -889,7 +894,8 @@ table_2.1 <- data |>
     include = c(leucocitos:calcio, a_f),
     by = a_f,
     percent = "column",
-    digits = list(all_continuous() ~ c(1, 1))) |>
+    digits = list(all_continuous() ~ c(1, 1))
+  ) |>
   add_overall() |>
   add_p() |>
   bold_p(t = 0.05) |>
@@ -906,7 +912,8 @@ table_2.2 <- data |>
     include = c(saturacion_de_oxigeno:hco3.c, a_f),
     by = a_f,
     percent = "column",
-    digits = list(all_continuous() ~ c(1, 1))) |>
+    digits = list(all_continuous() ~ c(1, 1))
+  ) |>
   modify_header(all_stat_cols() ~ "**{level}** (n = {n})") |>
   add_overall() |>
   add_p() |>
@@ -918,7 +925,8 @@ table_2.3 <- data |>
     include = c(antibioticos:pronacion, a_f),
     by = a_f,
     percent = "column",
-    digits = list(all_continuous() ~ c(1, 1))) |>
+    digits = list(all_continuous() ~ c(1, 1))
+  ) |>
   modify_header(all_stat_cols() ~ "**{level}** (n = {n})") |>
   add_overall() |>
   add_p() |>
@@ -928,7 +936,8 @@ table_2.3 <- data |>
 table_2 = tbl_stack(
   list(table_2.1, table_2.2, table_2.3),
   group_header = c("Laboratory findings", "Blood gas findings", "Treatment"),
-  quiet = TRUE)
+  quiet = TRUE
+  )
 
 # Convert gtsummary object to a flextable object and format character columns
 flex_table_2 <- table_2 |>
@@ -1059,10 +1068,12 @@ table_3.1 <- data_uv |>
       anticoagulantes ~ "Anticoagulants",
       antiparasitarios ~ "Antiparasitics",
       antipaludicos ~ "Antimalarials",
-      pronacion ~ "Pronation")) |>
+      pronacion ~ "Pronation"
+    )
+  ) |>
   bold_labels() |>
   bold_p(t = 0.05) |>
-  modify_header(estimate = "**Univariate OR**", 
+  modify_header(estimate = "**Univariate OR**",
                 p.value = "**p value**")
 ```
 
@@ -1076,18 +1087,20 @@ full_multivariable <-
   glm(
     a_f ~ edad.c + sexo + obesidad + hta + fiebre + tos + taquipnea + disnea +
       estertores_pulmonares + frecuencia_respiratoria.c + frecuencia_cardiaca.c	+
-      p_a_sistolica.c + p_a_diastolica.c + leucocitos.c + neutrofilos.c	+ 
-      linfocitos.c + plaquetas.c + mcv + mch + hemoglobina.c	+ hematocrito.c	+ 
+      p_a_sistolica.c + p_a_diastolica.c + leucocitos.c + neutrofilos.c	+
+      linfocitos.c + plaquetas.c + mcv + mch + hemoglobina.c	+ hematocrito.c	+
       creatinina.c + urea.c + saturacion_de_oxigeno.c + fio2_aga	+ pafi.c +
-      po2.c	+ pco2	+ hco3.c + corticoides + anticoagulantes + antiparasitarios + 
+      po2.c	+ pco2	+ hco3.c + corticoides + anticoagulantes + antiparasitarios +
       antipaludicos + pronacion,
     data = data_uv,
-    family = binomial(link = "logit")) |>
+    family = binomial(link = "logit")
+  ) |>
   tbl_regression(
     exponentiate = TRUE,
     conf.int = TRUE,
     pvalue_fun = ~ style_pvalue(.x, digits = 3),
-    estimate_fun = ~ style_number(.x, digits = 2)) |>
+    estimate_fun = ~ style_number(.x, digits = 2)
+  ) |>
   bold_p(t = 0.05) |>
   
   # Add Generalized Variance Inflation Factor (GVIF)
@@ -1097,15 +1110,16 @@ full_multivariable <-
 ```{r fig.height=10, fig.width=10, fig.align='center'}
 # Model
 m1 = glm(
-  a_f ~ edad.c + sexo + obesidad + hta + fiebre + tos + taquipnea + disnea + 
+  a_f ~ edad.c + sexo + obesidad + hta + fiebre + tos + taquipnea + disnea +
     estertores_pulmonares + frecuencia_respiratoria.c + frecuencia_cardiaca.c	+
-    p_a_sistolica.c + p_a_diastolica.c + leucocitos.c + neutrofilos.c	+ 
-    linfocitos.c + plaquetas.c + mcv + mch + hemoglobina.c + hematocrito.c	+ 
+    p_a_sistolica.c + p_a_diastolica.c + leucocitos.c + neutrofilos.c	+
+    linfocitos.c + plaquetas.c + mcv + mch + hemoglobina.c + hematocrito.c	+
     creatinina.c + urea.c + saturacion_de_oxigeno.c + fio2_aga	+ pafi.c +
-    po2.c	+ pco2	+ hco3.c + corticoides + anticoagulantes + antiparasitarios + 
+    po2.c	+ pco2	+ hco3.c + corticoides + anticoagulantes + antiparasitarios +
     antipaludicos + pronacion,
   data = data_uv,
-  family = binomial(link = "logit"))
+  family = binomial(link = "logit")
+)
 ```
 
 ```{r fig.height=10, fig.width=10, fig.align='center'}
@@ -1141,7 +1155,8 @@ m2 <- glm(
     po2.c	+ pco2	+ hco3.c + corticoides + anticoagulantes + antiparasitarios +
     antipaludicos + pronacion,
   data = data_uv,
-  family = binomial(link = "logit"))
+  family = binomial(link = "logit")
+)
 ```
 
 ```{r fig.height=10, fig.width=10, fig.align='center'}
@@ -1166,10 +1181,11 @@ mv_reg_stepbackward <- m1 |>
 m3 <-
   glm(
     a_f ~ disnea + estertores_pulmonares + frecuencia_respiratoria.c +
-      frecuencia_cardiaca.c + p_a_sistolica.c + neutrofilos.c + linfocitos.c + 
+      frecuencia_cardiaca.c + p_a_sistolica.c + neutrofilos.c + linfocitos.c +
       mcv + mch + hematocrito.c + fio2_aga + po2.c + corticoides + pronacion,
     data = data_uv,
-    family = binomial(link = "logit"))
+    family = binomial(link = "logit")
+  )
 ```
 
 ```{r fig.height=10, fig.width=10, fig.align='center'}
@@ -1190,11 +1206,12 @@ performance::check_collinearity(m3)
 m4 <-
   glm(
     a_f ~ edad.c + obesidad + hta + taquipnea + disnea + estertores_pulmonares +
-      frecuencia_cardiaca.c + p_a_sistolica.c	+ neutrofilos.c	+ linfocitos.c + 
+      frecuencia_cardiaca.c + p_a_sistolica.c	+ neutrofilos.c	+ linfocitos.c +
       mch + hemoglobina.c + urea.c + saturacion_de_oxigeno.c	+ pafi.c + po2.c +
       hco3.c + corticoides,
     data = data_uv,
-    family = binomial(link = "logit"))
+    family = binomial(link = "logit")
+  )
 ```
 
 ```{r fig.height=10, fig.width=10, fig.align='center'}
@@ -1210,7 +1227,7 @@ check_collinearity(m4)
 
 ### Model comparison
 
-```{r fig.height=7, fig.width=7, fig.align='center'}
+```{r fig.align='center'}
 # Compare performance of different models
 compare_performance(m2, m3, m4, verbose = FALSE)
 
@@ -1228,7 +1245,7 @@ lmtest::lrtest(m3, m4)
 table_3.2 <-
   glm(
     a_f ~ edad.c + obesidad + hta + taquipnea + disnea + estertores_pulmonares +
-      frecuencia_cardiaca.c + p_a_sistolica.c	+ neutrofilos.c	+ linfocitos.c + 
+      frecuencia_cardiaca.c + p_a_sistolica.c + neutrofilos.c	+ linfocitos.c +
       mch + hemoglobina.c + urea.c + saturacion_de_oxigeno.c	+ pafi.c + po2.c +
       hco3.c + corticoides,
     family = binomial(link = "logit"),
@@ -1257,7 +1274,9 @@ table_3.2 <-
       pafi.c ~ "PaO~2~:FiO~2~ ratio",
       po2.c ~ "PaO~2~ (mmHg)",
       hco3.c ~ "HCO~3~ (mmol/L)",
-      corticoides ~ "Corticosteroids")) |>
+      corticoides ~ "Corticosteroids"
+    )
+  ) |>
   bold_p(t = 0.05) |>
   add_vif() |>
   add_glance_source_note() |>
@@ -1270,7 +1289,7 @@ table_3.2 <-
 ```{r}
 # Merge tables
 table_3 <- tbl_merge(tbls = list(table_3.1, table_3.2)) |>
-  modify_table_body(~.x |> arrange(row_type == "glance_statistic")) |>
+  modify_table_body( ~ .x |> arrange(row_type == "glance_statistic")) |>
   modify_spanning_header(everything() ~ NA_character_)
 
 # Convert gtsummary object to a flextable object and format character columns
@@ -1386,13 +1405,13 @@ var <- get_pca_var(pca_data)
 head(var$coord, 5)
 
 # Correlations between variables and dimensions
-head(var$cor, 4)
+head(var$cor, 5)
 
 # Quality of representation (Cos2) for the variables on the dimensions
 head(var$cos2, 5)
 ```
 
-```{r fig.height=7, fig.width=7, fig.align='center'}
+```{r fig.height=9, fig.width=9, fig.align='center'}
 # Correlation matrix - Cos2 for the variables
 my_ggcorrplor(var$cos2)
 ```
@@ -1652,21 +1671,21 @@ b1 <- ggpubr::ggpar(
 
 # Arrange multiple plots
 F1 <-
-  ggpubr::ggarrange(
-    a1,
-    b1,
-    ncol = 2,
-    nrow = 1,
-    labels = c("A)", "B)"),
-    legend = "bottom",
-    common.legend = TRUE
-  )
-
+  a1 + b1 +
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = list(c("A)", "B)"))) &
+  theme(legend.position = "bottom",
+        plot.tag = element_text(face = 'bold'))
 # View
-F1
+F1 + plot_annotation(title = 'Figure 2') &
+  theme(plot.title = element_text(face = 'bold', size = 18))
 ```
 
-```{r fig.height=6, fig.width=14, fig.align='center'}
+::: {style="text-align: justify"}
+The biplots of PCA showed that PaO~2~:FiO~2~ ratio, BUN, hematocrit, hemoglobin, serum creatinine, FiO2, potassium, SaO~2~, neutrophils, and PaO~2~ were variables the highest representation and contribution for PC1 and PC2. While chlorine, calcium, sodium, age, HCO~3~, WBC, PCO~2~, and neutrophils were variables with the highest representation and contribution for PC3 and PC4. The PC1 and PC2 explained 23.3% of variance, and PC3 and PC4 explained 17.8%. For these principal components, there was no clear separation between survivors and non-survivors (Figure 2). However, based on the results of bivariate analysis and PCA, the non-survivors group showed that high values of FiO~2~, BUN, serum creatinine, neutrophils, and PaO~2~:FiO~2~ ratio contributed considerably to the PC1 and PC2 (Figure 2A). while WBC, neutrophils, age, and PCO~2~ contributed considerably to the PC3 and PC4 (Figure 2B).
+:::
+
+```{r fig.height=6, fig.width=14, fig.align='center', results='hide'}
 # Contributions on PC1 and PC2
 a_grey <- fviz_pca_biplot(
   pca_data,
