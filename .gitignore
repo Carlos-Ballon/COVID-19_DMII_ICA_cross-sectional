@@ -18,6 +18,6 @@
 # ignore code.Rmd file in report_sources/ directory
 report_sources/code.Rmd
 
-# ignore data.csv files in report_sources/ directory
+# ignore data.csv files in data/ directory
 data/data_raw.csv
 data/hc.csv

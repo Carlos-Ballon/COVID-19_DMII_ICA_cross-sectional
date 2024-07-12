@@ -52,7 +52,7 @@ group_stat_table_plot <- function(data_used, var, outcome) {
     ".\n",
     "Normal distribution if: p-values of hypothesis tests are >0.05, ",
     "skewness between -0.5 to 0.5, and kurtosis between 2.5 to 3.5"
-  ) |>
+  ) |> 
     paste(collapse = "\n")
   
   # Customization
@@ -136,8 +136,8 @@ group_stat_table_plot <- function(data_used, var, outcome) {
       strip.text = element_text(color = "black"),
       legend.title = element_text(color = "black", size = 11),
       legend.text = element_text(color = "black", size = 11),
-      legend.position = "none"
-    )
+      legend.position = "none") +
+    theme_538()
   
   ggpubr::ggarrange(plot,
                     custom_stat_table,

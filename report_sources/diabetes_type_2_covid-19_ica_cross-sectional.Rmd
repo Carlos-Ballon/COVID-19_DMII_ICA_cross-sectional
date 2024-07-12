@@ -44,6 +44,9 @@ pacman::p_load(
   ggcorrplot,
   ggsci,
   ggpubr,
+  ggthemes,
+  ggpomological,
+  xaringanthemer,
   ggbiplot,
   finalfit,
   gtsummary,
@@ -62,12 +65,12 @@ pacman::p_load(
   grateful,
   patchwork,
   officer
-)
+  )
 # My function scripts
 rfextras::load_scripts()
 ```
 
-```{r include=FALSE}
+```{r results='hide'}
 grateful::cite_packages(
   output = "file",
   out.format = "docx",
@@ -83,45 +86,16 @@ clean_data <- import(here("data", "clean_data.tsv"))
 
 # Set themes
 
-## Define `gtsummary` theme
+::: {style="text-align: justify"}
+The custom themes for `gtsummary`, `flextable` and `ggplot2`, are in the `custom themes.R` script. The only theme that needs to be set is the `gtsummary` theme.
+:::
 
 ```{r}
-my_gtsummary_theme <-
-  list(
-    "pkgwide-fn:pvalue_fun" = function(x)
-      style_pvalue(x, digits = 2),
-    "pkgwide-fn:prependpvalue_fun" = function(x)
-      style_pvalue(x, digits = 2, prepend_p = TRUE),
-    "tbl_summary-str:continuous_stat" = "{median} ({p25}, {p75})",
-    "tbl_summary-str:categorical_stat" = "{n} ({p}%)",
-    "tbl_summary-fn:percent_fun" = function(x)
-      style_number(x, digits = 1, scale = 100),
-    "tbl_summary-arg:missing" = "no"
-  )
-
 # Set a gtsummary theme
 set_gtsummary_theme(my_gtsummary_theme, theme_gtsummary_compact())
 
 # Set a gtsummary language
 theme_gtsummary_language(language = "en")
-```
-
-## Define `flextable` theme
-
-```{r}
-my_flextable_theme <- function(x, bold_header = FALSE) {
-  std_border <- fp_border(width = 1, color = "grey14")
-  
-  x <- border_remove(x)
-  x <- hline_top(x, border = std_border, part = "header")
-  x <- hline_bottom(x, border = std_border, part = "header")
-  x <- bold(x, bold = bold_header, part = "header")
-  x <- hline_bottom(x, border = std_border, part = "body")
-  x <- align_text_col(x, align = "left", header = TRUE)
-  x <- font(x, part = "all", fontname = "Segoe UI")
-  fix_border_issues(x, part = "all")
-  autofit(x)
-}
 ```
 
 # Process data
@@ -689,7 +663,7 @@ lapply(numerical, function(x)
   summary(x))
 ```
 
-```{r fig.height=10, fig.width=10, fig.align='center'}
+```{r fig.height=10, fig.width=11, fig.align='center'}
 # Variable groups
 dem_numerical <- numerical |>
   dplyr::select(edad:p_a_diastolica)
@@ -751,7 +725,7 @@ p3 <- group_stat_table_plot(data, "neutrofilos", "a_f")
 # Exploration of lymphocytes by group
 p4 <- group_stat_table_plot(data, "linfocitos", "a_f")
 
-p1 + p2 + p3 + p4 + plot_annotation(tag_levels = 'A')
+p1 + p2 + p3 + p4 + plot_annotation(tag_levels = list(c("A)", "B)", "C)", "D)")))
 ```
 
 ### Correlation matrix (multicollinearity)
@@ -800,7 +774,7 @@ cor_data = rename(
   "PCO2" = pco2,
   "HCO3" = hco3,
   "Duration of disease" = t_de_enfermedad
-)
+  )
 
 # Correlation matrix
 corr <- round(cor(cor_data), 1)
@@ -844,7 +818,7 @@ table_1.2 <- data |>
     by = a_f,
     percent = "column",
     digits = list(all_continuous() ~ c(1, 1))
-  ) |>
+  ) |> 
   modify_header(all_stat_cols() ~ "**{level}** (n = {n})") |>
   add_overall() |>
   add_p() |>
@@ -857,7 +831,7 @@ table_1.3 <- data |>
     by = a_f,
     percent = "column",
     digits = list(all_continuous() ~ c(1, 1))
-  ) |>
+  ) |> 
   modify_header(all_stat_cols() ~ "**{level}** (n = {n})") |>
   add_overall() |>
   add_p() |>
@@ -869,10 +843,9 @@ table_1 = tbl_stack(
   group_header = c(
     "Demographic characteristics and clinical history",
     "Signs and symtoms",
-    "Vital signs"
-  ),
+    "Vital signs"),
   quiet = TRUE
-)
+  )
 
 # Convert gtsummary object to a flextable object and format character columns
 flex_table_1 <- table_1 |>
@@ -1119,7 +1092,7 @@ m1 = glm(
     antipaludicos + pronacion,
   data = data_uv,
   family = binomial(link = "logit")
-)
+  )
 ```
 
 ```{r fig.height=10, fig.width=10, fig.align='center'}
@@ -1156,7 +1129,7 @@ m2 <- glm(
     antipaludicos + pronacion,
   data = data_uv,
   family = binomial(link = "logit")
-)
+  )
 ```
 
 ```{r fig.height=10, fig.width=10, fig.align='center'}
@@ -1392,7 +1365,7 @@ fviz_eig(
   barfill = "#99CC00FF",
   barcolor = "#99CC00FF",
   xlab = "New dimensions"
-)
+  )
 ```
 
 ### Variables
@@ -1402,13 +1375,13 @@ fviz_eig(
 var <- get_pca_var(pca_data)
 
 # Coordinates for the variables
-head(var$coord, 5)
+head(var$coor[order(var$cor[, 1], decreasing = TRUE),], 5)
 
 # Correlations between variables and dimensions
-head(var$cor, 5)
+head(var$cor[order(var$cor[, 1], decreasing = TRUE),], 5)
 
 # Quality of representation (Cos2) for the variables on the dimensions
-head(var$cos2, 5)
+head(var$cos2[order(var$cor[, 1], decreasing = TRUE),], 5)
 ```
 
 ```{r fig.height=9, fig.width=9, fig.align='center'}
@@ -1416,36 +1389,83 @@ head(var$cos2, 5)
 my_ggcorrplor(var$cos2)
 ```
 
-```{r fig.height=7, fig.width=7, fig.align='center'}
-# Cos2 plot for the variables on the dimensions 1 and 2
-fviz_cos2(pca_data, choice = "var", axes = 1:2)
+```{r fig.height=9, fig.width=10, fig.align='center'}
+# Cos2 plot of the top 10 variables in the dimension 1
+x1 <- fviz_cos2(
+  pca_data,
+  choice = "var",
+  axes = 1,
+  top = 10,
+  ggtheme = theme_538()
+  )
+
+# Cos2 plot of the top 10 variables in the dimension 2
+x2 <- fviz_cos2(
+  pca_data,
+  choice = "var",
+  axes = 2,
+  top = 10,
+  ggtheme = theme_538()
+  )
+
+# Cos2 plot of the top 10 variables in the dimension 3
+x3 <- fviz_cos2(
+  pca_data,
+  choice = "var",
+  axes = 3,
+  top = 10,
+  ggtheme = theme_538()
+  )
+
+# Cos2 plot of the top 10 variables in the dimension 4
+x4 <- fviz_cos2(
+  pca_data,
+  choice = "var",
+  axes = 4,
+  top = 10,
+  ggtheme = theme_538()
+  )
+
+# Arrange multiple plots
+ggpubr::ggarrange(x1, x2, x3, x4, 
+                  ncol = 2, nrow = 2, 
+                  labels = c("A)", "B)", "C)", "D)")
+                  )
 ```
 
 ```{r}
-# Plot of 10 variables with highest cos2 on PC1 and PC2
-a <- fviz_cos2(pca_data,
-               choice = "var",
-               axes = 1:2,
-               top = 10)
+# Plot of the 10 variables with the highest cos2 in PC1 and PC2
+a <- fviz_cos2(
+  pca_data,
+  choice = "var",
+  axes = 1:2,
+  top = 10,
+  ggtheme = theme_pander()
+  )
 
-# Plot of 10 variables with highest cos2 on PC3 and PC4
-b <- fviz_cos2(pca_data,
-               choice = "var",
-               axes = 3:4,
-               top = 10)
+# Plot of the 10 variables with the highest cos2 in PC3 and PC4
+b <- fviz_cos2(
+  pca_data,
+  choice = "var",
+  axes = 3:4,
+  top = 10,
+  ggtheme = theme_pander()
+  )
 
 # Correlations circle and color by cos2 values
 c <- fviz_pca_var(
   pca_data,
   col.var = "cos2",
   gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
-  repel = TRUE
-) # repel = TRUE avoid text overlapping
+  repel = TRUE,
+  # repel = TRUE avoid text overlapping
+  ggtheme = theme_pander()
+  ) 
 ```
 
 ```{r}
 # Contributions of the variables on the dimensions
-head(var$contrib, 5)
+head(var$contrib[order(var$cor[, 1], decreasing = TRUE),], 5)
 ```
 
 ```{r fig.height=7, fig.width=7, fig.align='center'}
@@ -1453,40 +1473,76 @@ head(var$contrib, 5)
 corrplot(var$contrib, is.corr = FALSE)
 ```
 
-```{r fig.height=8.5, fig.width=8.5, fig.align='center'}
-# Contribution plot of the top 10 variables on PC1
-fviz_contrib(pca_data,
-             choice = "var",
-             axes = 1,
-             top = 10)
+```{r fig.height=9, fig.width=10, fig.align='center'}
+# Contribution plot of the top 10 variables in the dimension 1
+y1 <- fviz_contrib(
+  pca_data,
+  choice = "var",
+  axes = 1,
+  top = 10,
+  ggtheme = theme_538()
+  )
 
-# Contribution plot of the top 10 variables on PC2
-fviz_contrib(pca_data,
-             choice = "var",
-             axes = 2,
-             top = 10)
+# Contribution plot of the top 10 variables in the dimension 2
+y2 <- fviz_contrib(
+  pca_data,
+  choice = "var",
+  axes = 2,
+  top = 10,
+  ggtheme = theme_538()
+  )
+
+# Contribution plot of the top 10 variables in the dimension 3
+y3 <- fviz_contrib(
+  pca_data,
+  choice = "var",
+  axes = 2,
+  top = 10,
+  ggtheme = theme_538()
+  )
+
+# Contribution plot of the top 10 variables in the dimension 4
+y4 <- fviz_contrib(
+  pca_data,
+  choice = "var",
+  axes = 2,
+  top = 10,
+  ggtheme = theme_538()
+  )
+
+# Arrange multiple plots
+ggpubr::ggarrange(y1, y2, y3, y4, 
+                  ncol = 2, nrow = 2, 
+                  labels = c("A)", "B)", "C)", "D)")
+                  )
 ```
 
 ```{r}
 # Plot of 10 variables with the highest contribution on PC1 and PC2
-d <- fviz_contrib(pca_data,
-                  choice = "var",
-                  axes = 1:2,
-                  top = 10)
+d <- fviz_contrib(
+  pca_data,
+  choice = "var",
+  axes = 1:2,
+  top = 10,
+  ggtheme = theme_pander()
+  )
 
 # Plot of 10 variables with the highest contribution on PC3 and PC4
-e <- fviz_contrib(pca_data,
-                  choice = "var",
-                  axes = 3:4,
-                  top = 10)
+e <- fviz_contrib(
+  pca_data,
+  choice = "var",
+  axes = 3:4,
+  top = 10,
+  ggtheme = theme_pander()
+  )
 
 # Correlations circle and color by contributions values
 f <- fviz_pca_var(
   pca_data,
   col.var = "contrib",
   gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
-  repel = TRUE
-)
+  repel = TRUE,
+  ggtheme = theme_pander())
 ```
 
 ```{r fig.height=12, fig.width=12, fig.align='center'}
@@ -1504,44 +1560,72 @@ ggpubr::ggarrange(a, d, b, e, c, f,
 ind <- get_pca_ind(pca_data)
 
 # Coordinates for the individuals
-head(ind$coord, 5)
+head(ind$coord[order(var$cor[, 1], decreasing = TRUE),], 5)
 
 # Cos2 of the individuals on dimensions
-head(ind$cos2, 5)
+head(ind$cos2[order(var$cor[, 1], decreasing = TRUE),], 5)
 ```
 
 ```{r}
-# Plot of 30 individuals with the highest cos2 on PC1 and PC2
-a <- fviz_cos2(pca_data, choice = "ind", axes = 1:2, top = 30)
+# Plot of 20 patients with the highest cos2 in PC1 and PC2
+a <- fviz_cos2(
+  pca_data,
+  choice = "ind",
+  axes = 1:2,
+  top = 20,
+  ggtheme = theme_pander()
+  )
 
-# Plot of 30 individuals with the highest cos2 on PC3 and PC4
-b <- fviz_cos2(pca_data, choice = "ind", axes = 3:4, top = 30)
+# Plot of 20 patients with the highest cos2 in PC3 and PC4
+b <- fviz_cos2(
+  pca_data,
+  choice = "ind",
+  axes = 3:4,
+  top = 20,
+  ggtheme = theme_pander()
+  )
 
-# Correlations circle and color by cos2 values 
+# Correlations circle and color by cos2 values
 c <- fviz_pca_ind(
   pca_data,
   col.ind = "cos2",
   gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
-  repel = TRUE)
+  repel = TRUE,
+  ggtheme = theme_pander()
+  )
 ```
 
 ```{r}
 # Contributions of the individuals on the dimensions
-head(ind$contrib, 5)
+head(ind$contrib[order(var$cor[, 1], decreasing = TRUE),], 5)
 ```
 
 ```{r}
-# Plot of 30 individuals with the highest contribution on PC1 and PC2
-d <- fviz_contrib(pca_data, choice = "ind", axes = 1:2, top = 30)
+# Plot of the 20 individuals with the highest contribution in PC1 and PC2
+d <- fviz_contrib(
+  pca_data,
+  choice = "ind",
+  axes = 1:2,
+  top = 20,
+  ggtheme = theme_pander()
+  )
 
-# Plot of 30 individuals with the highest contribution on PC3 and PC4
-e <- fviz_contrib(pca_data, choice = "ind", axes = 3:4, top = 30)
+# Plot of the 20 individuals with the highest contribution in PC3 and PC4
+e <- fviz_contrib(
+  pca_data,
+  choice = "ind",
+  axes = 3:4,
+  top = 20,
+  ggtheme = theme_pander()
+  )
 
-# Correlations circle and color by contributions values 
+# Correlations circle and color by contributions values
 f <- fviz_pca_ind(
   pca_data,
   col.ind = "contrib",
-  gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"))
+  gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
+  ggtheme = theme_pander()
+  )
 ```
 
 ```{r fig.height=12, fig.width=12, fig.align='center'}
@@ -1682,7 +1766,7 @@ F1 + plot_annotation(title = 'Figure 2') &
 ```
 
 ::: {style="text-align: justify"}
-The biplots of PCA showed that PaO~2~:FiO~2~ ratio, BUN, hematocrit, hemoglobin, serum creatinine, FiO2, potassium, SaO~2~, neutrophils, and PaO~2~ were variables the highest representation and contribution for PC1 and PC2. While chlorine, calcium, sodium, age, HCO~3~, WBC, PCO~2~, and neutrophils were variables with the highest representation and contribution for PC3 and PC4. The PC1 and PC2 explained 23.3% of variance, and PC3 and PC4 explained 17.8%. For these principal components, there was no clear separation between survivors and non-survivors (Figure 2). However, based on the results of bivariate analysis and PCA, the non-survivors group showed that high values of FiO~2~, BUN, serum creatinine, neutrophils, and PaO~2~:FiO~2~ ratio contributed considerably to the PC1 and PC2 (Figure 2A). while WBC, neutrophils, age, and PCO~2~ contributed considerably to the PC3 and PC4 (Figure 2B).
+The biplots of PCA showed that PaO~2~:FiO~2~ ratio, BUN, hematocrit, hemoglobin, serum creatinine, FiO2, potassium, SaO~2~, neutrophils, and PaO~2~ were variables the highest representation and contribution for PC1 and PC2. While chlorine, calcium, sodium, age, HCO~3~, WBC, PCO~2~, and neutrophils were variables with the highest representation and contribution for PC3 and PC4. The PC1 and PC2 explained 23.3% of variance, and PC3 and PC4 explained 17.8%. For these principal components, there was no clear separation between survivors and non-survivors (Figure 2). However, based on the results of bivariate analysis and PCA, the non-survivors group showed that high values of FiO~2~, BUN, serum creatinine, neutrophils, and low values PaO~2~:FiO~2~ ratio contributed considerably to the PC1 and PC2 (Figure 2A). while WBC, neutrophils, age, and PCO~2~ contributed considerably to the PC3 and PC4 (Figure 2B).
 :::
 
 ```{r fig.height=6, fig.width=14, fig.align='center', results='hide'}
@@ -1790,9 +1874,9 @@ tSNE_df |>
              y = tSNE2,
              color = a_f)) +
   geom_point() +
-  scale_color_igv() +
   labs(color = "Group") +
-  theme_minimal() +
+  scale_color_pomological() +
+  theme_pomological() +
   theme(legend.position = "right",
         axis.line = element_line(color = "black"))
 ```
