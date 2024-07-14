@@ -46,7 +46,6 @@ pacman::p_load(
   ggpubr,
   ggthemes,
   ggpomological,
-  xaringanthemer,
   ggbiplot,
   finalfit,
   gtsummary,
@@ -712,7 +711,7 @@ lapply(non_numerical, function(x)
   summary(x))
 ```
 
-```{r fig.height=15, fig.width=18, fig.align = 'center'}
+```{r fig.height=14, fig.width=18, fig.align = 'center'}
 # Exploration of age by group
 p1 <- group_stat_table_plot(data, "edad", "a_f")
 
@@ -725,7 +724,7 @@ p3 <- group_stat_table_plot(data, "neutrofilos", "a_f")
 # Exploration of lymphocytes by group
 p4 <- group_stat_table_plot(data, "linfocitos", "a_f")
 
-p1 + p2 + p3 + p4 + plot_annotation(tag_levels = list(c("A)", "B)", "C)", "D)")))
+p1 + p2 + p3 + p4
 ```
 
 ### Correlation matrix (multicollinearity)
