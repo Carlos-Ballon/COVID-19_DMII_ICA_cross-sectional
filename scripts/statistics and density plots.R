@@ -40,7 +40,22 @@ group_stat_table_plot <- function(data_used, var, outcome) {
     ) |>
     
     # Draw a textual table
-    ggpubr::ggtexttable(theme = ttheme("blank"), rows = NULL)
+    ggpubr::ggtexttable(
+      rows = NULL,
+      theme = ttheme(
+        base_style = "blank",
+        colnames.style = colnames_style(
+          color = "black",
+          fill = "#f0f0f0",
+          linecolor = "#d0d0d0"
+        ),
+        tbody.style = tbody_style(
+          color = "black",
+          fill = "#f0f0f0",
+          linecolor = "#d0d0d0"
+        )
+      )
+    )
   
   foot_note <- paste0(
     "*IQR = Rango intercuartílico; ",
@@ -69,29 +84,29 @@ group_stat_table_plot <- function(data_used, var, outcome) {
       row = 2:tab_nrow(stat_table),
       column = 2,
       fill = "#CE3D32FF",
-      color = "white",
-      alpha = 0.3
+      alpha = 0.4,
+      color = "#d0d0d0"
     ) |>
     ggpubr::table_cell_bg(
       row = 2:tab_nrow(stat_table),
       column = 4,
       fill = "#99CC00FF",
-      color = "white",
-      alpha = 0.3
+      alpha = 0.4,
+      color = "#d0d0d0"
     ) |>
     ggpubr::table_cell_bg(
       row = 2,
       column = 1,
       fill = "#5773CCFF",
-      color = "white",
-      alpha = 0.3
+      alpha = 0.4,
+      color = "#d0d0d0"
     ) |>
     ggpubr::table_cell_bg(
       row = 3,
       column = 1,
       fill = "#FFB900FF",
-      color = "white",
-      alpha = 0.3
+      alpha = 0.4,
+      color = "#d0d0d0"
     ) |>
     ggpubr::tab_add_title(
       text = "Summary statistics and normality tests",
@@ -123,21 +138,15 @@ group_stat_table_plot <- function(data_used, var, outcome) {
       color = "Group",
       title = paste("Density Plot of", var)
     ) +
-    ggplot2::theme_minimal() +
-    ggsci::scale_fill_igv(palette = "alternating", alpha = 0.3) +
-    ggsci::scale_color_igv(palette = "alternating", alpha = 0.6) +
-    ggplot2::scale_y_continuous(expand = c(0.1, 0)) +
-    ggplot2::scale_x_continuous(breaks = seq(0, 1000, by = 10)) +
+    ggsci::scale_fill_igv(palette = "alternating", alpha = 0.4) +
+    ggsci::scale_color_igv(palette = "alternating", alpha = 0.7) +
     ggplot2::guides(fill = "none") +
-    ggplot2::theme(
-      axis.line = element_line(color = "black"),
-      axis.text = element_text(color = "black"),
-      axis.title = element_text(color = "black", size = 11),
-      strip.text = element_text(color = "black"),
-      legend.title = element_text(color = "black", size = 11),
-      legend.text = element_text(color = "black", size = 11),
-      legend.position = "none") +
-    theme_538()
+    theme_538() +
+    theme(
+      plot.title = element_text(size = rel(2.8), family = "Chivo"),
+      axis.title = element_text(size = rel(2.3), family = "Chivo"),
+      legend.position = "none"
+    )
   
   ggpubr::ggarrange(plot,
                     custom_stat_table,

@@ -47,7 +47,7 @@ total_plots <- function(.data) {
         linetype = "dashed",
         linewidth = 1
       ) +
-      ggplot2::ggtitle(paste("Histogram and Density Plot of\n", var)) +
+      ggplot2::ggtitle(paste("Histogram and Density Plot of", var)) +
       ggplot2::labs(x = element_blank()) +
       ggplot2::ylab("Density") +
       ggplot2::scale_y_continuous(expand = c(0.1, 0)) +

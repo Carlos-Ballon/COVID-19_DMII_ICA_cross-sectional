@@ -35,12 +35,7 @@ two_groups_plots <- function(df1, df2, df3) {
       scale_color_igv(palette = "alternating", alpha = 1) +
       scale_y_continuous(expand = c(0.1, 0)) +
       guides(fill = "none") +
-      theme(
-        axis.line = element_line(color = "black"),
-        axis.text = element_text(color = "black"),
-        axis.title = element_text(color = "black"),
-        strip.text = element_text(color = "black")
-      )
+      theme_538()
     
     # Add the p-value and summary statistics for two groups of each variable to the plot
     plot <- plot +
