@@ -14,6 +14,8 @@ format:
      light: flatly
      dark: darkly
     highlight-style: github
+    include-in-header:
+      - file: zoom_in_out.js
 editor: source
 editor_options: 
   chunk_output_type: inline
@@ -46,7 +48,6 @@ pacman::p_load(
   ggpubr,
   ggthemes,
   ggpomological,
-  ggbiplot,
   finalfit,
   gtsummary,
   flextable,
@@ -345,9 +346,9 @@ data <- clean_data |>
       fct_relevel(">= 36", "< 36") |>
       ff_label("Hematocrit (%)"),
     
-    mcv = ff_label(mcv, "MCV (mm^3^)"), ##
+    MCV = ff_label(MCV, "MCV (mm^3^)"), ##
     
-    mch = ff_label(mch, "MCH (pg)"), ##
+    MCH = ff_label(MCH, "MCH (pg)"), ##
     
     leucocitos = leucocitos / 1000,
     leucocitos = ff_label(leucocitos, "White-cells (×10^−9^/L)"), ###
@@ -403,71 +404,69 @@ data <- clean_data |>
     
     ph.c = case_when(
       ph < 7.35 ~ "< 7.35",
-      ph >= 7.35 &
-        ph <= 7.45 ~ "7.35 - 7.45",
+      ph >= 7.35 & ph <= 7.45 ~ "7.35 - 7.45",
       ph > 7.45 ~ "> 7.45") |>
       fct_relevel("7.35 - 7.45", "< 7.35", "> 7.45") |>
       ff_label("pH"),
     
-    frecuencia_cardiaca = ff_label(frecuencia_cardiaca, "Heart rate (BPM)"), ##
+    frec_cardiaca = ff_label(frec_cardiaca, "Heart rate (BPM)"), ##
     
-    frecuencia_cardiaca.c = case_when(frecuencia_cardiaca < 100 ~ "< 100",
+    frec_cardiaca.c = case_when(frec_cardiaca < 100 ~ "< 100",
                                       TRUE ~ ">= 100") |>
       fct_relevel("< 100", ">= 100") |>
       ff_label("Heart rate (BPM)"),
     
-    frecuencia_respiratoria = ff_label(frecuencia_respiratoria, 
+    frec_respiratoria = ff_label(frec_respiratoria, 
                                        "Respiratory rate (BPM)"), ##
     
-    frecuencia_respiratoria.c =
+    frec_respiratoria.c =
       case_when(
-        frecuencia_respiratoria < 24 ~ "< 24",
-        frecuencia_respiratoria >= 24 &
-          frecuencia_respiratoria <= 30 ~ "24 - 30",
-        frecuencia_respiratoria > 30 ~ "> 30") |> ##
+        frec_respiratoria < 24 ~ "< 24",
+        frec_respiratoria >= 24 & frec_respiratoria <= 30 ~ "24 - 30",
+        frec_respiratoria > 30 ~ "> 30") |> ##
       fct_relevel("24 - 30", "< 24", "> 30") |>
       ff_label("Respiratory rate (BPM)"),
     
-    saturacion_de_oxigeno = ff_label(saturacion_de_oxigeno, "SaO~2~ (%)"), ###
+    SaO2 = ff_label(SaO2, "SaO~2~ (%)"), ###
     
-    saturacion_de_oxigeno.c = case_when(saturacion_de_oxigeno < 94 ~ "< 94",
+    SaO2.c = case_when(SaO2 < 94 ~ "< 94",
                                         TRUE ~ ">= 94") |>
       fct_relevel(">= 94", "< 94") |>
       ff_label("SaO~2~"),
     
-    fio2_aga = ff_label(fio2_aga, "FiO~2~ (%)"), ###
+    FiO2_aga = ff_label(FiO2_aga, "FiO~2~ (%)"), ###
     
-    fio2_aga.c = case_when(fio2_aga > 21 ~ "> 21 (O~2~ therapy)",
+    FiO2_aga.c = case_when(FiO2_aga > 21 ~ "> 21 (O~2~ therapy)",
                            TRUE ~ "21") |>
       fct_relevel("> 21 (O~2~ therapy)", "21") |>
       ff_label("FiO~2~ (%)"),
     
-    po2 = ff_label(po2, "PaO~2~ (mmHg)"), ##
+    PaO2 = ff_label(PaO2, "PaO~2~ (mmHg)"), ##
     
-    po2.c = case_when(po2 < 60 ~ "< 60",
+    PaO2.c = case_when(PaO2 < 60 ~ "< 60",
                       TRUE ~ ">= 60") |>
       fct_relevel(">= 60", "< 60") |>
       ff_label("PaO~2~"),
     
-    pco2 = ff_label(pco2, "PCO~2~ (mmHg)"), ##
+    PCO2 = ff_label(PCO2, "PCO~2~ (mmHg)"), ##
     
-    pco2.c = case_when(pco2 < 36 ~ "< 36",
+    PCO2.c = case_when(PCO2 < 36 ~ "< 36",
                        TRUE ~ ">= 36") |>
       fct_relevel("< 36", ">= 36") |>
       ff_label("PCO~2~ (mmHg)"),
     
-    pafi = ff_label(pafi, "PaO~2~:FiO~2~ ratio"),  ###
+    PaO2_FiO2 = ff_label(PaO2_FiO2, "PaO~2~:FiO~2~ ratio"),  ###
     
-    pafi.c = case_when(pafi <= 200 ~ "<= 200",
+    PaO2_FiO2.c = case_when(PaO2_FiO2 <= 200 ~ "<= 200",
                        TRUE ~ "> 200") |>
       fct_relevel("> 200", "<= 200") |>
       ff_label("PaO~2~:FiO~2~ ratio"),
     
-    hco3 = ff_label(hco3, "HCO~3~ (mmol/L)"), ##
+    HCO3 = ff_label(HCO3, "HCO~3~ (mmol/L)"), ##
     
-    hco3.c = case_when(hco3 < 21 ~ "< 21",
-                       hco3 >= 21 & hco3 <= 28 ~ "21 - 28",
-                       hco3 > 28 ~ "> 28") |>
+    HCO3.c = case_when(HCO3 < 21 ~ "< 21",
+                       HCO3 >= 21 & HCO3 <= 28 ~ "21 - 28",
+                       HCO3 > 28 ~ "> 28") |>
       fct_relevel("21 - 28", "< 21", "> 28") |>
       ff_label("HCO~3~ (mEq/L)"),
     
@@ -547,10 +546,10 @@ data <- data |>
     sensorio,
     
     # Vital signs
-    frecuencia_respiratoria,
-    frecuencia_respiratoria.c,
-    frecuencia_cardiaca,
-    frecuencia_cardiaca.c,
+    frec_respiratoria,
+    frec_respiratoria.c,
+    frec_cardiaca,
+    frec_cardiaca.c,
     p_a_sistolica,
     p_a_sistolica.c,
     p_a_diastolica,
@@ -565,8 +564,8 @@ data <- data |>
     linfocitos.c,
     plaquetas,
     plaquetas.c,
-    mcv,
-    mch,
+    MCV,
+    MCH,
     hemoglobina,
     hemoglobina.c,
     hematocrito,
@@ -586,18 +585,18 @@ data <- data |>
     calcio,
     
     # Blood gas findings
-    saturacion_de_oxigeno,
-    saturacion_de_oxigeno.c,
-    fio2_aga,
-    fio2_aga.c,
-    pafi,
-    pafi.c,
-    po2,
-    po2.c,
-    pco2,
-    pco2.c,
-    hco3,
-    hco3.c,
+    SaO2,
+    SaO2.c,
+    FiO2_aga,
+    FiO2_aga.c,
+    PaO2_FiO2,
+    PaO2_FiO2.c,
+    PaO2,
+    PaO2.c,
+    PCO2,
+    PCO2.c,
+    HCO3,
+    HCO3.c,
     
     # Treatment
     antibioticos,
@@ -615,7 +614,7 @@ data <- data |>
 ## Exploratory Data Analysis (EDA)
 
 ::: {style="text-align: justify"}
-In this subsection we will see a preview of the descriptive statistics, some summary measures from our sample. How you visualize the distribution of a variable will depend on whether the variable is categorical or continuous. To analyze the distribution of a continuous variable, begin with a histogram or density plot for a visual representation of the data distribution. For categorical variables, a bar chart or a pie/donut chart provides a clear comparison of different categories. In cases where a categorical variable has few levels, consider using tables or boxplots for a more concise display of the data.
+In this subsection we will see a preview of the descriptive statistics, some summary measures from our sample. How you visualize the distribution of a variable will depend on whether the variable is categorical or continuous. To analyze the distribution of a continuous variable, begin with a histogram or density plot for a visual representation of the data distribution. For categorical variables, a bar chart or a pie/donut chart provides a clear comparison of different categories. In cases where a categorical variable has few levels, consider using tables or box plots for a more concise display of the data.
 :::
 
 > 📝***NOTE:*** Descriptive statistics help you describe your current data, while inferential statistics allow you to make predictions and informed decisions based on your data.
@@ -662,26 +661,52 @@ lapply(numerical, function(x)
   summary(x))
 ```
 
-```{r fig.height=10, fig.width=11, fig.align='center'}
+```{r}
 # Variable groups
 dem_numerical <- numerical |>
-  dplyr::select(edad:p_a_diastolica)
+  dplyr::select(edad:p_a_diastolica, glucosa, -t_de_enfermedad)
 
 hemo_numerical <- numerical |>
-  dplyr::select(leucocitos:mch)
+  dplyr::select(leucocitos:MCH)
 
 biochem_numerical <- numerical |>
-  dplyr::select(hemoglobina:ph)
+  dplyr::select(hemoglobina:urea, PaO2_FiO2, FiO2_aga, SaO2, -creatinina)
 
 electro_numerical <- numerical |>
-  dplyr::select(anion_gap:calcio, hco3)
+  dplyr::select(sodio:calcio, PaO2, PCO2)
+```
 
-gas_numerical <- numerical |>
-  dplyr::select(saturacion_de_oxigeno:pco2)
+::: panel-tabset
 
+#### Part 1 {.active}
+
+```{r fig.height=10, fig.width=11, fig.align='center'}
+# Formal and visual exploration
+total_plots(dem_numerical)
+```
+
+#### Part 2 
+
+```{r fig.height=10, fig.width=11, fig.align='center'}
 # Formal and visual exploration
 total_plots(hemo_numerical)
 ```
+
+#### Part 3
+
+```{r fig.height=10, fig.width=11, fig.align='center'}
+# Formal and visual exploration
+total_plots(biochem_numerical)
+```
+
+#### Part 4
+
+```{r fig.height=10, fig.width=11, fig.align='center'}
+# Formal and visual exploration
+total_plots(electro_numerical)
+```
+
+:::
 
 ### Numerical variables in survivors and non-survivor
 
@@ -689,7 +714,7 @@ total_plots(hemo_numerical)
 In this part, density plots will be used to illustrate the data grouped by the outcome. Other plots will not be included in the analysis, as a table with more detailed information will be presented. The questions we will ask ourselves are: Does the data appear to be normally distributed? and are the variances between groups equal?
 :::
 
-```{r}
+```{r eval=FALSE}
 # Selection of numerical variables of survivors
 surv_numerical <- data |>
   dplyr::select(where(is.numeric), a_f) |>
@@ -711,15 +736,55 @@ lapply(non_numerical, function(x)
   summary(x))
 ```
 
+::: panel-tabset
+
+#### Part 1
+
 ```{r fig.height=14, fig.width=18, fig.align = 'center'}
 # Exploration of age by group
-p1 <- group_stat_table_plot(data, "edad", "a_f")
+p1 <- group_stat_table_plot(data, "frec_respiratoria", "a_f")
 
 # Exploration of white-cells by group
-p2 <- group_stat_table_plot(data, "leucocitos", "a_f")
+p2 <- group_stat_table_plot(data, "frec_cardiaca", "a_f")
 
 # Exploration of neutrophils by group
-p3 <- group_stat_table_plot(data, "neutrofilos", "a_f")
+p3 <- group_stat_table_plot(data, "p_a_sistolica", "a_f")
+
+# Exploration of lymphocytes by group
+p4 <- group_stat_table_plot(data, "p_a_diastolica", "a_f")
+
+p1 + p2 + p3 + p4
+```
+
+#### Part 2
+
+```{r fig.height=14, fig.width=18, fig.align = 'center'}
+# Exploration of age by group
+p1 <- group_stat_table_plot(data, "leucocitos", "a_f")
+
+# Exploration of white-cells by group
+p2 <- group_stat_table_plot(data, "neutrofilos", "a_f")
+
+# Exploration of neutrophils by group
+p3 <- group_stat_table_plot(data, "linfocitos", "a_f")
+
+# Exploration of lymphocytes by group
+p4 <- group_stat_table_plot(data, "plaquetas", "a_f")
+
+p1 + p2 + p3 + p4
+```
+
+#### Part 3
+
+```{r fig.height=14, fig.width=18, fig.align = 'center'}
+# Exploration of age by group
+p1 <- group_stat_table_plot(data, "glucosa", "a_f")
+
+# Exploration of white-cells by group
+p2 <- group_stat_table_plot(data, "urea", "a_f")
+
+# Exploration of neutrophils by group
+p3 <- group_stat_table_plot(data, "hemoglobina", "a_f")
 
 # Exploration of lymphocytes by group
 p4 <- group_stat_table_plot(data, "linfocitos", "a_f")
@@ -727,10 +792,30 @@ p4 <- group_stat_table_plot(data, "linfocitos", "a_f")
 p1 + p2 + p3 + p4
 ```
 
+#### Part 4
+
+```{r fig.height=14, fig.width=18, fig.align = 'center'}
+# Exploration of age by group
+p1 <- group_stat_table_plot(data, "SaO2", "a_f")
+
+# Exploration of white-cells by group
+p2 <- group_stat_table_plot(data, "PaO2_FiO2", "a_f")
+
+# Exploration of neutrophils by group
+p3 <- group_stat_table_plot(data, "PaO2", "a_f")
+
+# Exploration of lymphocytes by group
+p4 <- group_stat_table_plot(data, "FiO2_aga", "a_f")
+
+p1 + p2 + p3 + p4
+```
+
+:::
+
 ### Correlation matrix (multicollinearity)
 
 ::: {style="text-align: justify"}
-The correlation between independent variables will be explored in order to identify multicollinearity. The numeric variables are different, with the exception of white-cells and the PaO~2~:FiO~2~ ratio. In the case of using white-cells and neutrophils or lymphocytes, it's possible that the information provided by white-cells may be redundant and generate biased estimates. The same applies to the PaO~2~:FiO~2~ ratio and the FiO~2~. Given the clinical relevance of the PaO₂:FiO₂ ratio, it is preferable to work with this ratio rather than the PaO₂ alone.
+The correlation between independent variables will be explored in order to identify multicollinearity.
 :::
 
 > 📝***NOTE:*** ggplot objects can't process markdown text
@@ -745,16 +830,16 @@ data_num = data |>
 cor_data = rename(
   data_num,
   "Age" = edad,
-  "Respiratory rate (BPM)" = frecuencia_respiratoria,
-  "Heart rate (BPM)" = frecuencia_cardiaca,
+  "Respiratory rate (BPM)" = frec_respiratoria,
+  "Heart rate (BPM)" = frec_cardiaca,
   "SBP" = p_a_sistolica,
   "DBP" = p_a_diastolica,
   "White-cells" = leucocitos,
   "Neutrophils" = neutrofilos,
   "Lymphocytes" = linfocitos,
   "Platelets" = plaquetas,
-  "MCV" = mcv,
-  "MCH" = mch,
+  "MCV" = MCV,
+  "MCH" = MCH,
   "Hemoglobin" = hemoglobina,
   "Hematocrit" = hematocrito,
   "Serum creatinine" = creatinina,
@@ -766,12 +851,12 @@ cor_data = rename(
   "Potasium" = potasio,
   "Chlorine" = cloro,
   "Calcium" = calcio,
-  "SaO2" = saturacion_de_oxigeno,
-  "FiO2" = fio2_aga,
-  "PaO2:FiO2 ratio" = pafi,
-  "PaO2" = po2,
-  "PCO2" = pco2,
-  "HCO3" = hco3,
+  "SaO2" = SaO2,
+  "FiO2" = FiO2_aga,
+  "PaO2:FiO2 ratio" = PaO2_FiO2,
+  "PaO2" = PaO2,
+  "PCO2" = PCO2,
+  "HCO3" = HCO3,
   "Duration of disease" = t_de_enfermedad
   )
 
@@ -787,6 +872,10 @@ FS1
 # Visualization
 FS1_grey <- my_ggcorrplor_grey(corr)
 ```
+
+::: {style="text-align: justify"}
+With the exception of white-cells and the PaO~2~:FiO~2~ ratio, the numerical variables are independent of each other. In the case of using  white-cells and neutrophils or lymphocytes, it is possible that this information may become redundant and generate biased estimates. The same occurs with the PaO~2~:FiO~2~ ratio and the FiO~2~ or PaO~2~; given the clinical relevance of the PaO~2~:FiO~2~ ratio, it is preferable to work only with the latter.
+:::
 
 # Produce outputs
 
@@ -826,7 +915,7 @@ table_1.2 <- data |>
 # Vital signs
 table_1.3 <- data |>
   tbl_summary(
-    include = c(frecuencia_respiratoria:p_a_diastolica.c, a_f),
+    include = c(frec_respiratoria:p_a_diastolica.c, a_f),
     by = a_f,
     percent = "column",
     digits = list(all_continuous() ~ c(1, 1))
@@ -881,7 +970,7 @@ table_2.1 <- data |>
 # Blood gas findings
 table_2.2 <- data |>
   tbl_summary(
-    include = c(saturacion_de_oxigeno:hco3.c, a_f),
+    include = c(SaO2:HCO3.c, a_f),
     by = a_f,
     percent = "column",
     digits = list(all_continuous() ~ c(1, 1))
@@ -925,7 +1014,7 @@ flex_table_2
 ## Table 3. Logistic regression
 
 ::: {style="text-align: justify"}
-In the univariate analysis, self-reported or not enough event variables were eliminated, this will help to avoid *overfitting* in the subsequent multivariable analysis. Other variables such as plaquetas, plaquetas.c, hemoglobina, hematocrito, glucosa, ph, ph.c, anion_gap, anion_gap.c, sodio, potasio, cloro, and calcio, fio2_aga.c, pco2.c, antiparasitarios, and pronacion, showed *no differences* between groups in the bivariate analysis (Table 2).
+In the univariate analysis, self-reported or not enough event variables were eliminated, this will help to avoid *overfitting* in the subsequent multivariable analysis. Other variables such as plaquetas, plaquetas.c, hemoglobina, hematocrito, glucosa, ph, ph.c, anion_gap, anion_gap.c, sodio, potasio, cloro, and calcio, FiO2_aga.c, PCO2.c, antiparasitarios, and pronacion, showed *no differences* between groups in the bivariate analysis (Table 2).
 :::
 
 | Self-reported | Not enough event (\<10) |
@@ -951,8 +1040,8 @@ data_uv <- data |>
     estertores_pulmonares,
     
     # Vital signs
-    frecuencia_respiratoria.c,
-    frecuencia_cardiaca.c,
+    frec_respiratoria.c,
+    frec_cardiaca.c,
     p_a_sistolica.c,
     p_a_diastolica.c,
     
@@ -961,20 +1050,20 @@ data_uv <- data |>
     neutrofilos.c,
     linfocitos.c,
     plaquetas.c,
-    mcv,
-    mch,
+    MCV,
+    MCH,
     hemoglobina.c,
     hematocrito.c,
     creatinina.c,
     urea.c,
     
     # Blood gas findings
-    saturacion_de_oxigeno.c,
-    fio2_aga,
-    pafi.c,
-    po2.c,
-    pco2,
-    hco3.c,
+    SaO2.c,
+    FiO2_aga,
+    PaO2_FiO2.c,
+    PaO2.c,
+    PCO2,
+    HCO3.c,
     
     # Treatment
     corticoides,
@@ -1016,26 +1105,26 @@ table_3.1 <- data_uv |>
       taquipnea ~ "Tachypnea",
       disnea ~ "Dyspnea",
       estertores_pulmonares ~ "Lung crackles",
-      frecuencia_respiratoria.c ~ "Respiratory rate (BPM)",
-      frecuencia_cardiaca.c ~ "Heart rate (BPM)",
+      frec_respiratoria.c ~ "Respiratory rate (BPM)",
+      frec_cardiaca.c ~ "Heart rate (BPM)",
       p_a_sistolica.c ~ "SBP (mmHg)",
       p_a_diastolica.c ~ "DBP (mmHg)",
       leucocitos.c ~ "White-cells (×10^−9^/L)",
       neutrofilos.c ~ "Neutrophils (×10^−9^/L)",
       linfocitos.c ~ "Lymphocytes (×10^−9^/L)",
       plaquetas.c ~ "Platelets (×10^−9^/L)",
-      mcv ~ "MCV (mm^3^)",
-      mch ~ "MCH (pg)",
+      MCV ~ "MCV (mm^3^)",
+      MCH ~ "MCH (pg)",
       hemoglobina.c ~ "Hemoglobin (g/dL)",
       hematocrito.c ~ "Hematocrit (%)",
       creatinina.c ~ "Serum creatinine (mg/dL)",
       urea.c ~ "BUN (mg/dL)",
-      saturacion_de_oxigeno.c ~ "SaO~2~",
-      fio2_aga ~ "FiO~2~ (%)",
-      pafi.c ~ "PaO~2~:FiO~2~ ratio",
-      po2.c ~ "PaO~2~ (mmHg)",
-      pco2 ~ "PCO~2~ (mmHg)",
-      hco3.c ~ "HCO~3~ (mmol/L)",
+      SaO2.c ~ "SaO~2~",
+      FiO2_aga ~ "FiO~2~ (%)",
+      PaO2_FiO2.c ~ "PaO~2~:FiO~2~ ratio",
+      PaO2.c ~ "PaO~2~ (mmHg)",
+      PCO2 ~ "PCO~2~ (mmHg)",
+      HCO3.c ~ "HCO~3~ (mmol/L)",
       corticoides ~ "Corticosteroids",
       anticoagulantes ~ "Anticoagulants",
       antiparasitarios ~ "Antiparasitics",
@@ -1058,11 +1147,11 @@ table_3.1 <- data_uv |>
 full_multivariable <-
   glm(
     a_f ~ edad.c + sexo + obesidad + hta + fiebre + tos + taquipnea + disnea +
-      estertores_pulmonares + frecuencia_respiratoria.c + frecuencia_cardiaca.c	+
+      estertores_pulmonares + frec_respiratoria.c + frec_cardiaca.c	+
       p_a_sistolica.c + p_a_diastolica.c + leucocitos.c + neutrofilos.c	+
-      linfocitos.c + plaquetas.c + mcv + mch + hemoglobina.c	+ hematocrito.c	+
-      creatinina.c + urea.c + saturacion_de_oxigeno.c + fio2_aga	+ pafi.c +
-      po2.c	+ pco2	+ hco3.c + corticoides + anticoagulantes + antiparasitarios +
+      linfocitos.c + plaquetas.c + MCV + MCH + hemoglobina.c	+ hematocrito.c	+
+      creatinina.c + urea.c + SaO2.c + FiO2_aga	+ PaO2_FiO2.c +
+      PaO2.c	+ PCO2	+ HCO3.c + corticoides + anticoagulantes + antiparasitarios +
       antipaludicos + pronacion,
     data = data_uv,
     family = binomial(link = "logit")
@@ -1083,11 +1172,11 @@ full_multivariable <-
 # Model
 m1 = glm(
   a_f ~ edad.c + sexo + obesidad + hta + fiebre + tos + taquipnea + disnea +
-    estertores_pulmonares + frecuencia_respiratoria.c + frecuencia_cardiaca.c	+
+    estertores_pulmonares + frec_respiratoria.c + frec_cardiaca.c	+
     p_a_sistolica.c + p_a_diastolica.c + leucocitos.c + neutrofilos.c	+
-    linfocitos.c + plaquetas.c + mcv + mch + hemoglobina.c + hematocrito.c	+
-    creatinina.c + urea.c + saturacion_de_oxigeno.c + fio2_aga	+ pafi.c +
-    po2.c	+ pco2	+ hco3.c + corticoides + anticoagulantes + antiparasitarios +
+    linfocitos.c + plaquetas.c + MCV + MCH + hemoglobina.c + hematocrito.c	+
+    creatinina.c + urea.c + SaO2.c + FiO2_aga	+ PaO2_FiO2.c +
+    PaO2.c	+ PCO2	+ HCO3.c + corticoides + anticoagulantes + antiparasitarios +
     antipaludicos + pronacion,
   data = data_uv,
   family = binomial(link = "logit")
@@ -1120,11 +1209,11 @@ mv_reg_stepforward <- m1 |>
 # Forward formula-based model
 m2 <- glm(
   a_f ~ edad.c + sexo + obesidad + hta + fiebre + tos + taquipnea + disnea +
-    estertores_pulmonares + frecuencia_respiratoria.c + frecuencia_cardiaca.c	+
+    estertores_pulmonares + frec_respiratoria.c + frec_cardiaca.c	+
     p_a_sistolica.c + p_a_diastolica.c + leucocitos.c + neutrofilos.c	+
-    linfocitos.c + plaquetas.c + mcv + mch + hemoglobina.c + hematocrito.c	+
-    creatinina.c + urea.c + saturacion_de_oxigeno.c + fio2_aga	+ pafi.c +
-    po2.c	+ pco2	+ hco3.c + corticoides + anticoagulantes + antiparasitarios +
+    linfocitos.c + plaquetas.c + MCV + MCH + hemoglobina.c + hematocrito.c	+
+    creatinina.c + urea.c + SaO2.c + FiO2_aga	+ PaO2_FiO2.c +
+    PaO2.c	+ PCO2	+ HCO3.c + corticoides + anticoagulantes + antiparasitarios +
     antipaludicos + pronacion,
   data = data_uv,
   family = binomial(link = "logit")
@@ -1152,9 +1241,9 @@ mv_reg_stepbackward <- m1 |>
 # Backward formula-based model
 m3 <-
   glm(
-    a_f ~ disnea + estertores_pulmonares + frecuencia_respiratoria.c +
-      frecuencia_cardiaca.c + p_a_sistolica.c + neutrofilos.c + linfocitos.c +
-      mcv + mch + hematocrito.c + fio2_aga + po2.c + corticoides + pronacion,
+    a_f ~ disnea + estertores_pulmonares + frec_respiratoria.c +
+      frec_cardiaca.c + p_a_sistolica.c + neutrofilos.c + linfocitos.c +
+      MCV + MCH + hematocrito.c + FiO2_aga + PaO2.c + corticoides + pronacion,
     data = data_uv,
     family = binomial(link = "logit")
   )
@@ -1178,9 +1267,9 @@ performance::check_collinearity(m3)
 m4 <-
   glm(
     a_f ~ edad.c + obesidad + hta + taquipnea + disnea + estertores_pulmonares +
-      frecuencia_cardiaca.c + p_a_sistolica.c	+ neutrofilos.c	+ linfocitos.c +
-      mch + hemoglobina.c + urea.c + saturacion_de_oxigeno.c	+ pafi.c + po2.c +
-      hco3.c + corticoides,
+      frec_cardiaca.c + p_a_sistolica.c	+ neutrofilos.c	+ linfocitos.c +
+      MCH + hemoglobina.c + urea.c + SaO2.c	+ PaO2_FiO2.c + PaO2.c +
+      HCO3.c + corticoides,
     data = data_uv,
     family = binomial(link = "logit")
   )
@@ -1217,9 +1306,9 @@ lmtest::lrtest(m3, m4)
 table_3.2 <-
   glm(
     a_f ~ edad.c + obesidad + hta + taquipnea + disnea + estertores_pulmonares +
-      frecuencia_cardiaca.c + p_a_sistolica.c + neutrofilos.c	+ linfocitos.c +
-      mch + hemoglobina.c + urea.c + saturacion_de_oxigeno.c	+ pafi.c + po2.c +
-      hco3.c + corticoides,
+      frec_cardiaca.c + p_a_sistolica.c + neutrofilos.c	+ linfocitos.c +
+      MCH + hemoglobina.c + urea.c + SaO2.c	+ PaO2_FiO2.c + PaO2.c +
+      HCO3.c + corticoides,
     family = binomial(link = "logit"),
     data = data_uv
   ) |>
@@ -1235,17 +1324,17 @@ table_3.2 <-
       taquipnea ~ "Tachypnea",
       disnea ~ "Dyspnea",
       estertores_pulmonares ~ "Lung crackles",
-      frecuencia_cardiaca.c ~ "Heart rate (BPM)",
+      frec_cardiaca.c ~ "Heart rate (BPM)",
       p_a_sistolica.c ~ "SBP (mmHg)",
       neutrofilos.c ~ "Neutrophils (×10^−9^/L)",
       linfocitos.c ~ "Lymphocytes (×10^−9^/L)",
-      mch ~ "MCH (pg)",
+      MCH ~ "MCH (pg)",
       hemoglobina.c ~ "Hemoglobin (g/dL)",
       urea.c ~ "BUN (mg/dL)",
-      saturacion_de_oxigeno.c ~ "SaO~2~",
-      pafi.c ~ "PaO~2~:FiO~2~ ratio",
-      po2.c ~ "PaO~2~ (mmHg)",
-      hco3.c ~ "HCO~3~ (mmol/L)",
+      SaO2.c ~ "SaO~2~",
+      PaO2_FiO2.c ~ "PaO~2~:FiO~2~ ratio",
+      PaO2.c ~ "PaO~2~ (mmHg)",
+      HCO3.c ~ "HCO~3~ (mmol/L)",
       corticoides ~ "Corticosteroids"
     )
   ) |>
@@ -1298,16 +1387,16 @@ numerical <- data |>
 numerical = rename(
   numerical,
   "Age" = edad,
-  "Respiratory rate" = frecuencia_respiratoria,
-  "Heart rate" = frecuencia_cardiaca,
+  "Respiratory rate" = frec_respiratoria,
+  "Heart rate" = frec_cardiaca,
   "SBP" = p_a_sistolica,
   "DBP" = p_a_diastolica,
   "White-cells" = leucocitos,
   "Neutrophils" = neutrofilos,
   "Lymphocytes" = linfocitos,
   "Platelets" = plaquetas,
-  "MCV" = mcv,
-  "MCH" = mch,
+  "MCV" = MCV,
+  "MCH" = MCH,
   "Hemoglobin" = hemoglobina,
   "Hematocrit" = hematocrito,
   "Serum creatinine" = creatinina,
@@ -1319,12 +1408,12 @@ numerical = rename(
   "Potasium " = potasio,
   "Chlorine" = cloro,
   "Calcium" = calcio,
-  "SaO2" = saturacion_de_oxigeno,
-  "FiO2" = fio2_aga,
-  "PaO2:FiO2 ratio" = pafi,
-  "PaO2" = po2,
-  "PCO2" = pco2,
-  "HCO3" = hco3,
+  "SaO2" = SaO2,
+  "FiO2" = FiO2_aga,
+  "PaO2:FiO2 ratio" = PaO2_FiO2,
+  "PaO2" = PaO2,
+  "PCO2" = PCO2,
+  "HCO3" = HCO3,
   "Duration of disease" = t_de_enfermedad)
 ```
 
