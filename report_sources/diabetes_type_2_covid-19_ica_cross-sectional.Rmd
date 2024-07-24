@@ -114,10 +114,10 @@ This subsection converts categorical variables into factors and recode/clean val
 Possible risk factors associated with mortality caused by COVID-19 in patients with type II diabetes mellitus (T2DM), each factor is labeled with a legend that indicates its clinical importance, accuracy, and number of events.
 :::
 
--   Clinically important with enough evidence but with small number of events, shown as `\####`
--   Clinically important with enough evidence and enough number of events, shown as `\###`
--   Clinically important with limited evidence, shown as `\##`
--   Inconsistent or contradictory evidence and unconfirmed accuracy (self-reported) `\#`
+-   Clinically important with enough evidence but with small number of events, shown as `####`
+-   Clinically important with enough evidence and enough number of events, shown as `###`
+-   Clinically important with limited evidence, shown as `##`
+-   Inconsistent or contradictory evidence and unconfirmed accuracy (self-reported) `#`
 
 ```{r}
 data <- clean_data |>
@@ -2001,6 +2001,8 @@ save_as_docx(
 ```
 
 ## Figures
+
+::: {style="text-align: justify"}
 The `ggsave()` function of the `gpplot2` package can be used in conjunction with the `string` package to set the output directory. This can be achieved by using the following code: `filename = stringr::str_glue(output_dir, "figure_1.png")`, or by using the `here()` function, as demonstrated below. All dimensions are in inches (in).
 :::
 
