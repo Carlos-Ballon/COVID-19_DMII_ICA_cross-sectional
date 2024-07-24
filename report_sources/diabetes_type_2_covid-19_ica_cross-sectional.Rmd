@@ -1191,7 +1191,7 @@ performance::check_model(m1)
 performance::model_performance(m1)
 
 # Check for Multicollinearity
-performance::check_collinearity(m1)
+performance::check_collinearity(m1, ci = NULL)
 ```
 
 #### Reduced multivariable: step-by-step forward
@@ -1228,7 +1228,7 @@ performance::check_model(m2)
 performance::model_performance(m2)
 
 # Check for Multicollinearity
-performance::check_collinearity(m2)
+performance::check_collinearity(m2, ci = NULL)
 ```
 
 #### Reduced multivariable: step-by-step backward
@@ -1257,7 +1257,7 @@ performance::check_model(m3)
 performance::model_performance(m3)
 
 # Check for Multicollinearity
-performance::check_collinearity(m3)
+performance::check_collinearity(m3, ci = NULL)
 ```
 
 #### Parsimonious model
@@ -1283,7 +1283,7 @@ check_model(m4)
 model_performance(m4)
 
 # Check for Multicollinearity
-check_collinearity(m4)
+check_collinearity(m4, ci = NULL)
 ```
 
 ### Model comparison
@@ -1351,7 +1351,8 @@ table_3.2 <-
 # Merge tables
 table_3 <- tbl_merge(tbls = list(table_3.1, table_3.2)) |>
   modify_table_body( ~ .x |> arrange(row_type == "glance_statistic")) |>
-  modify_spanning_header(everything() ~ NA_character_)
+  modify_spanning_header(everything() ~ NA_character_) |>
+  modify_caption("Table 3. Mortality risk factors in patient with COVID-19 and T2DM")
 
 # Convert gtsummary object to a flextable object and format character columns
 flex_table_3 <- table_3 |>
