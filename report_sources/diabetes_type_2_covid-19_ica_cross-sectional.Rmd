@@ -1971,45 +1971,43 @@ tSNE_df |>
 
 # Save outputs
 
-All distances are in inches
-
-```{r echo=FALSE}
-outputs_dir <- "/Academic/COVID-19 proyects/COVID-19_DMII_ICA/COVID-19_ICA/outputs/"
-```
-
-```{r}
-sect_properties <- prop_section(
-  type = "continuous",
-  page_margins = page_mar(bottom = 1, top = 1, right = 1, left = 1))
-```
+::: {style="text-align: justify"}
+Word (`.docx`) and PowerPoint (`*.pptx`) documents can be manipulated with the `officer` package. For example, you can use the `fp_border()` function to define a border style or `prop_section()` to define section properties such as page size, page orientation, borders and margins.
+:::
 
 ## Tables
+
+::: {style="text-align: justify"}
+The `save_as_docx()` function of the `flextable` package can be used in conjunction with the `string` package to set the output directory. This can be achieved by using the following code: `path = stringr::str_glue(output_dir, "table.docx")`, or by using the `here()` function, as demonstrated below.
+:::
 
 ```{r}
 # Save tables
 save_as_docx(
   flex_table_1,
-  path = stringr::str_glue(outputs_dir, "Table_1.docx"),
-  align = "center")
+  align = "center",
+  path = here("outputs", "Table_1.docx"))
 
 save_as_docx(
   flex_table_2,
-  path = stringr::str_glue(outputs_dir, "Table_2.docx"),
-  align = "center")
+  align = "center",
+  path = here("outputs", "Table_2.docx"))
 
 save_as_docx(
   flex_table_3,
-  path = stringr::str_glue(outputs_dir, "Table_3.docx"),
-  align = "center")
+  align = "center",
+  path = here("outputs", "Table_3.docx"))
 ```
 
 ## Figures
+The `ggsave()` function of the `gpplot2` package can be used in conjunction with the `string` package to set the output directory. This can be achieved by using the following code: `filename = stringr::str_glue(output_dir, "figure_1.png")`, or by using the `here()` function, as demonstrated below. All dimensions are in inches (in).
+:::
 
 ```{r}
 # Save supplementary figure 1 (EPS)
 ggsave(
   plot = FS1,
-  filename = stringr::str_glue(outputs_dir, "FIG_S1.eps"),
+  filename = here("outputs", "FIG_S1.eps"),
   width = 12,
   height = 12,
   units = "in")
@@ -2017,7 +2015,7 @@ ggsave(
 # Save supplementary figure 1 (PNG)
 ggsave(
   plot = FS1,
-  filename = stringr::str_glue(outputs_dir, "FIG_S1.png"),
+  filename = here("outputs", "FIG_S1.png"),
   width = 12,
   height = 12,
   dpi = 300,
@@ -2026,7 +2024,7 @@ ggsave(
 # Save supplementary figure 1 (JPEG)
 ggsave(
   plot = FS1,
-  filename = stringr::str_glue(outputs_dir, "FIG_S1.jpeg"),
+  filename = here("outputs", "FIG_S1.jpeg"),
   width = 12,
   height = 12,
   dpi = 300,
@@ -2035,7 +2033,7 @@ ggsave(
 # Save supplementary figure 1 grey (JPEG)
 ggsave(
   plot = FS1_grey,
-  filename = stringr::str_glue(outputs_dir, "FIG_S1_grey.jpeg"),
+  filename = here("outputs", "FIG_S1_grey.jpeg"),
   width = 12,
   height = 12,
   dpi = 500,
@@ -2044,7 +2042,7 @@ ggsave(
 # Save figure 2 (EPS)
 ggsave(
   plot = F1,
-  filename = stringr::str_glue(outputs_dir, "FIG2.eps"),
+  filename = here("outputs", "FIG2.eps"),
   width = 14,
   height = 6,
   units = "in")
@@ -2052,7 +2050,7 @@ ggsave(
 # Save figure 2 (PNG)
 ggsave(
   plot = F1,
-  filename = stringr::str_glue(outputs_dir, "FIG2.png"),
+  filename = here("outputs", "FIG2.png"),
   width = 14,
   height = 6,
   dpi = 300,
@@ -2061,7 +2059,7 @@ ggsave(
 # Save figure 2 (JPEG)
 ggsave(
   plot = F1,
-  filename = stringr::str_glue(outputs_dir, "FIG2.jpeg"),
+  filename = here("outputs", "FIG2.jpeg"),
   width = 14,
   height = 6,
   dpi = 300,
@@ -2070,7 +2068,7 @@ ggsave(
 # Save figure 2 grey (JPEG)
 ggsave(
   plot = F1_grey,
-  filename = stringr::str_glue(outputs_dir, "FIG2_grey.jpeg"),
+  filename = here("outputs", "FIG2_grey.jpeg"),
   width = 14,
   height = 6,
   dpi = 500,
