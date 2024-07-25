@@ -70,7 +70,7 @@ pacman::p_load(
 rfextras::load_scripts()
 ```
 
-```{r results='hide'}
+```{r eval=FALSE}
 grateful::cite_packages(
   output = "file",
   out.format = "docx",
