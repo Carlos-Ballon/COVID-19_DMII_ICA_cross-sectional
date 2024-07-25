@@ -2021,7 +2021,7 @@ ggsave(
   filename = here("outputs", "FIG_S1.png"),
   width = 12,
   height = 12,
-  dpi = 300,
+  dpi = 500,
   units = "in")
 
 # Save supplementary figure 1 (JPEG)
@@ -2030,7 +2030,7 @@ ggsave(
   filename = here("outputs", "FIG_S1.jpeg"),
   width = 12,
   height = 12,
-  dpi = 300,
+  dpi = 500,
   units = "in")
 
 # Save supplementary figure 1 grey (JPEG)
@@ -2056,7 +2056,7 @@ ggsave(
   filename = here("outputs", "FIG2.png"),
   width = 14,
   height = 6,
-  dpi = 300,
+  dpi = 500,
   units = "in")
 
 # Save figure 2 (JPEG)
@@ -2065,15 +2065,17 @@ ggsave(
   filename = here("outputs", "FIG2.jpeg"),
   width = 14,
   height = 6,
-  dpi = 300,
+  dpi = 500,
   units = "in")
 
 # Save figure 2 grey (JPEG)
 ggsave(
   plot = F1_grey,
   filename = here("outputs", "FIG2_grey.jpeg"),
-  width = 14,
-  height = 6,
-  dpi = 500,
-  units = "in")
+  scale = 1.5,
+  width = 17,
+  height = 8,
+  dpi = 770,
+  units = "cm"
+)
 ```
