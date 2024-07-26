@@ -741,16 +741,16 @@ lapply(non_numerical, function(x)
 #### Part 1
 
 ```{r fig.height=14, fig.width=18, fig.align = 'center'}
-# Exploration of age by group
+# Exploration of frec_respiratoria by group
 p1 <- group_stat_table_plot(data, "frec_respiratoria", "a_f")
 
-# Exploration of white-cells by group
+# Exploration of frec_cardiaca by group
 p2 <- group_stat_table_plot(data, "frec_cardiaca", "a_f")
 
-# Exploration of neutrophils by group
+# Exploration of SBP by group
 p3 <- group_stat_table_plot(data, "p_a_sistolica", "a_f")
 
-# Exploration of lymphocytes by group
+# Exploration of DBP by group
 p4 <- group_stat_table_plot(data, "p_a_diastolica", "a_f")
 
 p1 + p2 + p3 + p4
@@ -759,16 +759,16 @@ p1 + p2 + p3 + p4
 #### Part 2
 
 ```{r fig.height=14, fig.width=18, fig.align = 'center'}
-# Exploration of age by group
+# Exploration of WBC by group
 p1 <- group_stat_table_plot(data, "leucocitos", "a_f")
 
-# Exploration of white-cells by group
+# Exploration of neutrophils by group
 p2 <- group_stat_table_plot(data, "neutrofilos", "a_f")
 
-# Exploration of neutrophils by group
+# Exploration of lymphocytes by group
 p3 <- group_stat_table_plot(data, "linfocitos", "a_f")
 
-# Exploration of lymphocytes by group
+# Exploration of platelets by group
 p4 <- group_stat_table_plot(data, "plaquetas", "a_f")
 
 p1 + p2 + p3 + p4
@@ -777,17 +777,17 @@ p1 + p2 + p3 + p4
 #### Part 3
 
 ```{r fig.height=14, fig.width=18, fig.align = 'center'}
-# Exploration of age by group
+# Exploration of glucose by group
 p1 <- group_stat_table_plot(data, "glucosa", "a_f")
 
-# Exploration of white-cells by group
+# Exploration of BUN by group
 p2 <- group_stat_table_plot(data, "urea", "a_f")
 
-# Exploration of neutrophils by group
+# Exploration of hemoglobin by group
 p3 <- group_stat_table_plot(data, "hemoglobina", "a_f")
 
-# Exploration of lymphocytes by group
-p4 <- group_stat_table_plot(data, "linfocitos", "a_f")
+# Exploration of hematocrit by group
+p4 <- group_stat_table_plot(data, "hematocrito", "a_f")
 
 p1 + p2 + p3 + p4
 ```
@@ -795,16 +795,16 @@ p1 + p2 + p3 + p4
 #### Part 4
 
 ```{r fig.height=14, fig.width=18, fig.align = 'center'}
-# Exploration of age by group
+# Exploration of SaO2 by group
 p1 <- group_stat_table_plot(data, "SaO2", "a_f")
 
-# Exploration of white-cells by group
+# Exploration of PaO2:FiO2 by group
 p2 <- group_stat_table_plot(data, "PaO2_FiO2", "a_f")
 
-# Exploration of neutrophils by group
+# Exploration of PaO by group
 p3 <- group_stat_table_plot(data, "PaO2", "a_f")
 
-# Exploration of lymphocytes by group
+# Exploration of FiO2_aga by group
 p4 <- group_stat_table_plot(data, "FiO2_aga", "a_f")
 
 p1 + p2 + p3 + p4
@@ -2039,45 +2039,41 @@ ggsave(
   filename = here("outputs", "FIG_S1_grey.jpeg"),
   width = 12,
   height = 12,
-  dpi = 300,
+  dpi = 500,
   units = "in")
 
 # Save figure 2 (EPS)
 ggsave(
   plot = F1,
   filename = here("outputs", "FIG2.eps"),
-  scale = 1.5,
-  width = 17,
-  height = 8,
-  units = "cm")
+  width = 14,
+  height = 6,
+  units = "in")
 
 # Save figure 2 (PNG)
 ggsave(
   plot = F1,
   filename = here("outputs", "FIG2.png"),
-  scale = 1.5,
-  width = 17,
-  height = 8,
-  dpi = 500,
-  units = "cm")
+  width = 14,
+  height = 6,
+  dpi = 300,
+  units = "in")
 
 # Save figure 2 (JPEG)
 ggsave(
   plot = F1,
   filename = here("outputs", "FIG2.jpeg"),
-  scale = 1.5,
-  width = 17,
-  height = 8,
-  dpi = 500,
-  units = "cm")
+  width = 14,
+  height = 6,
+  dpi = 300,
+  units = "in")
 
 # Save figure 2 grey (JPEG)
 ggsave(
   plot = F1_grey,
   filename = here("outputs", "FIG2_grey.jpeg"),
-  scale = 1.5,
-  width = 17,
-  height = 8,
-  dpi = 770,
-  units = "cm")
+  width = 14,
+  height = 6,
+  dpi = 500,
+  units = "in")
 ```
