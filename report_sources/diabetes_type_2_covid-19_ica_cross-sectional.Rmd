@@ -48,6 +48,8 @@ pacman::p_load(
   ggpubr,
   ggthemes,
   ggpomological,
+  extrafont,
+  showtext,
   finalfit,
   gtsummary,
   flextable,
@@ -66,6 +68,10 @@ pacman::p_load(
   patchwork,
   officer
   )
+
+# For PostScript output
+extrafont::loadfonts(device = "postscript")
+
 # My function scripts
 rfextras::load_scripts()
 ```
@@ -351,38 +357,38 @@ data <- clean_data |>
     MCH = ff_label(MCH, "MCH (pg)"), ##
     
     leucocitos = leucocitos / 1000,
-    leucocitos = ff_label(leucocitos, "White-cells (×10^−9^/L)"), ###
+    leucocitos = ff_label(leucocitos, "White-cells (×10^9^/L)"), ###
     
     leucocitos.c = case_when(
       leucocitos < 4 ~ "< 4",
       leucocitos >= 4 & leucocitos <= 10 ~ "4-10",
       leucocitos > 10 ~ "> 10") |>
       fct_relevel("4-10", "< 4", "> 10") |>
-      ff_label("White-cells (×10^−9^/L)"),
+      ff_label("White-cells (×10^9^/L)"),
     
     linfocitos = linfocitos / 1000,
-    linfocitos = ff_label(linfocitos, "Lymphocytes (×10^−9^/L)"), ###
+    linfocitos = ff_label(linfocitos, "Lymphocytes (×10^9^/L)"), ###
     
     linfocitos.c = case_when(linfocitos < 1 ~ "< 1",
                              TRUE ~ ">= 1") |>
       fct_relevel(">= 1", "< 1") |>
-      ff_label("Lymphocytes (×10^−9^/L)"),
+      ff_label("Lymphocytes (×10^9^/L)"),
     
     neutrofilos = neutrofilos / 1000,
-    neutrofilos = ff_label(neutrofilos, "Neutrophils (×10^−9^/L)"), ###
+    neutrofilos = ff_label(neutrofilos, "Neutrophils (×10^9^/L)"), ###
     
     neutrofilos.c = case_when(neutrofilos > 6.3 ~ "> 6.3",
                               TRUE ~ "<= 6.3") |>
       fct_relevel("<= 6.3", "> 6.3") |>
-      ff_label("Neutrophils (×10^−9^/L)"),
+      ff_label("Neutrophils (×10^9^/L)"),
     
     plaquetas = plaquetas / 1000,
-    plaquetas = ff_label(plaquetas, "Platelets (×10^−9^/L)"), ###
+    plaquetas = ff_label(plaquetas, "Platelets (×10^9^/L)"), ###
     
     plaquetas.c = case_when(plaquetas < 125 ~ "< 125",
                             TRUE ~ ">= 125") |>
       fct_relevel(">= 125", "< 125") |>
-      ff_label("Platelets (×10^−9^/L)"),
+      ff_label("Platelets (×10^9^/L)"),
     
     glucosa = ff_label(glucosa, "Glucose (mg/dL)"), ###
     
@@ -680,28 +686,28 @@ electro_numerical <- numerical |>
 
 #### Part 1 {.active}
 
-```{r fig.height=10, fig.width=11, fig.align='center'}
+```{r fig.height=10, fig.width=11.5, fig.align='center'}
 # Formal and visual exploration
 total_plots(dem_numerical)
 ```
 
 #### Part 2 
 
-```{r fig.height=10, fig.width=11, fig.align='center'}
+```{r fig.height=10, fig.width=11.5, fig.align='center'}
 # Formal and visual exploration
 total_plots(hemo_numerical)
 ```
 
 #### Part 3
 
-```{r fig.height=10, fig.width=11, fig.align='center'}
+```{r fig.height=10, fig.width=11.5, fig.align='center'}
 # Formal and visual exploration
 total_plots(biochem_numerical)
 ```
 
 #### Part 4
 
-```{r fig.height=10, fig.width=11, fig.align='center'}
+```{r fig.height=10, fig.width=11.5, fig.align='center'}
 # Formal and visual exploration
 total_plots(electro_numerical)
 ```
@@ -753,12 +759,13 @@ p3 <- group_stat_table_plot(data, "p_a_sistolica", "a_f")
 # Exploration of DBP by group
 p4 <- group_stat_table_plot(data, "p_a_diastolica", "a_f")
 
-p1 + p2 + p3 + p4
+p1 + p2 + p3 + p4 + plot_annotation(
+  theme = theme(plot.background = element_rect(fill = "#f0f0f0", color = NA)))
 ```
 
 #### Part 2
 
-```{r fig.height=14, fig.width=18, fig.align = 'center'}
+```{r fig.height=15, fig.width=18, fig.align = 'center'}
 # Exploration of WBC by group
 p1 <- group_stat_table_plot(data, "leucocitos", "a_f")
 
@@ -771,7 +778,8 @@ p3 <- group_stat_table_plot(data, "linfocitos", "a_f")
 # Exploration of platelets by group
 p4 <- group_stat_table_plot(data, "plaquetas", "a_f")
 
-p1 + p2 + p3 + p4
+p1 + p2 + p3 + p4 + plot_annotation(
+  theme = theme(plot.background = element_rect(fill = "#f0f0f0", color = NA)))
 ```
 
 #### Part 3
@@ -783,31 +791,33 @@ p1 <- group_stat_table_plot(data, "glucosa", "a_f")
 # Exploration of BUN by group
 p2 <- group_stat_table_plot(data, "urea", "a_f")
 
-# Exploration of hemoglobin by group
+# Exploration of Hb by group
 p3 <- group_stat_table_plot(data, "hemoglobina", "a_f")
 
-# Exploration of hematocrit by group
-p4 <- group_stat_table_plot(data, "hematocrito", "a_f")
+# Exploration of lymphocytes by group
+p4 <- group_stat_table_plot(data, "linfocitos", "a_f")
 
-p1 + p2 + p3 + p4
+p1 + p2 + p3 + p4 + plot_annotation(
+  theme = theme(plot.background = element_rect(fill = "#f0f0f0", color = NA)))
 ```
 
 #### Part 4
 
 ```{r fig.height=14, fig.width=18, fig.align = 'center'}
-# Exploration of SaO2 by group
+# Exploration of age by group
 p1 <- group_stat_table_plot(data, "SaO2", "a_f")
 
-# Exploration of PaO2:FiO2 by group
+# Exploration of white-cells by group
 p2 <- group_stat_table_plot(data, "PaO2_FiO2", "a_f")
 
-# Exploration of PaO by group
+# Exploration of neutrophils by group
 p3 <- group_stat_table_plot(data, "PaO2", "a_f")
 
-# Exploration of FiO2_aga by group
+# Exploration of lymphocytes by group
 p4 <- group_stat_table_plot(data, "FiO2_aga", "a_f")
 
-p1 + p2 + p3 + p4
+p1 + p2 + p3 + p4 + plot_annotation(
+  theme = theme(plot.background = element_rect(fill = "#f0f0f0", color = NA)))
 ```
 
 :::
@@ -1109,10 +1119,10 @@ table_3.1 <- data_uv |>
       frec_cardiaca.c ~ "Heart rate (BPM)",
       p_a_sistolica.c ~ "SBP (mmHg)",
       p_a_diastolica.c ~ "DBP (mmHg)",
-      leucocitos.c ~ "White-cells (×10^−9^/L)",
-      neutrofilos.c ~ "Neutrophils (×10^−9^/L)",
-      linfocitos.c ~ "Lymphocytes (×10^−9^/L)",
-      plaquetas.c ~ "Platelets (×10^−9^/L)",
+      leucocitos.c ~ "White-cells (×10^9^/L)",
+      neutrofilos.c ~ "Neutrophils (×10^9^/L)",
+      linfocitos.c ~ "Lymphocytes (×10^9^/L)",
+      plaquetas.c ~ "Platelets (×10^9^/L)",
       MCV ~ "MCV (mm^3^)",
       MCH ~ "MCH (pg)",
       hemoglobina.c ~ "Hemoglobin (g/dL)",
@@ -1326,8 +1336,8 @@ table_3.2 <-
       estertores_pulmonares ~ "Lung crackles",
       frec_cardiaca.c ~ "Heart rate (BPM)",
       p_a_sistolica.c ~ "SBP (mmHg)",
-      neutrofilos.c ~ "Neutrophils (×10^−9^/L)",
-      linfocitos.c ~ "Lymphocytes (×10^−9^/L)",
+      neutrofilos.c ~ "Neutrophils (×10^9^/L)",
+      linfocitos.c ~ "Lymphocytes (×10^9^/L)",
       MCH ~ "MCH (pg)",
       hemoglobina.c ~ "Hemoglobin (g/dL)",
       urea.c ~ "BUN (mg/dL)",
@@ -1445,7 +1455,7 @@ factoextra::get_eigenvalue(pca_data) |>
 To visualize the PCA, the `ggplot2` and `factoextra` packages can be utilized. Plots such as scree plots can be used to understand the variance explained (eigenvalues) by each component or biplots to understand the relationship between variables and components and how the data is distributed across these new dimensions (principal components). This helps to reveal patterns and clusters. A scree plot assesses the contribution of each component to the total variance. It determines the optimal number of principal components to keep, streamlines the analysis by focusing on the most important components.
 :::
 
-```{r fig.height=7, fig.width=7, fig.align='center'}
+```{r fig.height=7, fig.width=8, fig.align='center'}
 # Plot variances of new dimensions
 fviz_eig(
   pca_data,
@@ -1453,8 +1463,9 @@ fviz_eig(
   choice = "variance",
   barfill = "#99CC00FF",
   barcolor = "#99CC00FF",
-  xlab = "New dimensions"
-  )
+  xlab = "New dimensions",
+  ggtheme = theme_539()
+)
 ```
 
 ### Variables
@@ -1485,7 +1496,7 @@ x1 <- fviz_cos2(
   choice = "var",
   axes = 1,
   top = 10,
-  ggtheme = theme_538()
+  ggtheme = theme_540()
   )
 
 # Cos2 plot of the top 10 variables in the dimension 2
@@ -1494,7 +1505,7 @@ x2 <- fviz_cos2(
   choice = "var",
   axes = 2,
   top = 10,
-  ggtheme = theme_538()
+  ggtheme = theme_540()
   )
 
 # Cos2 plot of the top 10 variables in the dimension 3
@@ -1503,7 +1514,7 @@ x3 <- fviz_cos2(
   choice = "var",
   axes = 3,
   top = 10,
-  ggtheme = theme_538()
+  ggtheme = theme_540()
   )
 
 # Cos2 plot of the top 10 variables in the dimension 4
@@ -1512,14 +1523,25 @@ x4 <- fviz_cos2(
   choice = "var",
   axes = 4,
   top = 10,
-  ggtheme = theme_538()
+  ggtheme = theme_540()
   )
 
 # Arrange multiple plots
-ggpubr::ggarrange(x1, x2, x3, x4, 
-                  ncol = 2, nrow = 2, 
-                  labels = c("A)", "B)", "C)", "D)")
-                  )
+ggpubr::ggarrange(x1, x2, x3, x4, ncol = 2, nrow = 2)
+
+# Arrange multiple plots
+cos2_plot <- ggpubr::ggarrange(
+  x1, x2, x3, x4, ncol = 2, nrow = 2)
+
+annotate_figure(
+  cos2_plot,
+  top = text_grob(
+    "Cos2 of the top 10 variables",
+    face = "bold",
+    family = "Lato",
+    size = 16)
+  ) +
+  theme(plot.background = element_rect(fill = "#f0f0f0", color = NA))
 ```
 
 ```{r}
@@ -1529,7 +1551,7 @@ a <- fviz_cos2(
   choice = "var",
   axes = 1:2,
   top = 10,
-  ggtheme = theme_pander()
+  ggtheme = theme_540()
   )
 
 # Plot of the 10 variables with the highest cos2 in PC3 and PC4
@@ -1538,7 +1560,7 @@ b <- fviz_cos2(
   choice = "var",
   axes = 3:4,
   top = 10,
-  ggtheme = theme_pander()
+  ggtheme = theme_540()
   )
 
 # Correlations circle and color by cos2 values
@@ -1548,7 +1570,7 @@ c <- fviz_pca_var(
   gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
   repel = TRUE,
   # repel = TRUE avoid text overlapping
-  ggtheme = theme_pander()
+  ggtheme = theme_540()
   ) 
 ```
 
@@ -1569,7 +1591,7 @@ y1 <- fviz_contrib(
   choice = "var",
   axes = 1,
   top = 10,
-  ggtheme = theme_538()
+  ggtheme = theme_540()
   )
 
 # Contribution plot of the top 10 variables in the dimension 2
@@ -1578,7 +1600,7 @@ y2 <- fviz_contrib(
   choice = "var",
   axes = 2,
   top = 10,
-  ggtheme = theme_538()
+  ggtheme = theme_540()
   )
 
 # Contribution plot of the top 10 variables in the dimension 3
@@ -1587,7 +1609,7 @@ y3 <- fviz_contrib(
   choice = "var",
   axes = 2,
   top = 10,
-  ggtheme = theme_538()
+  ggtheme = theme_540()
   )
 
 # Contribution plot of the top 10 variables in the dimension 4
@@ -1596,14 +1618,22 @@ y4 <- fviz_contrib(
   choice = "var",
   axes = 2,
   top = 10,
-  ggtheme = theme_538()
+  ggtheme = theme_540()
   )
 
 # Arrange multiple plots
-ggpubr::ggarrange(y1, y2, y3, y4, 
-                  ncol = 2, nrow = 2, 
-                  labels = c("A)", "B)", "C)", "D)")
-                  )
+contrib_plot <- ggpubr::ggarrange(
+  y1, y2, y3, y4, ncol = 2, nrow = 2)
+
+annotate_figure(
+  contrib_plot,
+  top = text_grob(
+    "Contribution of the top 10 variables",
+    face = "bold",
+    family = "Lato",
+    size = 16)
+  ) +
+  theme(plot.background = element_rect(fill = "#f0f0f0", color = NA))
 ```
 
 ```{r}
@@ -1613,7 +1643,7 @@ d <- fviz_contrib(
   choice = "var",
   axes = 1:2,
   top = 10,
-  ggtheme = theme_pander()
+  ggtheme = theme_540()
   )
 
 # Plot of 10 variables with the highest contribution on PC3 and PC4
@@ -1622,7 +1652,7 @@ e <- fviz_contrib(
   choice = "var",
   axes = 3:4,
   top = 10,
-  ggtheme = theme_pander()
+  ggtheme = theme_540()
   )
 
 # Correlations circle and color by contributions values
@@ -1631,15 +1661,25 @@ f <- fviz_pca_var(
   col.var = "contrib",
   gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
   repel = TRUE,
-  ggtheme = theme_pander())
+  ggtheme = theme_540())
 ```
 
 ```{r fig.height=12, fig.width=12, fig.align='center'}
 # Arrange multiple plots
-ggpubr::ggarrange(a, d, b, e, c, f, 
-                  ncol = 2, nrow = 3, 
-                  labels = c("A)", "B)", "C)", "D)", "E)", "F)"), 
-                  legend = "right")
+pca_var <- ggpubr::ggarrange(
+  a, d, b, e, c, f,  ncol = 2, nrow = 3,
+  labels = c("A)", "B)", "C)", "D)", "E)", "F)"),
+  legend = "right")
+
+annotate_figure(
+  pca_var , 
+  top = text_grob(
+    "PCA variables",
+    face = "bold",
+    family = "Lato",
+    size = 16)
+  ) + 
+  theme(plot.background = element_rect(fill = "#f0f0f0", color = NA))
 ```
 
 ### Individuals
@@ -1662,7 +1702,7 @@ a <- fviz_cos2(
   choice = "ind",
   axes = 1:2,
   top = 20,
-  ggtheme = theme_pander()
+  ggtheme = theme_540()
   )
 
 # Plot of 20 patients with the highest cos2 in PC3 and PC4
@@ -1671,7 +1711,7 @@ b <- fviz_cos2(
   choice = "ind",
   axes = 3:4,
   top = 20,
-  ggtheme = theme_pander()
+  ggtheme = theme_540()
   )
 
 # Correlations circle and color by cos2 values
@@ -1680,7 +1720,7 @@ c <- fviz_pca_ind(
   col.ind = "cos2",
   gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
   repel = TRUE,
-  ggtheme = theme_pander()
+  ggtheme = theme_540()
   )
 ```
 
@@ -1696,7 +1736,7 @@ d <- fviz_contrib(
   choice = "ind",
   axes = 1:2,
   top = 20,
-  ggtheme = theme_pander()
+  ggtheme = theme_540()
   )
 
 # Plot of the 20 individuals with the highest contribution in PC3 and PC4
@@ -1705,7 +1745,7 @@ e <- fviz_contrib(
   choice = "ind",
   axes = 3:4,
   top = 20,
-  ggtheme = theme_pander()
+  ggtheme = theme_540()
   )
 
 # Correlations circle and color by contributions values
@@ -1713,15 +1753,25 @@ f <- fviz_pca_ind(
   pca_data,
   col.ind = "contrib",
   gradient.cols = c("#fee0d2", "#fc9272", "#de2d26"),
-  ggtheme = theme_pander()
+  ggtheme = theme_540()
   )
 ```
 
 ```{r fig.height=12, fig.width=12, fig.align='center'}
 # Arrange multiple plots
-ggpubr::ggarrange(a, d, b, e, c, f, ncol = 2, nrow = 3, 
-                  labels = c("A)", "B)", "C)", "D)", "E)", "F)"), 
-                  legend = "right")
+pca_ind <- ggpubr::ggarrange(
+  a, d, b, e, c, f, ncol = 2, nrow = 3,
+  legend = "right")
+
+annotate_figure(
+  pca_ind,
+  top = text_grob(
+    "PCA individuals",
+    face = "bold",
+    family = "Lato",
+    size = 16)
+  ) +
+  theme(plot.background = element_rect(fill = "#f0f0f0", color = NA))
 ```
 
 ```{r fig.height=6, fig.width=14, fig.align='center'}
@@ -1772,11 +1822,11 @@ b <- ggpubr::ggpar(
 
 ```{r fig.height=6, fig.width=14, fig.align='center'}
 # Arrange multiple plots
-ggpubr::ggarrange(a, b, 
-                  ncol = 2, nrow = 1, 
-                  labels = c("A)", "B)"), 
-                  legend = "bottom", common.legend = TRUE
-                  )
+ggpubr::ggarrange(
+  a, b, ncol = 2, nrow = 1, 
+  labels = c("A)", "B)"), 
+  legend = "bottom", common.legend = TRUE
+  )
 ```
 
 ### Biplot of individuals and variables

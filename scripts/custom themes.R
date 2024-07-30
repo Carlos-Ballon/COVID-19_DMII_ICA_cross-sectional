@@ -27,8 +27,8 @@ my_flextable_theme <- function(x, bold_header = FALSE) {
   autofit(x)
 }
 
-# Define custom `ggplot2` theme
-theme_538 <- function(..., base_size = 9) {
+# Set custom `ggplot2` theme 537
+theme_537 <- function(..., base_size = 18) {
   ggplot2::theme(
     
     # drop minor grid lines
@@ -42,27 +42,159 @@ theme_538 <- function(..., base_size = 9) {
     plot.background = element_rect(fill = "#f0f0f0", color = NA),
     panel.border = element_blank(),
     
+    # change legend background to gray
+    legend.background = element_rect(fill = "#f0f0f0", color = NA),
+    
     # remove strip background
     strip.background = element_blank(),
     
     # adjust the margins of plots and remove axis ticks
-    plot.margin = margin(0.5, 1, 0.5, 1, unit = "cm"),
+    plot.margin = margin(0.5, 0.5, 0.5, 0.5, unit = "cm"),
     axis.ticks = element_blank(),
     
     # change the color of axis lines
-    axis.line = element_line(color = "black"),
+    axis.line = element_line(color = "#272822"),
     
     # change text family, size, and adjust position of titles
-    text = element_text(family = "Chivo", size = base_size),
-    axis.text = element_text(color = "gray30", size = base_size),
-    axis.title = element_text(color = "black", face = "bold", size = rel(1.30)),
+    text = element_text(family = "Syne", size = base_size),
+    axis.text = element_text(color = "#3D3E38", size = base_size),
+    axis.title = element_text(color = "#272822", size = rel(1.33)),
     axis.title.x = element_text(margin = margin(0.5, 0, 0, 0, unit = "cm")),
     axis.title.y = element_text(margin = margin(0, 0.5, 0, 0, unit = "cm"), angle = 90),
-    plot.title = element_text(color = "black", face = "bold", size = rel(1.65), hjust = 0),
+    plot.title = element_text(color = "#272822", family = "Syne", size = rel(1.80), hjust = 0),
     plot.title.position = "plot",
     plot.subtitle = element_text(size = 16, margin = margin(0.2, 0, 1, 0, unit = "cm"), hjust = 0),
     plot.caption = element_text(size = 10, margin = margin(1, 0, 0, 0, unit = "cm"), hjust = 1),
-    strip.text = element_text(color = "black", size = rel(1.30),face = "bold"),
+    strip.text = element_text(color = "#272822", size = rel(1.30),face = "bold"),
+    ...
+  )
+}
+
+# Set custom theme `ggplot2` 538
+theme_538 <- function(..., base_size = 10) {
+  ggplot2::theme(
+    
+    # drop minor grid lines
+    panel.grid.minor = element_line(color = "#d0d0d0"),
+    
+    # change grid lines to gray
+    panel.grid.major =  element_line(color = "#d0d0d0"),
+    
+    # fill the plot and panel spaces with grey and remove border
+    panel.background = element_rect(fill = "#f0f0f0", color = NA),
+    plot.background = element_rect(fill = "#f0f0f0", color = NA),
+    panel.border = element_blank(),
+    
+    # change legend background to gray
+    legend.background = element_rect(fill = "#f0f0f0", color = NA),
+    
+    # remove strip background
+    strip.background = element_blank(),
+    
+    # adjust the margins of plots and remove axis ticks
+    plot.margin = margin(0.5, 0.5, 0.5, 0.5, unit = "cm"),
+    axis.ticks = element_blank(),
+    
+    # change the color of axis lines
+    axis.line = element_blank(),
+    
+    # change text family, size, and adjust position of titles
+    text = element_text(family = "Syne", size = base_size),
+    axis.text = element_text(color = "#3D3E38", size = base_size),
+    axis.title = element_text(color = "#272822", size = rel(1.33)),
+    axis.title.x = element_text(margin = margin(0.5, 0, 0, 0, unit = "cm")),
+    axis.title.y = element_text(margin = margin(0, 0.5, 0, 0, unit = "cm"), angle = 90),
+    plot.title = element_text(color = "#272822", family = "Syne", size = rel(1.85), hjust = 0),
+    plot.title.position = "plot",
+    plot.subtitle = element_text(size = 16, margin = margin(0.2, 0, 1, 0, unit = "cm"), hjust = 0),
+    plot.caption = element_text(size = 10, margin = margin(1, 0, 0, 0, unit = "cm"), hjust = 1),
+    strip.text = element_text(color = "#272822", size = rel(1.30), face = "bold"),
+    ...
+  )
+}
+
+# Set custom `ggplot2` theme 539
+theme_539 <- function(..., base_size = 12) {
+  ggplot2::theme(
+    
+    # drop minor grid lines
+    panel.grid.minor = element_line(color = "#d0d0d0"),
+    
+    # change grid lines to gray
+    panel.grid.major =  element_line(color = "#d0d0d0"),
+    
+    # fill the plot and panel spaces with grey and remove border
+    panel.background = element_rect(fill = "#f0f0f0", color = NA),
+    plot.background = element_rect(fill = "#f0f0f0", color = NA),
+    panel.border = element_blank(),
+    
+    # change legend background to gray
+    legend.background = element_rect(fill = "#f0f0f0", color = NA),
+    
+    # remove strip background
+    strip.background = element_blank(),
+    
+    # adjust the margins of plots and remove axis ticks
+    plot.margin = margin(0.5, 0.5, 0.5, 0.5, unit = "cm"),
+    axis.ticks = element_blank(),
+    
+    # change the color of axis lines
+    axis.line = element_blank(),
+    
+    # change text family, size, and adjust position of titles
+    text = element_text(family = "Syne", size = base_size),
+    axis.text = element_text(color = "#3D3E38", size = base_size),
+    axis.title = element_text(color = "#272822", size = rel(1.33)),
+    axis.title.x = element_text(margin = margin(0.5, 0, 0, 0, unit = "cm")),
+    axis.title.y = element_text(margin = margin(0, 0.5, 0, 0, unit = "cm"), angle = 90),
+    plot.title = element_text(color = "#272822", family = "Syne", size = rel(1.80), hjust = 0),
+    plot.title.position = "plot",
+    plot.subtitle = element_text(size = 16, margin = margin(0.2, 0, 1, 0, unit = "cm"), hjust = 0),
+    plot.caption = element_text(size = 10, margin = margin(1, 0, 0, 0, unit = "cm"), hjust = 1),
+    strip.text = element_text(color = "#272822", size = rel(1.30), face = "bold"),
+    ...
+  )
+}
+
+# Set custom theme `ggplot2` 540
+theme_540 <- function(..., base_size = 9) {
+  ggplot2::theme(
+    
+    # drop minor grid lines
+    panel.grid.minor = element_line(color = "#d0d0d0"),
+    
+    # change grid lines to gray
+    panel.grid.major =  element_line(color = "#d0d0d0"),
+    
+    # fill the plot and panel spaces with grey and remove border
+    panel.background = element_rect(fill = "#f0f0f0", color = NA),
+    plot.background = element_rect(fill = "#f0f0f0", color = NA),
+    panel.border = element_blank(),
+    
+    # change legend background to gray
+    legend.background = element_rect(fill = "#f0f0f0", color = NA),
+    
+    # remove strip background
+    strip.background = element_blank(),
+    
+    # adjust the margins of plots and remove axis ticks
+    plot.margin = margin(0.5, 0.5, 0.5, 0.5, unit = "cm"),
+    axis.ticks = element_blank(),
+    
+    # change the color of axis lines
+    axis.line = element_blank(),
+    
+    # change text family, size, and adjust position of titles
+    text = element_text(family = "Syne", size = base_size),
+    axis.text = element_text(color = "#3D3E38", size = base_size),
+    axis.title = element_text(color = "#272822", size = rel(1.33)),
+    axis.title.x = element_text(margin = margin(0.5, 0, 0, 0, unit = "cm")),
+    axis.title.y = element_text(margin = margin(0, 0.5, 0, 0, unit = "cm"), angle = 90),
+    plot.title = element_text(color = "#272822", family = "Syne", size = rel(1.85), hjust = 0),
+    plot.title.position = "plot",
+    plot.subtitle = element_text(size = 16, margin = margin(0.2, 0, 1, 0, unit = "cm"), hjust = 0),
+    plot.caption = element_text(size = 10, margin = margin(1, 0, 0, 0, unit = "cm"), hjust = 1),
+    strip.text = element_text(color = "#272822", size = rel(1.30), face = "bold"),
     ...
   )
 }

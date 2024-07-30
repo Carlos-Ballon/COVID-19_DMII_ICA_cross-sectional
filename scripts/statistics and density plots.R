@@ -110,17 +110,16 @@ group_stat_table_plot <- function(data_used, var, outcome) {
     ) |>
     ggpubr::tab_add_title(
       text = "Summary statistics and normality tests",
-      hjust = -0.88,
       padding = unit(1.5, "line"),
-      size = 11,
-      face = "italic"
+      size = 14,
+      family = "Syne",
+      hjust = -0.69
     ) |>
     ggpubr::tab_add_footnote(
       text = foot_note,
       padding = unit(0.5, "line"),
-      size = 10,
-      face = "italic",
-      hjust = 0.97
+      size = 10.5,
+      family = "Syne"
     )
   
   # Density plot by groups
@@ -141,12 +140,8 @@ group_stat_table_plot <- function(data_used, var, outcome) {
     ggsci::scale_fill_igv(palette = "alternating", alpha = 0.4) +
     ggsci::scale_color_igv(palette = "alternating", alpha = 0.7) +
     ggplot2::guides(fill = "none") +
-    theme_538() +
-    theme(
-      plot.title = element_text(size = rel(2.8), family = "Chivo"),
-      axis.title = element_text(size = rel(2.3), family = "Chivo"),
-      legend.position = "none"
-    )
+    ggplot2::theme(legend.position = "none") +
+    theme_537()
   
   ggpubr::ggarrange(plot,
                     custom_stat_table,
