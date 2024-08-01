@@ -14,7 +14,7 @@ my_ggcorrplor <- function(df) {
     digits = 1
   ) +
     theme(text = element_text(color = "black"),
-          axis.text = element_text(color = "black")) +
+          axis.text = element_text(color = "black", family = "Syne")) +
     labs(x = element_blank(), y = element_blank())
 }
 
@@ -35,6 +35,6 @@ my_ggcorrplor_grey <- function(df) {
     digits = 1
   ) +
     theme(text = element_text(color = "black"),
-          axis.text = element_text(color = "black")) +
+          axis.text = element_text(color = "black", family = "Syne")) +
     labs(x = element_blank(), y = element_blank())
 }
