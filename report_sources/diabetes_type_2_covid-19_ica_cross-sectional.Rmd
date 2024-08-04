@@ -1899,6 +1899,7 @@ F1 <-
   plot_annotation(tag_levels = list(c("A)", "B)"))) &
   theme(legend.position = "bottom",
         plot.tag = element_text(face = 'bold'))
+
 # View
 F1 + plot_annotation(title = 'Figure 2') &
   theme(plot.title = element_text(face = 'bold', size = 18))
@@ -2032,7 +2033,7 @@ Word (`.docx`) and PowerPoint (`*.pptx`) documents can be manipulated with the `
 The `save_as_docx()` function of the `flextable` package can be used in conjunction with the `string` package to set the output directory. This can be achieved by using the following code: `path = stringr::str_glue(output_dir, "table.docx")`, or by using the `here()` function, as demonstrated below.
 :::
 
-```{r}
+```{r eval=FALSE}
 # Save tables
 save_as_docx(
   flex_table_1,
