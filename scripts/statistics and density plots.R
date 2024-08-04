@@ -135,11 +135,11 @@ group_stat_table_plot <- function(data_used, var, outcome) {
       x = element_blank(),
       y = "Density",
       color = "Group",
+      fill = "Group",
       title = paste("Density Plot of", var)
     ) +
-    ggsci::scale_fill_igv(palette = "alternating", alpha = 0.4) +
+    ggsci::scale_fill_igv(palette = "alternating", alpha = 0.2) +
     ggsci::scale_color_igv(palette = "alternating", alpha = 0.7) +
-    ggplot2::guides(fill = "none") +
     ggplot2::theme(legend.position = "none") +
     theme_537()
   
