@@ -130,8 +130,10 @@ data <- clean_data |>
   mutate(
     edad = ff_label(edad, "Age (years)"), ###
     
-    edad.c = case_when(edad <= 60 ~ "< 61",
-                       edad > 60 ~ ">= 61") |>
+    edad.c = 
+      case_when(
+        edad <= 60 ~ "< 61",
+        edad > 60 ~ ">= 61") |>
       fct_relevel("< 61", ">= 61") |>
       ff_label("Age (years)"),
     
@@ -180,7 +182,7 @@ data <- clean_data |>
     e_inmunosupresora =
       case_when(
         neoplasia == "Yes" |  vih == "Yes" | e_inmunosupresora == "Yes" ~ "Yes",
-        TRUE ~ "No" ) |> ####
+        TRUE ~ "No") |> ####
       fct_relevel("No", "Yes") |>
       ff_label("Immunesupressive disease"),
     
@@ -274,9 +276,7 @@ data <- clean_data |>
         "Awake" = "DESPIERTO",
         "Sleepy" = "SOMNOLIENTO",
         "Drowsy" = "SOPOROSO") |>
-      fct_relevel("Awake",
-                  "Sleepy",
-                  "Drowsy") |>
+      fct_relevel("Awake", "Sleepy", "Drowsy") |>
       ff_label("Sensory"),
     
     ingreso_a_uci = factor(ingreso_a_uci) |> ####
@@ -326,29 +326,37 @@ data <- clean_data |>
     
     p_a_sistolica = ff_label(p_a_sistolica, "SBP (mmHg)"), ###
     
-    p_a_sistolica.c = case_when(p_a_sistolica < 140 ~ "< 140",
-                                TRUE ~ ">= 140") |>
+    p_a_sistolica.c = 
+      case_when(
+        p_a_sistolica < 140 ~ "< 140",
+        TRUE ~ ">= 140") |>
       fct_relevel("< 140", ">= 140") |>
       ff_label("SBP (mmHg)"),
     
     p_a_diastolica = ff_label(p_a_diastolica, "DBP (mmHg)"), ###
     
-    p_a_diastolica.c = case_when(p_a_diastolica < 90 ~ "< 90",
-                                 TRUE ~ ">= 90") |>
+    p_a_diastolica.c = 
+      case_when(
+        p_a_diastolica < 90 ~ "< 90",
+        TRUE ~ ">= 90") |>
       fct_relevel("< 90", ">= 90") |>
       ff_label("DBP (mmHg)"),
     
     hemoglobina = ff_label(hemoglobina, "Hemoglobin (g/dL)"), ###
     
-    hemoglobina.c = case_when(hemoglobina <= 12 ~ "<= 12",
-                              TRUE ~ "> 12") |>
+    hemoglobina.c = 
+      case_when(
+        hemoglobina <= 12 ~ "<= 12",
+        TRUE ~ "> 12") |>
       fct_relevel("> 12", "<= 12") |>
       ff_label("Hemoglobin (g/dL)"),
     
     hematocrito = ff_label(hematocrito, "Hematocrit (%)"), ##
     
-    hematocrito.c = case_when(hematocrito < 36 ~ "< 36",
-                              TRUE ~ ">= 36") |>
+    hematocrito.c = 
+      case_when(
+        hematocrito < 36 ~ "< 36",
+        TRUE ~ ">= 36") |>
       fct_relevel(">= 36", "< 36") |>
       ff_label("Hematocrit (%)"),
     
@@ -359,34 +367,41 @@ data <- clean_data |>
     leucocitos = leucocitos / 1000,
     leucocitos = ff_label(leucocitos, "White-cells (×10^9^/L)"), ###
     
-    leucocitos.c = case_when(
-      leucocitos < 4 ~ "< 4",
-      leucocitos >= 4 & leucocitos <= 10 ~ "4-10",
-      leucocitos > 10 ~ "> 10") |>
+    leucocitos.c = 
+      case_when(
+        leucocitos < 4 ~ "< 4",
+        leucocitos >= 4 & leucocitos <= 10 ~ "4-10",
+        leucocitos > 10 ~ "> 10") |>
       fct_relevel("4-10", "< 4", "> 10") |>
       ff_label("White-cells (×10^9^/L)"),
     
     linfocitos = linfocitos / 1000,
     linfocitos = ff_label(linfocitos, "Lymphocytes (×10^9^/L)"), ###
     
-    linfocitos.c = case_when(linfocitos < 1 ~ "< 1",
-                             TRUE ~ ">= 1") |>
+    linfocitos.c = 
+      case_when(
+        linfocitos < 1 ~ "< 1",
+        TRUE ~ ">= 1") |>
       fct_relevel(">= 1", "< 1") |>
       ff_label("Lymphocytes (×10^9^/L)"),
     
     neutrofilos = neutrofilos / 1000,
     neutrofilos = ff_label(neutrofilos, "Neutrophils (×10^9^/L)"), ###
     
-    neutrofilos.c = case_when(neutrofilos > 6.3 ~ "> 6.3",
-                              TRUE ~ "<= 6.3") |>
+    neutrofilos.c = 
+      case_when(
+        neutrofilos > 6.3 ~ "> 6.3",
+        TRUE ~ "<= 6.3") |>
       fct_relevel("<= 6.3", "> 6.3") |>
       ff_label("Neutrophils (×10^9^/L)"),
     
     plaquetas = plaquetas / 1000,
     plaquetas = ff_label(plaquetas, "Platelets (×10^9^/L)"), ###
     
-    plaquetas.c = case_when(plaquetas < 125 ~ "< 125",
-                            TRUE ~ ">= 125") |>
+    plaquetas.c = 
+      case_when(
+        plaquetas < 125 ~ "< 125",
+        TRUE ~ ">= 125") |>
       fct_relevel(">= 125", "< 125") |>
       ff_label("Platelets (×10^9^/L)"),
     
@@ -394,38 +409,44 @@ data <- clean_data |>
     
     urea = ff_label(urea, "BUN (mg/dL)"), ###
     
-    urea.c = case_when(urea < 20 ~ "< 20",
-                       TRUE ~ ">= 20") |>
+    urea.c = 
+      case_when(
+        urea < 20 ~ "< 20",
+        TRUE ~ ">= 20") |>
       fct_relevel("< 20", ">= 20") |>
       ff_label("BUN (mg/dL)"),
     
     creatinina = ff_label(creatinina, "Serum creatinine (mg/dL)"), ###
     
-    creatinina.c = case_when(creatinina < 1.3 ~ "< 1.3",
-                             TRUE ~ ">= 1.3") |>
+    creatinina.c = 
+      case_when(
+        creatinina < 1.3 ~ "< 1.3",
+        TRUE ~ ">= 1.3") |>
       fct_relevel("< 1.3", ">= 1.3") |>
       ff_label("Serum creatinine (mg/dL)"),
     
     ph = ff_label(ph, "pH"), ##
     
-    ph.c = case_when(
-      ph < 7.35 ~ "< 7.35",
-      ph >= 7.35 & ph <= 7.45 ~ "7.35 - 7.45",
-      ph > 7.45 ~ "> 7.45") |>
+    ph.c = 
+      case_when(
+        ph < 7.35 ~ "< 7.35",
+        ph >= 7.35 & ph <= 7.45 ~ "7.35 - 7.45",
+        ph > 7.45 ~ "> 7.45") |>
       fct_relevel("7.35 - 7.45", "< 7.35", "> 7.45") |>
       ff_label("pH"),
     
     frec_cardiaca = ff_label(frec_cardiaca, "Heart rate (BPM)"), ##
     
-    frec_cardiaca.c = case_when(frec_cardiaca < 100 ~ "< 100",
-                                      TRUE ~ ">= 100") |>
+    frec_cardiaca.c = 
+      case_when(
+        frec_cardiaca < 100 ~ "< 100",
+        TRUE ~ ">= 100") |> 
       fct_relevel("< 100", ">= 100") |>
       ff_label("Heart rate (BPM)"),
     
-    frec_respiratoria = ff_label(frec_respiratoria, 
-                                       "Respiratory rate (BPM)"), ##
+    frec_respiratoria = ff_label(frec_respiratoria, "Respiratory rate (BPM)"), ##
     
-    frec_respiratoria.c =
+    frec_respiratoria.c = 
       case_when(
         frec_respiratoria < 24 ~ "< 24",
         frec_respiratoria >= 24 & frec_respiratoria <= 30 ~ "24 - 30",
@@ -435,53 +456,66 @@ data <- clean_data |>
     
     SaO2 = ff_label(SaO2, "SaO~2~ (%)"), ###
     
-    SaO2.c = case_when(SaO2 < 94 ~ "< 94",
-                                        TRUE ~ ">= 94") |>
+    SaO2.c = 
+      case_when(
+        SaO2 < 94 ~ "< 94",
+        TRUE ~ ">= 94") |>
       fct_relevel(">= 94", "< 94") |>
       ff_label("SaO~2~"),
     
     FiO2_aga = ff_label(FiO2_aga, "FiO~2~ (%)"), ###
     
-    FiO2_aga.c = case_when(FiO2_aga > 21 ~ "> 21 (O~2~ therapy)",
-                           TRUE ~ "21") |>
+    FiO2_aga.c = 
+      case_when(
+        FiO2_aga > 21 ~ "> 21 (O~2~ therapy)",
+        TRUE ~ "21") |>
       fct_relevel("> 21 (O~2~ therapy)", "21") |>
       ff_label("FiO~2~ (%)"),
     
     PaO2 = ff_label(PaO2, "PaO~2~ (mmHg)"), ##
     
-    PaO2.c = case_when(PaO2 < 60 ~ "< 60",
-                      TRUE ~ ">= 60") |>
+    PaO2.c = 
+      case_when(
+        PaO2 < 60 ~ "< 60",
+        TRUE ~ ">= 60") |>
       fct_relevel(">= 60", "< 60") |>
       ff_label("PaO~2~"),
     
     PCO2 = ff_label(PCO2, "PCO~2~ (mmHg)"), ##
     
-    PCO2.c = case_when(PCO2 < 36 ~ "< 36",
-                       TRUE ~ ">= 36") |>
+    PCO2.c = 
+      case_when(
+        PCO2 < 36 ~ "< 36",
+        TRUE ~ ">= 36") |>
       fct_relevel("< 36", ">= 36") |>
       ff_label("PCO~2~ (mmHg)"),
     
     PaO2_FiO2 = ff_label(PaO2_FiO2, "PaO~2~:FiO~2~ ratio"),  ###
     
-    PaO2_FiO2.c = case_when(PaO2_FiO2 <= 200 ~ "<= 200",
-                       TRUE ~ "> 200") |>
+    PaO2_FiO2.c = 
+      case_when(
+        PaO2_FiO2 <= 200 ~ "<= 200",
+        TRUE ~ "> 200") |>
       fct_relevel("> 200", "<= 200") |>
       ff_label("PaO~2~:FiO~2~ ratio"),
     
     HCO3 = ff_label(HCO3, "HCO~3~ (mmol/L)"), ##
     
-    HCO3.c = case_when(HCO3 < 21 ~ "< 21",
-                       HCO3 >= 21 & HCO3 <= 28 ~ "21 - 28",
-                       HCO3 > 28 ~ "> 28") |>
+    HCO3.c = 
+      case_when(
+        HCO3 < 21 ~ "< 21",
+        HCO3 >= 21 & HCO3 <= 28 ~ "21 - 28",
+        HCO3 > 28 ~ "> 28") |>
       fct_relevel("21 - 28", "< 21", "> 28") |>
       ff_label("HCO~3~ (mEq/L)"),
     
     anion_gap = ff_label(anion_gap, "Anion Gap (mEq/L)"), ##
     
-    anion_gap.c = case_when(
-      anion_gap < 7 ~ "< 7",
-      anion_gap >= 7 & anion_gap <= 13 ~ "7 - 13",
-      anion_gap > 13 ~ "> 13") |>
+    anion_gap.c = 
+      case_when(
+        anion_gap < 7 ~ "< 7",
+        anion_gap >= 7 & anion_gap <= 13 ~ "7 - 13",
+        anion_gap > 13 ~ "> 13") |>
       fct_relevel("7 - 13", "< 7", "> 13") |>
       ff_label("Anion Gap (mEq/L)"),
     
@@ -501,8 +535,9 @@ data <- clean_data |>
 data <- data |>
   mutate(
     a_f = factor(a_f) |>
-      fct_recode("Non-survivor" = "FALLECIDO",
-                 "Survivor" = "ALTA") |>
+      fct_recode(
+        "Non-survivor" = "FALLECIDO",
+        "Survivor" = "ALTA") |>
       fct_relevel("Survivor", "Non-survivor")
   )
 ```
