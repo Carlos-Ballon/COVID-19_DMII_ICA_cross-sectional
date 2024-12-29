@@ -9,7 +9,7 @@ format:
     code-overflow: wrap
     code-fold: true
     code-tools: 
-      source: "https://github.com/Carlos-Ballon/COVID-19_DMII_ICA_Cross-Sectional"
+      source: "https://github.com/Carlos-Ballon/COVID-19_DMII_ICA_cross-sectional"
     theme: 
      light: flatly
      dark: darkly
