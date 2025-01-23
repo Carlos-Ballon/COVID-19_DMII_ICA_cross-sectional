@@ -5,3 +5,6 @@ This repository contains the findings of a project that researched the risk fact
 ## Description
 
 The analysis included the application of descriptive and inferential statistics, univariate and multivariate regression models, Principal Component Analysis (PCA), and t-Distributed Stochastic Neighbor Embedding (t-SNE), as well as the generation and export of tables and figures.
+
+Paper link: [Risk factors associated with the mortality of COVID‑19 in patients with type 2 diabetes mellitus
+](https://www.spandidos-publications.com/10.3892/wasj.2024.27)
