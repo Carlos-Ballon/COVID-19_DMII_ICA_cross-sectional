@@ -4,16 +4,16 @@ author: "Carlos Ballon-Salcedo & Kevin J. Paez"
 date: "`r Sys.Date()`"
 format: 
   html:
+    theme: 
+     light: sketchy
+     dark: darkly
     toc: true
     toc-depth: 4
     code-overflow: wrap
     code-fold: true
+    highlight-style: github
     code-tools: 
       source: "https://github.com/Carlos-Ballon/COVID-19_DMII_ICA_cross-sectional"
-    theme: 
-     light: flatly
-     dark: darkly
-    highlight-style: github
     include-in-header:
       - file: zoom_in_out.js
 editor: source
@@ -98,7 +98,8 @@ The custom themes for `gtsummary`, `flextable` and `ggplot2`, are in the `custom
 
 ```{r}
 # Set a gtsummary theme
-set_gtsummary_theme(my_gtsummary_theme, theme_gtsummary_compact())
+gtsummary::theme_gtsummary_compact()
+gtsummary::theme_gtsummary_journal(journal = "jama")
 
 # Set a gtsummary language
 theme_gtsummary_language(language = "en")
